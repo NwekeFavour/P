@@ -119,7 +119,7 @@ export default function HeroSection() {
           {/* Headline */}
           <h1 className="lg:text-[60px] text-start sm:text-center md:text-[50px] sm:text-[40px] text-[28px] font-[600] text-white sm:mb-2 mb-4 leading-tight">
             Launch Your Tech Career
-            <span className="block bg-gradient-to-r from-gray-300 font-[700] via-gray-500 to-sky-900 bg-clip-text text-transparent">
+            <span className="block strats bg-gradient-to-r from-gray-300 font-[700] via-gray-500 to-sky-900 bg-clip-text text-transparent">
               Into The Stratosphere
             </span>
           </h1>
