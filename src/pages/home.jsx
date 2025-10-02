@@ -35,7 +35,7 @@ function Home(props) {
                     {/* Feature Cards Grid */}
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {/* Live Projects Card */}
-                    <div className="group relative">
+                    <div className="group relative" data-aos="fade-up" data-aos-duration="1000"> 
                         <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-3xl blur-lg opacity-20 group-hover:opacity-40 transition-all duration-500" />
                         <div className="relative bg-white h-72 rounded-3xl p-6 transition-all duration-300  shadow-lg hover:shadow-2xl hover:-translate-y-2">
                         <div className="w-16 h-16 bg-gradient-to-br  rounded-2xl flex items-center border justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -49,7 +49,7 @@ function Home(props) {
                     </div>
 
                     {/* Expert Mentors Card */}
-                    <div className="group relative">
+                    <div className="group relative" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200"> 
                         <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-pink-500 rounded-3xl blur-lg opacity-20 group-hover:opacity-40 transition-all duration-500" />
                         <div className="relative bg-white h-72 rounded-3xl p-6  transition-all duration-300  shadow-lg hover:shadow-2xl hover:-translate-y-2">
                         <div className="w-16 border h-16 bg-gradient-to-br  rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -63,7 +63,7 @@ function Home(props) {
                     </div>
 
                     {/* Paid Stipend Card */}
-                    <div className="group relative">
+                    <div className="group relative" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
                     <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-500 rounded-3xl blur-lg opacity-20 group-hover:opacity-40 transition-all duration-500" />
                     <div className="relative bg-white h-72 rounded-3xl p-6 transition-all duration-300 shadow-lg hover:shadow-2xl hover:-translate-y-2">
                         <div className="w-16 h-16 bg-gradient-to-br rounded-2xl flex items-center justify-center mb-6 border group-hover:scale-110 transition-transform duration-300">
@@ -78,7 +78,7 @@ function Home(props) {
 
 
                     {/* Career Launch Card */}
-                    <div className="group relative">
+                    <div className="group relative" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
                         <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-500 rounded-3xl blur-lg opacity-20 group-hover:opacity-40 transition-all duration-500" />
                         <div className="relative bg-white h-72 rounded-3xl p-6  transition-all duration-300  shadow-lg hover:shadow-2xl hover:-translate-y-2">
                         <div className="w-16 h-16 bg-gradient-to-br  rounded-2xl flex items-center border justify-center mb-6  group-hover:scale-110 transition-transform duration-300">

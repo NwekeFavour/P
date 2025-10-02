@@ -106,7 +106,7 @@ export default function HowItWorksSection() {
               return (
                 <div key={index} className="relative">
                   {/* Desktop Layout */}
-                  <div className={`hidden lg:grid grid-cols-2 gap-12 items-center ${isEven ? '' : 'direction-rtl'}`}>
+                  <div className={`hidden lg:grid grid-cols-2 gap-12 items-center ${isEven ? '' : 'direction-rtl'}`} data-aos="fade-up" data-aos-duration="1000" data-aos-delay={index * 200}>
                     {/* Content Side */}
                     <div className={`${isEven ? 'text-right pr-12' : 'text-left pl-12 col-start-2'}`}>
                       <div className={`inline-block ${isEven ? '' : 'text-left'}`}>
