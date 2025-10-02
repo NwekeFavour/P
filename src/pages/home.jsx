@@ -93,7 +93,7 @@ function Home(props) {
                     </div>
                 </div>
             </div>
-            <div className='bg-[#FAFAFA] w-full xl:px-7 lg:px-6 md:px-5 px-3 py-16 xl:h-[900px] lg:h-[920px] md:h-[950px] h-auto'>
+            <div className='bg-[#FAFAFA] w-full xl:px-7 lg:px-6 md:px-5 px-3 py-10 sm:py-16 xl:h-[900px] lg:h-[920px] md:h-[950px] h-auto'>
                 <div className='max-w-7xl mx-auto'>
                     <div>
                         <Accordion  />
