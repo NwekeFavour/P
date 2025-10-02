@@ -9,7 +9,7 @@ export default function Accordion() {
     icon: GraduationCap,
     color: 'blue',
     title: 'What Will I Learn?',
-    content: 'You’ll master production-ready skills in frontend (React, Next.js), backend (Node.js, Python), databases (PostgreSQL, MongoDB), and DevOps (Docker, AWS, CI/CD). You’ll also work on 3–5 real projects with Nigerian tech companies and graduate with a portfolio that proves you can ship code.'
+    content: 'You’ll gain practical tech skills across software, data, and cloud tools, plus career-ready experience working on 3–5 real projects with tech companies. Graduate with a portfolio that proves you can deliver in the industry.'
   },
   {
     icon: CircleHelp,
