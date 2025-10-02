@@ -17,7 +17,7 @@ export default function AboutUsSection() {
           </div>
           <h2 className="text-[30px] md:text-6xl font-bold text-black mb-6 leading-tight">
             Building Nigeria's Next
-            <span className="block bg-gradient-to-r from-gray-900 via-gray-400 to-gray-400 bg-clip-text text-transparent">
+            <span className="block devs bg-gradient-to-r from-gray-900 via-gray-400 to-gray-400 bg-clip-text text-transparent">
               Generation of Developers
             </span>
           </h2>

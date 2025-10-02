@@ -83,7 +83,7 @@ export default function HowItWorksSection() {
           </div>
           <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
             From Application To
-            <span className="block bg-gradient-to-r from-sky-600/10 via-sky-600/40 to-gray-600 bg-clip-text text-transparent">
+            <span className="block  job bg-gradient-to-r from-sky-600/10 via-sky-600/40 to-gray-600 bg-clip-text text-transparent">
               Your Dream Job
             </span>
           </h2>

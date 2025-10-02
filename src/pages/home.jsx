@@ -5,6 +5,7 @@ import Accordion from '../components/accordion';
 import AboutUsSection from '../components/aboutUsSection';
 import HowItWorksSection from '../components/works';
 import Footer from '../components/footer';
+import PricingSection from '../components/pricing';
 
 function Home(props) {
     return (
@@ -103,6 +104,9 @@ function Home(props) {
             <div>
                 <HowItWorksSection/>
                 <AboutUsSection/>
+            </div>
+            <div>
+                <PricingSection/>
             </div>
             <div>
                 <Footer/>
