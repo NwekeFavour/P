@@ -44,7 +44,7 @@ export default function HeroSection() {
     setModalOpen(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/ask", {
+      const res = await fetch("https://p2-p48o.onrender.com/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question }),
