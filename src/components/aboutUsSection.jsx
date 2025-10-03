@@ -3,7 +3,7 @@ import { Target, Heart, Lightbulb, Users, Award, TrendingUp, Sparkles, ArrowRigh
 
 export default function AboutUsSection() {
   return (
-    <div className=" py-20 px-6 relative overflow-hidden">
+    <div className="py-10 sm:py-20 px-3 sm:px-6 relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute top-20 left-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl" />
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl" />
