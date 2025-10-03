@@ -17,7 +17,7 @@ export default function AboutUsSection() {
           </div>
           <h2 className="text-[30px] md:text-6xl font-bold text-black mb-6 leading-tight">
             Building Nigeria's Next
-            <span className="block devs bg-gradient-to-r from-gray-900 via-gray-400 to-gray-400 bg-clip-text text-transparent">
+            <span className="block devs bg-gradient-to-r dark:from-gray-50 dark:via-gray-500 dark:to-gray-800 from-gray-900 via-gray-400 to-gray-400 bg-clip-text text-transparent">
               Generation of Developers
             </span>
           </h2>
@@ -70,7 +70,7 @@ export default function AboutUsSection() {
   {/* Right Column - Stats & Values */}
   <div className="space-y-6">
     {/* Impact Stats */}
-    <div className="bg-gradient-to-br from-sky-950/50 to-gray-950 rounded-3xl p-8 shadow-lg text-white">
+    <div className="bg-gradient-to-br from-sky-950/50  to-gray-950 rounded-3xl p-8 shadow-lg text-white">
       <h3 className="text-2xl font-bold mb-6">Our Impact</h3>
       <div className="grid grid-cols-2 gap-6">
         <div>

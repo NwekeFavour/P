@@ -83,7 +83,7 @@ export default function HowItWorksSection() {
           </div>
           <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
             From Application To
-            <span className="block  job bg-gradient-to-r from-sky-600/10 via-sky-600/40 to-gray-600 bg-clip-text text-transparent">
+            <span className="block  job bg-gradient-to-r dark:from-sky-100/90 dark:via-sky-200/70 dark:to-gray-200 from-sky-600/10 via-sky-600/40 to-gray-600 bg-clip-text text-transparent">
               Your Dream Job
             </span>
           </h2>
@@ -198,7 +198,7 @@ export default function HowItWorksSection() {
         </div>
 
         {/* What You'll Get Section */}
-        <div className="mt-20 bg-gradient-to-br from-gray-900/50 to-gray-900 rounded-3xl p-10 md:p-12 shadow-2xl">
+        <div className="mt-20 bg-gradient-to-br from-gray-900/50 dark:from-gray-50/90 dark:to-gray-400 to-gray-900 rounded-3xl p-5 md:p-12 shadow-2xl">
         <h3 className="text-3xl md:text-4xl font-bold text-white text-center mb-10">
             What You'll Get Along The Way
         </h3>
