@@ -199,7 +199,7 @@ export default function HowItWorksSection() {
 
         {/* What You'll Get Section */}
         <div className="mt-20 bg-gradient-to-br from-gray-900/50 dark:from-gray-50/90 dark:to-gray-400 to-gray-900 rounded-3xl p-5 md:p-12 shadow-2xl">
-        <h3 className="text-3xl md:text-4xl font-bold text-white text-center mb-10">
+        <h3 className="sm:text-[28px] text-[26px] md:text-4xl font-bold text-white text-center mb-10">
             What You'll Get Along The Way
         </h3>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
