@@ -106,7 +106,7 @@ export default function Accordion() {
   };
 
   return (
-    <div className="py-2 px-6">
+    <div className="sm:py-2 py-2 px-3 sm:px-6">
       <div className="max-w-4xl mx-auto">
         {/* Section Header */}
         <div className='text-center mb-12'> 

@@ -81,13 +81,13 @@ export default function HowItWorksSection() {
             <Zap className="w-4 h-4 text-blue-600" />
             <span className="text-sm font-semibold text-gray-700 uppercase tracking-wide">The Process</span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+          <h2 className="xl:text-4xl md:text-[30px] text-[26px] md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
             From Application To
             <span className="block  job bg-gradient-to-r dark:from-sky-100/90 dark:via-sky-200/70 dark:to-gray-200 from-sky-600/10 via-sky-600/40 to-gray-600 bg-clip-text text-transparent">
               Your Dream Job
             </span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="sm:text-[20px] text-[16px] text-gray-600 max-w-3xl mx-auto leading-relaxed">
             A clear, proven path from where you are now to landing your first tech role
           </p>
         </div>
@@ -247,7 +247,7 @@ export default function HowItWorksSection() {
           <h3 className="text-3xl font-bold text-gray-900 mb-4">
             Ready to Start Your Journey?
           </h3>
-          <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-gray-600 sm:text-[20px] text-[16px] mb-8 max-w-2xl mx-auto">
             Applications for Cohort 6 close in 3 weeks. Don't miss your chance.
           </p>
           <button className="group px-10 py-5 bg-gradient-to-r from-sky-600 to-gray-600 hover:from-sky-700 hover:to-gray-700 text-white text-lg font-bold rounded-full shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
