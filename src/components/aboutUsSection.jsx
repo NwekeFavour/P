@@ -143,7 +143,7 @@ export default function AboutUsSection() {
                 </svg>
             </div>
             <p className="text-gray-600 text-lg mb-4 italic leading-relaxed">
-                "TechLaunch NG didn't just teach me to code—they showed me I could build a career I'm proud of. Within 3 months of graduating, I landed a role at a top fintech company."
+                "TechLaunch NG didn't just teach me to code—they showed me I could build a career I'm proud of. Within 2 months of graduating, I landed a role at a top fintech company."
             </p>
             <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">

@@ -10,6 +10,8 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { Link } from "react-router-dom";
+import Header from "./header";
 
 export default function HeroSection() {
   const [stars, setStars] = useState([]);
@@ -92,20 +94,7 @@ export default function HeroSection() {
         ))}
       </div>
 
-      {/* Header */}
-      <header className="sticky top-0border-gray-800 bg-black/40 backdrop-blur-md">
-        <div className="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Rocket className="w-7 h-7 text-blue-400" />
-            <span className="text-xl sm:text-2xl font-bold">TechLaunch NG</span>
-          </div>
-          <nav className="hidden md:flex items-center gap-6 text-sm">
-            <a href="#programs" className="text-gray-400 hover:text-white transition">Programs</a>
-            <a href="#about" className="text-gray-400 hover:text-white transition">About</a>
-            <a href="#success" className="text-gray-400 hover:text-white transition">Success Stories</a>
-          </nav>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero Content */}
       <div className="relative z-10 container mx-auto px-6 pt-16 pb-24 text-center">

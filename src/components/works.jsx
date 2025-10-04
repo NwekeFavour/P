@@ -24,7 +24,7 @@ export default function HowItWorksSection() {
       icon: Code,
       title: 'Start Learning & Building',
       description: 'Join your cohort of 500 students. Week 1-2: intensive training bootcamp. Week 3-12: work on real projects with daily standups, code reviews, and mentorship.',
-      duration: '12 weeks',
+      duration: '8 weeks',
       color: 'green'
     },
     {

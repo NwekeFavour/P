@@ -41,7 +41,8 @@ export default function PricingSection() {
         { text: 'Direct company introductions', included: true },
         { text: 'Industry-recognized certificate', included: true },
         { text: 'Lifetime alumni network access', included: true },
-        { text: 'Job placement support', included: true, highlight: true }
+        { text: 'Job placement support', included: true, highlight: true },
+        { text: 'Certificate of completion', included: true, highlight: true }
       ],
       highlighted: true,
       color: 'gray',
