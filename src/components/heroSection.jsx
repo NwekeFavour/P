@@ -44,7 +44,7 @@ export default function HeroSection() {
     setLoading(true);
     setAnswer("Thinking... 🤔");
     setModalOpen(true);
-
+// https://p2-p48o.onrender.com
     try {
       const res = await fetch("https://p2-p48o.onrender.com/api/ask", {
         method: "POST",
@@ -61,7 +61,8 @@ export default function HeroSection() {
   };
 
   const presetQuestions = [
-    "How do I start coding?",
+    "How can we help you?",
+    "How do I get into tech?",
     "What is React?",
     "How can I get an internship?",
     "Which tech skills are in demand?",

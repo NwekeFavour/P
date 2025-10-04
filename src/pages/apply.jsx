@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -9,7 +9,16 @@ import { useNavigate } from "react-router-dom";
 
 function Apply() {
     const navigate = useNavigate();
-    
+    const [universities, setUniversities] = useState([]);
+    const [prof, setProf] = useState(false);
+    const [selectedUni, setSelectedUni] = useState("");
+ 
+    useEffect(() => {
+        fetch("/uni.json") // make sure uni.json is in your public/ folder
+        .then((res) => res.json())
+        .then((data) => setUniversities(data))
+        .catch((err) => console.error("Error loading universities:", err));
+    }, []);
   return (
     <section className="flex min-h-screen flex-col md:flex-row bg-gradient-to-r from-gray-50 via-gray-200 to-gray-300">
         <button
@@ -70,7 +79,7 @@ function Apply() {
 
       {/* Right side - Form */}
       <div className="flex flex-1 items-center justify-center px-4  py-4 sm:px-6 sm:py-12">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+        <div className="w-full max-w-md bg-white sm:mt-0 mt-20 rounded-2xl shadow-lg p-8">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
             Enroll Now 🚀
           </h2>
@@ -103,6 +112,36 @@ function Apply() {
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
             />
 
+            <div className="text-sm font-medium text-gray-700 mb-2">
+                Are you a student or a professional?
+            </div>
+            <div className="flex flex-col gap-2 mb-4">
+                <label className="flex items-center gap-2 text-sm">
+                <input 
+                    type="radio" 
+                    name="status" 
+                    onChange={() => setProf(true)} 
+                />
+                Student
+                </label>
+                <label className="flex items-center gap-2 text-sm">
+                <input 
+                    type="radio" 
+                    name="status" 
+                    onChange={() => setProf(false)} 
+                />
+                Professional
+                </label>
+                <label className="flex items-center gap-2 text-sm">
+                <input 
+                    type="radio" 
+                    name="status" 
+                    onChange={() => setProf(false)} 
+                />
+                None of the above
+                </label>
+            </div>
+
             {/* Track Selection */}
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">
@@ -116,7 +155,36 @@ function Apply() {
                 <option>Project Management</option>
               </select>
             </div>
+            
+            <div>
+                <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="">How did you hear about us?</label>
+                <select className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                    <option>Social Media</option>
+                    <option>Friend or Colleague</option>
+                    <option>Online Search</option>
+                    <option>Other</option>
+                </select>
+            </div>
 
+            {prof && (
+                <div>
+                    <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="">What School did you attend?</label>
+                    <select
+                        value={selectedUni}
+                        onChange={(e) => setSelectedUni(e.target.value)}
+                        className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                    >
+                        <option value="" disabled>
+                        Select University
+                        </option>
+                        {universities.map((uni, index) => (
+                        <option key={index} value={uni.name}>
+                            {uni.name}
+                        </option>
+                        ))}
+                    </select>
+                </div>
+            )}
             {/* Certificate Option */}
             <div>
               <p className="text-sm text-gray-600 mb-2">
