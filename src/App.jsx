@@ -8,6 +8,7 @@ import Apply from './pages/apply';
 import Login from './pages/auth/login/login';
 import Register from './pages/auth/signup/register';
 import Int from './pages/int';
+import ScrollToTop from './components/scrolltoTop';
 
 function App() {
   useEffect(() => {
@@ -19,6 +20,7 @@ function App() {
   }, []);
   return (
     <>
+      <ScrollToTop/>
       <Routes>
         <Route path="/" element={<Home />} /> 
         <Route path="/login" element={<Login />} /> 
