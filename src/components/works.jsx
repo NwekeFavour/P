@@ -1,5 +1,6 @@
 import React from 'react';
 import { FileText, Users, Code, Rocket, CheckCircle, Clock, Award, ArrowRight, Zap } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function HowItWorksSection() {
   const steps = [
@@ -250,10 +251,10 @@ export default function HowItWorksSection() {
           <p className="text-gray-600 sm:text-[20px] text-[16px] mb-8 max-w-2xl mx-auto">
             Applications for Cohort 6 close in 3 weeks. Don't miss your chance.
           </p>
-          <button className="group px-10 py-5 bg-gradient-to-r from-sky-600 to-gray-600 hover:from-sky-700 hover:to-gray-700 text-white text-lg font-bold rounded-full shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
+          <Link to={"/techlaunchng/internships"} className="group px-10 py-5 bg-gradient-to-r from-sky-600 to-gray-600 hover:from-sky-700 hover:to-gray-700 text-white text-lg font-bold rounded-full shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
             Apply Now
             <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-          </button>
+          </Link>
           <p className="text-sm text-gray-500 mt-4">500 spots remaining • Starting February 2025</p>
         </div>
       </div>

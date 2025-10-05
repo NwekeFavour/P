@@ -9,6 +9,7 @@ import Login from './pages/auth/login/login';
 import Register from './pages/auth/signup/register';
 import Int from './pages/int';
 import ScrollToTop from './components/scrolltoTop';
+import Premium from './pages/premium';
 
 function App() {
   useEffect(() => {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} /> 
         <Route path="/techlaunchng/internships" element={<Apply />} /> 
         <Route path="/internship" element={<Int />} /> 
+        <Route path="/premium" element={<Premium />} /> 
         <Route path="/sign-up" element={<Register />} /> 
       </Routes>
 

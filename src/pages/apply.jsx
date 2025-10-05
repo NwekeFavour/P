@@ -12,6 +12,7 @@ function Apply() {
     const [universities, setUniversities] = useState([]);
     const [prof, setProf] = useState(false);
     const [selectedUni, setSelectedUni] = useState("");
+    const [prem, setPrem] = useState(true);
  
     useEffect(() => {
         fetch("/uni.json") // make sure uni.json is in your public/ folder
@@ -192,11 +193,11 @@ function Apply() {
               </p>
               <div className="flex flex-col gap-2">
                 <label className="flex items-center gap-2 text-sm">
-                  <input type="radio" name="certificate" />
+                  <input type="radio" checked={prem} name="certificate" />
                   Free (No Certificate)
                 </label>
                 <label className="flex items-center gap-2 text-sm">
-                  <input type="radio" name="certificate" />
+                  <input type="radio" onClick={() => setPrem(prem => !prem)}  name="certificate" />
                   Paid – Certificate + 1yr Premium Access
                 </label>
               </div>

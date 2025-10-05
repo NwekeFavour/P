@@ -1,4 +1,5 @@
 import { Check, X, Zap, Crown, Sparkles, ArrowRight, Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function PricingSection() {
   const plans = [
@@ -157,12 +158,12 @@ export default function PricingSection() {
                       ))}
                     </ul>
 
-                    <button
+                    <Link to={"/techlaunchng/internships"}
                       className={`w-full py-4 rounded-xl font-bold text-white bg-gradient-to-r ${colors.button} shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group`}
                     >
                       {plan.cta}
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
