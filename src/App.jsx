@@ -13,6 +13,7 @@ import Premium from './pages/premium';
 import Contact from './pages/contact';
 import AdmindashboardPage from './pages/admin/dash';
 import Users from './pages/admin/users';
+import Talent from './pages/talent';
 
 function App() {
   useEffect(() => {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/contact-us" element={<Contact />} /> 
         <Route path="/premium" element={<Premium />} /> 
         <Route path="/sign-up" element={<Register />} /> 
+        <Route path="/techlaunchng/talents" element={<Talent />} /> 
         <Route path="/admin" element={<AdmindashboardPage />} /> 
         <Route path="/admin/users" element={<Users />} /> 
       </Routes>
