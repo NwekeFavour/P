@@ -91,7 +91,7 @@ export default function HeroSection() {
                   ? "0 0 2px rgba(255,255,255,0.8)"
                   : "none",
             }}
-          />
+          />   
         ))}
       </div>
 
