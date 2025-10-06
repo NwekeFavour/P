@@ -15,7 +15,7 @@ function Apply() {
     const [prem, setPrem] = useState(true);
  
     useEffect(() => {
-        fetch("/uni.json") // make sure uni.json is in your public/ folder
+        fetch("/data/uni.json") // make sure uni.json is in your public/ folder
         .then((res) => res.json())
         .then((data) => setUniversities(data))
         .catch((err) => console.error("Error loading universities:", err));
