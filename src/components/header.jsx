@@ -10,7 +10,7 @@ export default function Header() {
   const navLinks = [
     { id: 'home', label: 'Home', href: '/' },
     { id: 'internship', label: 'Internship', href: '/internship' },
-    { id: 'about', label: 'About', href: '/about' },
+    { id: 'talent', label: 'Talent', href: '/hire' },
     { id: 'premium', label: 'Premium', href: '/premium' },
     { id: 'contact', label: 'Contact Us', href: '/contact-us' }
   ];

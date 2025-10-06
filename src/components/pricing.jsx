@@ -158,7 +158,7 @@ export default function PricingSection() {
                       ))}
                     </ul>
 
-                    <Link to={"/techlaunchng/internships"}
+                    <Link to={"/premium"}
                       className={`w-full py-4 rounded-xl font-bold text-white bg-gradient-to-r ${colors.button} shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group`}
                     >
                       {plan.cta}

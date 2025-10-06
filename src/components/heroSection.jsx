@@ -51,7 +51,10 @@ export default function HeroSection() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question }),
       });
-      const data = await res.json();
+
+    await new Promise((r) => setTimeout(r, 2000));
+    setAnswer("This is your AI-generated answer...");
+        const data = await res.json();
       setAnswer(data.answer);
     } catch (error) {
       setAnswer("⚠️ Error: Could not fetch response.");
@@ -121,34 +124,37 @@ export default function HeroSection() {
           </p>
 
           {/* AI Input */}
-          <form
-            onSubmit={handleAskAI}
-            className="sm:max-w-2xl bg-[#262626]/40 rounded-lg px-3 sm:px-4 mx-auto flex gap-3 border border-gray-700"
-          >
-            <Input
-              type="text"
-              placeholder="Ask me something..."
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              className="flex-1 h-12 sm:h-14 border-0 text-white placeholder:text-gray-400 bg-transparent focus-visible:ring-0"
-            />
-            <Button
-              type="submit"
-              size="lg"
-              disabled={loading}
-              className="h-12 sm:h-14 px-6 sm:px-8 bg-transparent hover:bg-transparent text-white font-medium flex items-center justify-center gap-2"
+          <div className="sm:max-w-2xl mx-auto space-y-6">
+            {/* Question input form */}
+            <form
+              onSubmit={handleAskAI}
+              className="bg-[#262626]/40 rounded-lg px-3 sm:px-4 mx-auto flex gap-3 border border-gray-700"
             >
-              {loading ? (
-                <>
-                  <Loader2 className="animate-spin w-5 h-5" /> Asking...
-                </>
-              ) : (
-                <>
-                  Ask <ArrowRight className="w-5 h-5" />
-                </>
-              )}
-            </Button>
-          </form>
+              <Input
+                type="text"
+                placeholder="Ask me something..."
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                className="flex-1 h-12 sm:h-14 border-0 text-white placeholder:text-gray-400 bg-transparent focus-visible:ring-0"
+              />
+              <Button
+                type="submit"
+                size="lg"
+                disabled={loading}
+                className="h-12 sm:h-14 px-6 sm:px-8 bg-transparent hover:bg-transparent text-white font-medium flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="animate-spin w-5 h-5" /> Asking...
+                  </>
+                ) : (
+                  <>
+                    Ask <ArrowRight className="w-5 h-5" />
+                  </>
+                )}
+              </Button>
+            </form>
+          </div>
 
           {/* Preset Questions */}
           <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-6">
@@ -168,26 +174,44 @@ export default function HeroSection() {
 
       {/* Answer Modal */}
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="bg-[#262626]   text-white border border-[#262626] max-w-lg w-[95%] sm:w-full">
+        <DialogContent className="bg-[#262626] text-white border border-[#262626] max-w-lg w-[95%] sm:w-full">
           <DialogHeader>
             <DialogTitle className="text-lg sm:text-xl">AI Response</DialogTitle>
             <DialogDescription className="text-gray-400 text-sm sm:text-base">
               {question}
             </DialogDescription>
           </DialogHeader>
+
+          {/* Body */}
           <div className="mt-4 p-3 sm:p-4 bg-[#262626] border border-[#ffff]/20 rounded-lg text-gray-200 whitespace-pre-line text-sm sm:text-base">
-            {answer}
+            {loading ? (
+              // Skeleton loader (replaces answer while waiting)
+              <div className="space-y-3 animate-pulse">
+                <div className="h-4 bg-gray-700/50 rounded w-3/4"></div>
+                <div className="h-4 bg-gray-700/50 rounded w-1/2"></div>
+                <div className="h-4 bg-gray-700/50 rounded w-2/3"></div>
+                <div className="h-4 bg-gray-700/50 rounded w-1/4"></div>
+              </div>
+            ) : answer ? (
+              <p className="text-gray-200">{answer}</p>
+            ) : (
+              <p className="text-gray-500 text-sm italic">
+                Your AI response will appear here...
+              </p>
+            )}
           </div>
+
           <DialogFooter className="mt-4">
             <Button
               onClick={() => setModalOpen(false)}
-              className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
+              className="bg-gray-50 hover:bg-gray-700 text-black hover:text-white w-full sm:w-auto"
             >
               Close
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
 
       {/* Star Animation */}
       <style>{`
