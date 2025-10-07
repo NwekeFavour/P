@@ -336,16 +336,16 @@ export default function Int() {
                 Popular
               </div>
               <h3 className="text-2xl sm:mt-0 mt-7 font-bold mb-4">Premium Tier</h3>
-              <ul className="space-y-3 text-left">
+              <ul className="space-y-3 text-left mb-10">
                 <li>✅ 1-on-1 Mentorship</li>
                 <li>✅ Certificate of Completion</li>
                 <li>✅ Career perks (CV review, job referrals)</li>
                 <li>✅ Alumni network access</li>
                 <li>✅ Priority support</li>
               </ul>
-              <button className="mt-6 px-6 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition">
+              <Link to={"/premium/checkout"} className="mt-6 px-6 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition">
                 Upgrade to Premium
-              </button>
+              </Link>
               <p className="mt-4 text-sm text-gray-400">
                 Only <span className="font-bold text-yellow-300">50 slots</span> available this cohort!
               </p>
@@ -395,9 +395,9 @@ export default function Int() {
         <p className="mb-8 text-lg max-w-2xl mx-auto text-gray-950/50">
           Applications close soon. Secure your Premium spot and get mentorship, certification, and job support.
         </p>
-        <button className="px-6 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition">
+        <Link to={"/premium/checkout"} className="px-6 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition">
           Get Premium Access
-        </button>
+        </Link>
       </section>
 
       {/* CTA Section */}

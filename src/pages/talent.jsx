@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../components/header';
 import { Button } from '../components/ui/button';
 import { Link } from 'react-router-dom';
 import Footer from '../components/footer';
 
 function Talent(props) {
+    const [loading, setLoading] =useState(false)
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        setLoading(true)
+        try {
+
+            setLoading(false)
+        } catch (error) {
+            console.log(error)
+        }
+        finally{
+            setLoading(false)
+        }
+    }
     return (
         <div>
             <Header />
@@ -94,7 +109,7 @@ function Talent(props) {
 
             {/* Right Side - Form */}
             <div className="lg:w-1/2 w-full bg-white shadow-md rounded-lg p-8">
-                <form className="space-y-4">
+                <form onSubmit={handleSubmit}  className="space-y-4">
                 <div>
                     <label className="block text-sm font-medium mb-2 text-gray-700">Full Name</label>
                     <input 
@@ -131,8 +146,8 @@ function Talent(props) {
                     ></textarea>
                 </div>
 
-                <Button className="bg-gray-900 hover:bg-gray-800 text-white w-full py-3 rounded-md font-semibold">
-                    Submit Inquiry
+                <Button className="bg-gray-900 hover:bg-gray-800 text-white w-full py-3 rounded-md font-semibold" type='submit'>
+                    {loading ? "Loading": "Submit Inquiry"}
                 </Button>
                 </form>
             </div>

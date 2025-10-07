@@ -22,7 +22,8 @@ export default function PricingSection() {
       ],
       highlighted: false,
       color: 'gray',
-      cta: 'Start Free'
+      cta: 'Start Free',
+      link: "/techlaunchng/internships"
     },
     {
       name: 'Premium',
@@ -48,6 +49,7 @@ export default function PricingSection() {
       highlighted: true,
       color: 'gray',
       cta: 'Go Premium',
+      link: "/premium",
       badge: 'BEST VALUE'
     }
   ];
@@ -158,7 +160,7 @@ export default function PricingSection() {
                       ))}
                     </ul>
 
-                    <Link to={"/premium"}
+                    <Link to={plan.link}
                       className={`w-full py-4 rounded-xl font-bold text-white bg-gradient-to-r ${colors.button} shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group`}
                     >
                       {plan.cta}
