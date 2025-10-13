@@ -60,8 +60,6 @@ function Apply() {
       const result = await response.json();
 
       if (result.success) {
-        localStorage.setItem("techlaunch_user", JSON.stringify(result.data));
-
         if (formData.package === "Paid") {
           setShowPremium(false); // Show payment page
         } else {
