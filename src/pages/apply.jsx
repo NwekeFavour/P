@@ -51,7 +51,7 @@ function Apply() {
     setLoading(true);
 
     try {
-      const response = await fetch("https://p2-p48o.onrender.com/api/applications/apply", {
+      const response = await fetch("https://p2-three.vercel.app/api/applications/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -60,6 +60,8 @@ function Apply() {
       const result = await response.json();
 
       if (result.success) {
+        localStorage.setItem("techlaunch_user", JSON.stringify(result.data));
+
         if (formData.package === "Paid") {
           setShowPremium(false); // Show payment page
         } else {
