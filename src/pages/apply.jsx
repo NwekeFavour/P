@@ -2,251 +2,342 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
+import { useNavigate } from "react-router-dom";
 import Friends from "../assets/images/friends.webp";
 import Couple from "../assets/images/couple.webp";
 import Portraits from "../assets/images/portrait.webp";
-import { useNavigate } from "react-router-dom";
+import PremiumPaymentPage from "../components/premiumpayment";
 
 function Apply() {
-    const navigate = useNavigate();
-    const [universities, setUniversities] = useState([]);
-    const [prof, setProf] = useState(false);
-    const [selectedUni, setSelectedUni] = useState("");
-    const [prem, setPrem] = useState(true);
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
-    useEffect(() => {
-        fetch("/data/uni.json") // make sure uni.json is in your public/ folder
-        .then((res) => res.json())
-        .then((data) => setUniversities(data))
-        .catch((err) => console.error("Error loading universities:", err));
-    }, []);
+  const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const [universities, setUniversities] = useState([]);
+  const [isStudent, setIsStudent] = useState(false);
+  const [selectedUni, setSelectedUni] = useState("");
+  const [showPremium, setShowPremium] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [showCongrats, setShowCongrats] = useState(false); // 👈 added
+  const [formData, setFormData] = useState({
+    fname: "",
+    lname: "",
+    email: "",
+    phone: "",
+    level: "",
+    track: "",
+    social: "",
+    university: "",
+    package: "Free",
+  });
 
-        try {
-            
-            setLoading(false)
-        } catch (error) {
-            console.log(error)
-        } finally{
-            setLoading(false)
+  // Load universities list from public/data/uni.json
+  useEffect(() => {
+    fetch("/data/uni.json")
+      .then((res) => res.json())
+      .then((data) => setUniversities(data))
+      .catch((err) => console.error("Error loading universities:", err));
+  }, []);
+
+  // Handle input change
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handle form submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("https://p2-p48o.onrender.com/api/applications/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        localStorage.setItem("techlaunch_user", JSON.stringify(result.data));
+
+        if (formData.package === "Paid") {
+          setShowPremium(false); // Show payment page
+        } else {
+          setMessage("🎉 Application submitted successfully!");
+          setShowCongrats(true); // 👈 Show congratulations screen
         }
+      } else {
+        setError(result.message || "Failed to submit application.");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
     }
-  return (
-    <section className="flex min-h-screen flex-col md:flex-row bg-gradient-to-r from-gray-50 via-gray-200 to-gray-300">
+  };
+
+  // --- Congratulations View ---
+  if (showCongrats) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 via-white to-gray-200 text-center p-6">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          🎉 Congratulations, {formData.fname}!
+        </h1>
+        <p className="text-gray-700 text-lg max-w-md mb-6">
+          You’ve successfully applied for the <strong>TechlaunchNG Internship Program</strong>!
+          We’re thrilled to have you on board and can’t wait for you to begin your journey.
+        </p>
         <button
-            onClick={() => navigate(-1)} // 👈 goes back one step in history
-            className="text-gray-600 opacity-70 hover:underline absolute top-4 right-8"
+          onClick={() => navigate("/")}
+          className="bg-gray-900 text-white px-6 py-3 rounded-full hover:bg-black transition"
         >
-            Go back
+          Go to Home
         </button>
-      {/* Left side - Visuals & CTA */}
-        <div className=" sm:flex hidden flex-1 flex-col items-center justify-center px-5 py-2 sm:px-8 sm:py-12 text-center md:text-left relative">
-        <div className="absolute inset-0 bg-white/70 md:bg-transparent sm:block hidden"></div>
+      </div>
+    );
+  }
 
-        <div className="relative z-10 max-w-md sm:block hidden">
-            <h1 className="text-[30px] md:text-[35px] lg:text-[40px] font-bold text-gray-900 leading-snug">
-            Ready to <span className="text-blue-600">Level Up</span> Your Tech
-            Career?
-            </h1>
-            <p className="mt-4 text-gray-600 text-sm md:text-base">
-            Join the HNG Internship and gain real-world experience, mentorship,
-            and a global network. Whether you’re into coding, design, data, or
-            marketing, we’ve got a track for you.
-            </p>
+  return (
+    <div>
+      {showPremium ? (
+        <section className="flex min-h-screen flex-col md:flex-row bg-gradient-to-r from-gray-50 via-gray-200 to-gray-300 relative">
+          {/* Go Back Button */}
+          <button
+            onClick={() => navigate(-1)}
+            className="text-gray-600 opacity-70 hover:underline absolute top-4 right-8"
+          >
+            Go back
+          </button>
 
-            {/* Swiper Image Slider */}
-           <div className="mt-8 w-full max-w-sm md:mx-0 sm:mx-auto overflow-hidden rounded-xl">
+          {/* Left side — Visuals & Text */}
+          <div className="sm:flex hidden flex-1 flex-col items-center justify-center px-6 py-12 relative">
+            <div className="absolute inset-0 bg-white/70 md:bg-transparent"></div>
+            <div className="relative z-10 max-w-md">
+              <h1 className="text-[30px] md:text-[35px] lg:text-[40px] font-bold text-gray-900 leading-snug">
+                Ready to <span className="text-blue-600">Level Up</span> Your Tech Career?
+              </h1>
+              <p className="mt-4 text-gray-600 text-sm md:text-base">
+                Join the HNG Internship and gain real-world experience, mentorship,
+                and a global network. Whether you’re into coding, design, data, or
+                marketing, we’ve got a track for you.
+              </p>
+
+              {/* Swiper Image Slider */}
+              <div className="mt-8 w-full max-w-sm overflow-hidden rounded-xl">
                 <Swiper
-                    modules={[Autoplay]}
-                    autoplay={{ delay: 4000, disableOnInteraction: false }}
-                    loop={true}
-                    className="w-full md:h-[400px] sm:h-[370px] h-[320px] md:w-[300px]  lg:w-full lg:h-[500px]" 
+                  modules={[Autoplay]}
+                  autoplay={{ delay: 4000, disableOnInteraction: false }}
+                  loop={true}
+                  className="w-full h-[320px] sm:h-[380px] lg:h-[500px]"
                 >
-                    <SwiperSlide>
-                    <img
-                        src={Friends}
-                        alt="Internship Preview 1"
-                        className="w-full h-full object-cover"
-                    />
+                  {[Friends, Couple, Portraits].map((img, index) => (
+                    <SwiperSlide key={index}>
+                      <img src={img} alt={`Slide ${index}`} className="w-full h-full object-cover" />
                     </SwiperSlide>
-                    <SwiperSlide>
-                    <img
-                        src={Couple}
-                        alt="Internship Preview 2"
-                        className="w-full h-full object-cover"
-                    />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                    <img
-                        src={Portraits}
-                        alt="Internship Preview 3"
-                        className="w-full h-full object-cover"
-                    />
-                    </SwiperSlide>
+                  ))}
                 </Swiper>
+              </div>
             </div>
+          </div>
 
-        </div>
-        </div>
+          {/* Right side — Form */}
+          <div className="flex flex-1 items-center justify-center px-4 py-10 sm:px-6 sm:py-12">
+            <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+                Enroll Now 🚀
+              </h2>
 
-      {/* Right side - Form */}
-      <div className="flex flex-1 items-center justify-center px-4 md:py-18 py-4 sm:px-6 sm:py-12">
-        <div className="w-full max-w-md bg-white sm:mt-0 mt-20 rounded-2xl shadow-lg p-8">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
-            Enroll Now 🚀
-          </h2>
-            <form className="space-y-5" onSubmit={handleSubmit}> 
-                <div>
-                    <p className="m-0 text-red-700 text-[15px]">{error}</p>
-                </div>
+              <form className="space-y-5" onSubmit={handleSubmit}>
+                {error && <p className="text-red-600 text-sm">{error}</p>}
+                {message && <p className="text-blue-800 text-sm">{message}</p>}
+
                 {/* First & Last Name */}
                 <div className="grid gap-4 md:grid-cols-2">
-                    <input
-                        type="text"
-                        placeholder="First Name"
-                        className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Last Name"
-                        className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
-                        required
-                    />
+                  <input
+                    type="text"
+                    name="fname"
+                    placeholder="First Name"
+                    value={formData.fname}
+                    onChange={handleChange}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                    required
+                  />
+                  <input
+                    type="text"
+                    name="lname"
+                    placeholder="Last Name"
+                    value={formData.lname}
+                    onChange={handleChange}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                    required
+                  />
                 </div>
 
                 {/* Email */}
                 <input
-                type="email"
-                placeholder="Email Address"
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
-                required/>
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                  required
+                />
 
                 {/* Phone */}
                 <input
-                type="tel"
-                placeholder="Phone Number"
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
                 />
 
-                <div className="text-sm font-medium text-gray-700 mb-2">
-                    Are you a student or a professional?
-                </div>
+                {/* Student or Professional */}
+                <div className="text-sm font-medium text-gray-700 mb-2">Are you a student or a professional?</div>
                 <div className="flex flex-col gap-2 mb-4">
-                    <label className="flex items-center gap-2 text-sm">
-                    <input 
-                        type="radio" 
-                        name="status" 
-                        onChange={() => setProf(true)} 
+                  <label className="flex items-center gap-2 text-sm">
+                    <input
+                      type="radio"
+                      name="level"
+                      value="Student"
+                      checked={formData.level === "Student"}
+                      onChange={(e) => {
+                        setIsStudent(true);
+                        setFormData({ ...formData, level: e.target.value });
+                      }}
                     />
                     Student
-                    </label>
-                    <label className="flex items-center gap-2 text-sm">
-                    <input 
-                        type="radio" 
-                        name="status" 
-                        onChange={() => setProf(false)} 
+                  </label>
+                  <label className="flex items-center gap-2 text-sm">
+                    <input
+                      type="radio"
+                      name="level"
+                      value="Professional"
+                      checked={formData.level === "Professional"}
+                      onChange={(e) => {
+                        setIsStudent(false);
+                        setFormData({ ...formData, level: e.target.value });
+                      }}
                     />
                     Professional
-                    </label>
-                    <label className="flex items-center gap-2 text-sm">
-                    <input 
-                        type="radio" 
-                        name="status" 
-                        onChange={() => setProf(false)} 
-                    />
-                    None of the above
-                    </label>
+                  </label>
                 </div>
 
                 {/* Track Selection */}
                 <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700">
-                    Select Your Track
-                </label>
-                <select className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                  <label className="block mb-2 text-sm font-medium text-gray-700">Select Your Track</label>
+                  <select
+                    name="track"
+                    value={formData.track}
+                    onChange={handleChange}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                    required
+                  >
+                    <option value="">Select a track</option>
                     <option>Frontend Development</option>
                     <option>Backend Development</option>
                     <option>UI/UX Design</option>
                     <option>Data Analysis</option>
                     <option>Project Management</option>
-                </select>
-                </div>
-                
-                <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="">How did you hear about us?</label>
-                    <select className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
-                        <option>Social Media</option>
-                        <option>Friend or Colleague</option>
-                        <option>Online Search</option>
-                        <option>Other</option>
-                    </select>
+                  </select>
                 </div>
 
-                {prof && (
-                    <div>
-                        <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="">What School did you attend?</label>
-                        <select
-                            value={selectedUni}
-                            onChange={(e) => setSelectedUni(e.target.value)}
-                            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
-                        >
-                            <option value="" disabled>
-                            Select University
-                            </option>
-                            {universities.map((uni, index) => (
-                            <option key={index} value={uni.name}>
-                                {uni.name}
-                            </option>
-                            ))}
-                        </select>
-                    </div>
+                {/* How did you hear about us? */}
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                    How did you hear about us?
+                  </label>
+                  <select
+                    name="social"
+                    value={formData.social}
+                    onChange={handleChange}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                  >
+                    <option>Social Media</option>
+                    <option>Friend or Colleague</option>
+                    <option>Online Search</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+
+                {/* University (if student) */}
+                {isStudent && (
+                  <div>
+                    <label className="block mb-2 text-sm font-medium text-gray-700">What School did you attend?</label>
+                    <select
+                      name="university"
+                      value={formData.university}
+                      onChange={handleChange}
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                    >
+                      <option value="">Select University</option>
+                      {universities.map((uni, i) => (
+                        <option key={i} value={uni.name}>{uni.name}</option>
+                      ))}
+                    </select>
+                  </div>
                 )}
+
                 {/* Certificate Option */}
                 <div>
-                <p className="text-sm text-gray-600 mb-2">
-                    Would you like a certificate?
-                </p>
-                <div className="flex flex-col gap-2">
+                  <p className="text-sm text-gray-600 mb-2">Would you like a certificate?</p>
+                  <div className="flex flex-col gap-2">
                     <label className="flex items-center gap-2 text-sm">
-                    <input type="radio" checked={prem} onChange={() => setPrem(!prem)} name="certificate" required/>
-                    Free (No Certificate)
+                      <input
+                        type="radio"
+                        name="package"
+                        value="Free"
+                        checked={formData.package === "Free"}
+                        onChange={handleChange}
+                      />
+                      Free (No Certificate)
                     </label>
                     <label className="flex items-center gap-2 text-sm">
-                    <input type="radio" onClick={() => setPrem(prem => !prem)}  name="certificate" required/>
-                    Paid – Certificate + 1yr Premium Access
+                      <input
+                        type="radio"
+                        name="package"
+                        value="Paid"
+                        checked={formData.package === "Paid"}
+                        onChange={handleChange}
+                      />
+                      Paid – Certificate + 1yr Premium Access
                     </label>
-                </div>
+                  </div>
                 </div>
 
                 {/* Privacy Agreement */}
-                <label className="lg:flex items-start  gap-2 text-xs text-gray-600">
-                <input type="checkbox" />
-                I agree to the{" "}
-                <a href="/terms" className="text-blue-600 underline">
-                    Terms
-                </a>{" "}
-                and{" "}
-                <a href="/privacy" className="text-blue-600 underline">
-                    Privacy Policy
-                </a>
-                .
+                <label className="flex items-start gap-2 text-xs text-gray-600">
+                  <input type="checkbox" required />
+                  I agree to the{" "}
+                  <a href="/terms" className="text-blue-600 underline">Terms</a> and{" "}
+                  <a href="/privacy" className="text-blue-600 underline">Privacy Policy</a>.
                 </label>
 
                 {/* Submit Button */}
                 <button
-                type="submit"
-                className="w-full rounded-full bg-gray-600 py-3 text-white font-semibold hover:bg-gray-700/20 transition mt-6"
+                  type="submit"
+                  disabled={loading}
+                  className={`w-full rounded-full py-3 text-white font-semibold transition mt-6 ${
+                    loading
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-gray-900 hover:bg-black"
+                  }`}
                 >
-                {loading ? "loading....." : "Continue to Enroll"}
+                  {loading ? "Submitting..." : "Continue to Enroll"}
                 </button>
-            </form>
-        </div>
-      </div>
-    </section>
+              </form>
+            </div>
+          </div>
+        </section>
+      ) : (
+        <PremiumPaymentPage userData={formData} />
+      )}
+    </div>
   );
 }
 

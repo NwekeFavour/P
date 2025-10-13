@@ -6,10 +6,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import { Mail, Phone, Loader2, CreditCard, CheckCircle } from "lucide-react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
-function PremiumPaymentPage(props) {
+function PremiumPaymentPage({userData}) {
     const [loading, setLoading] = useState(false);
     const [message, SetMessage] = useState("");
     const [error, SetError] = useState("");
@@ -82,10 +82,14 @@ function PremiumPaymentPage(props) {
                                 <input
                                 type="text"
                                 name="name"
-                                value={form.name}
+                                value={
+                                userData?.fname && userData?.lname
+                                    ? `${userData.fname} ${userData.lname}`
+                                    : form.name
+                                }                                
                                 onChange={handleChange}
                                 required
-                                className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-neutral-100 outline-none bg-transparent text-white placeholder-gray-500"
+                                className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-neutral-100 outline-none bg-transparent text-black placeholder-gray-500"
                                 placeholder="Enter your full name"
                                 />
                             </div>
@@ -99,10 +103,10 @@ function PremiumPaymentPage(props) {
                                 <input
                                     type="email"
                                     name="email"
-                                    value={form.email}
+                                    value={userData?.email || form.email}
                                     onChange={handleChange}
                                     required
-                                    className="w-full border border-neutral-300 rounded-lg pl-9 py-2 focus:ring-2 focus:ring-neutral-100 outline-none bg-transparent text-white placeholder-gray-500"
+                                    className="w-full border border-neutral-300 rounded-lg pl-9 py-2 focus:ring-2 focus:ring-neutral-100 outline-none bg-transparent text-black placeholder-gray-500"
                                     placeholder="example@email.com"
                                 />
                                 </div>
@@ -120,7 +124,7 @@ function PremiumPaymentPage(props) {
                                     value={form.phone}
                                     onChange={handleChange}
                                     required
-                                    className="w-full border border-neutral-300 rounded-lg pl-9 py-2 focus:ring-2 focus:ring-neutral-100 outline-none bg-transparent text-white placeholder-gray-500"
+                                    className="w-full border border-neutral-300 rounded-lg pl-9 py-2 focus:ring-2 focus:ring-neutral-100 outline-none bg-transparent text-black placeholder-gray-500"
                                     placeholder="+234 801 234 5678"
                                 />
                                 </div>
@@ -129,7 +133,7 @@ function PremiumPaymentPage(props) {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full flex items-center justify-center gap-2 bg-neutral-300 hover:bg-neutral-500 hover:text-white text-gray-900 font-semibold py-3 rounded-lg transition"
+                                className="w-full flex items-center justify-center gap-2 bg-gray-500/90  hover:bg-gray-500 hover:text-white text-gray-100 font-semibold py-3 rounded-lg transition"
                             >
                                 {loading ? (
                                 <>
