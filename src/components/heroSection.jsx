@@ -44,9 +44,9 @@ export default function HeroSection() {
     setLoading(true);
     setAnswer("Thinking... 🤔");
     setModalOpen(true);
-// https://p2-p48o.onrender.com
+// https://p2-three.vercel.app
     try {
-      const res = await fetch("https://p2-p48o.onrender.com/api/ask", {
+      const res = await fetch("https://p2-three.vercel.app/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question }),

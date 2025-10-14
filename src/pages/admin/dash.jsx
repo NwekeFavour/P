@@ -1,15 +1,40 @@
-import React from 'react';
-import { Users, Star, Activity, UserPlus } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Users, Star, Activity, UserPlus, ChartBar } from 'lucide-react';
 import AdminLayout from './layout';
 
 export default function AdmindashboardPage() {
   // Ideally fetched from backend API
+  const [totalUsers, setTotalUsers] = useState("")
+  const [freeUsers, setFreeUsers] = useState("")
+  const [newUsers, setNewUsers] = useState("")
+  const [premiumUsers, setPremiumUsers] = useState("")
+  const [conversionRates, setConversionRates] = useState("")
+  const [loading, setLoading] = useState(false)
   const stats = {
-    totalUsers: 2400,
-    premiumUsers: 420,
     activeSessions: 125,
     newUsers: 58,
   };
+
+    useEffect(() => {
+      const fetchApplications = async () => {
+        setLoading(true)
+        try {
+          const res = await fetch("https://p2-three.vercel.app/api/applications/stats");
+          const result = await res.json();
+          setTotalUsers(result.stats.totalUsers)
+          setFreeUsers(result.stats.freeUsers)
+          setNewUsers(result.stats.newUsers)
+          setPremiumUsers(result.stats.premiumUsers)
+          setConversionRates(result.stats.conversionRate)
+          console.log(result);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchApplications();
+    }, []);
 
   return (
     <AdminLayout>
@@ -17,26 +42,31 @@ export default function AdmindashboardPage() {
         <h1 className="text-[22px] md:text-2xl font-bold text-gray-800 mb-6">Dashboard Overview</h1>
 
         {/* Stats Cards */}
-        <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 sm:grid-cols-2 gap-6">
           <StatCard
             icon={<Users className="w-6 h-6 text-blue-600" />}
             title="Total Users"
-            value={stats.totalUsers}
+            value={loading ? "...." : totalUsers}
           />
           <StatCard
             icon={<Star className="w-6 h-6 text-yellow-500" />}
             title="Premium Users"
-            value={stats.premiumUsers}
+            value={loading ? "...." : premiumUsers}
           />
           <StatCard
             icon={<Activity className="w-6 h-6 text-green-600" />}
-            title="Active Sessions"
-            value={stats.activeSessions}
+            title="Free Users"
+            value={loading ? "...." : freeUsers}
           />
           <StatCard
             icon={<UserPlus className="w-6 h-6 text-purple-600" />}
-            title="New Signups"
-            value={stats.newUsers}
+            title="New Users"
+            value={loading ? "...." : newUsers}
+          />
+          <StatCard
+            icon={<ChartBar className="w-6 h-6 text-purple-600" />}
+            title="Conversion Rates"
+            value={loading ? "...." : conversionRates}
           />
         </div>
 
@@ -46,8 +76,7 @@ export default function AdmindashboardPage() {
           <ul className="text-gray-600 text-sm space-y-2">
             <li>✅ New premium user: <strong>Mary Johnson</strong></li>
             <li>✅ User <strong>Alex N.</strong> completed onboarding</li>
-            <li>⚡ Server uptime: 99.9%</li>
-            <li>🚀 Total growth this week: +14%</li>
+            <li>🚀 Total growth this week: {conversionRates}</li>
           </ul>
         </div>
       </div>

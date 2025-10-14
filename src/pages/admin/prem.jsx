@@ -3,7 +3,7 @@ import AdminLayout from './layout';
 import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-export default function Users() {
+export default function AdminPrem() {
   const [admin] = useState("Joshua");
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
@@ -14,10 +14,10 @@ export default function Users() {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const res = await fetch("https://p2-three.vercel.app/api/applications/apply");
+        const res = await fetch("https://p2-three.vercel.app/api/applications/apply?package=premium");
         const result = await res.json();
         setUserData(result.data || []); // ✅ handle your API structure
-        console.log(result);
+        // console.log(result.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -55,10 +55,10 @@ export default function Users() {
 
   return (
     <AdminLayout>
-      <div className="p-4 md:p-6">
+      <div className="p-2 md:p-6">
         {/* Header */}
         <div className="flex items-center justify-between gap-3 lg:mb-3">
-          <h2 className="text-[22px] md:text-2xl font-bold text-gray-800">Users</h2>
+          <h2 className="text-[22px] md:text-2xl font-bold text-gray-800">Premium Users</h2>
           <Link
             className="flex items-center gap-2 cursor-pointer px-3 py-1 rounded-md bg-gray-100 transition"
             onClick={() => {}}
@@ -85,11 +85,11 @@ export default function Users() {
             </thead>
             <tbody>
               {loading
-                ? Array.from({ length: 6 }).map((_, i) => <SkeletonRow key={i} />) : currentUsers.length === 0 ? (
-                  <tr className="m-0 text-center">
-                    <td>No Current Data on this Table</td>
-                  </tr>  
-                )
+                ? Array.from({ length: 6 }).map((_, i) => <SkeletonRow key={i} />) : currentUsers.length == 0  ? (
+                    <tr>
+                        <td  className="m-0 text-center text-gray-500 font-medium py-4" colSpan="4">No Current Premium Subscribers</td>
+                    </tr>                
+                ) 
                 : currentUsers.map((user) => (
                     <tr
                       key={user._id || user.id}
@@ -118,7 +118,7 @@ export default function Users() {
         </div>
 
         {/* Mobile Cards */}
-        <div className="space-y-4 lg:hidden">
+        <div className="space-y-4 lg:hidden">                
           {loading
             ? Array.from({ length: 3 }).map((_, i) => (
                 <div
@@ -130,10 +130,11 @@ export default function Users() {
                   <div className="h-3 bg-gray-300 rounded w-1/3"></div>
                 </div>
               ))
-              : currentUsers.length === 0 ? (
-                  <tr > 
-                    <td   className="m-0 text-center text-gray-500 font-medium py-3" colSpan="4">No Current Data on this Table</td>
-                  </tr>  
+              :userData.length === 0 ?
+                (
+                    <div>
+                        <p className="m-0 text-center py-5">No Current Premium Subscribers</p>
+                    </div>
                 )
             : currentUsers.map((user) => (
                 <div
