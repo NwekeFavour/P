@@ -19,7 +19,7 @@ export default function AdmindashboardPage() {
       const fetchApplications = async () => {
         setLoading(true)
         try {
-          const res = await fetch("https://p2-three.vercel.app/api/applications/stats");
+          const res = await fetch("https://p2-ecru.vercel.app/api/applications/stats");
           const result = await res.json();
           setTotalUsers(result.stats.totalUsers)
           setFreeUsers(result.stats.freeUsers)

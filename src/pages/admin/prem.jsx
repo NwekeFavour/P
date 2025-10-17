@@ -14,7 +14,7 @@ export default function AdminPrem() {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const res = await fetch("https://p2-three.vercel.app/api/applications/apply?package=premium");
+        const res = await fetch("https://p2-ecru.vercel.app/api/applications/apply?package=premium");
         const result = await res.json();
         setUserData(result.data || []); // ✅ handle your API structure
         // console.log(result.data);
