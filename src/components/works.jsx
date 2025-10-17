@@ -249,7 +249,7 @@ export default function HowItWorksSection() {
             Ready to Start Your Journey?
           </h3>
           <p className="text-gray-600 sm:text-[20px] text-[16px] mb-8 max-w-2xl mx-auto">
-            Applications for Cohort 6 close in 3 weeks. Don't miss your chance.
+            Applications for TechLaunchNG internships close in 3 weeks. Don't miss your chance.
           </p>
           <Link to={"/techlaunchng/internships"} className="group px-10 py-5 bg-gradient-to-r from-sky-600 to-gray-600 hover:from-sky-700 hover:to-gray-700 text-white text-lg font-bold rounded-full shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
             Apply Now

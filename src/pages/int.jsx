@@ -85,7 +85,7 @@ export default function Int() {
                         <div className="flex  justify-start mb-6">
                             <div className="flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 rounded-full">
                                 <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
-                                <span className="sm:text-sm text-[12px] font-semibold text-orange-700">Applications Open for Cohort 6</span>
+                                <span className="sm:text-sm text-[12px] font-semibold text-orange-700">Applications are Open</span>
                             </div>
                         </div>
                         <h1 className="text-[32px]  text-start md:text-[40px] lg:text-[60px] lg:mb-0 mb-3 font-bold text-gray-900 leading-tight">
@@ -407,7 +407,7 @@ export default function Int() {
             Ready to transform your career?
           </h2>
           <p className="md:text-[14px] text-[13px] text-gray-400 mb-10">
-            Applications for Cohort 6 close in 3 weeks. Don't miss your chance.
+            Applications for TechLaunchNG Internships close in 3 weeks. Don't miss your chance.
           </p>
           <Link className="group sm:px-4 w-[fit-content] px-3 py-2 sm:py-2 bg-white hover:bg-gray-100 text-gray-900 text-[16px] font-bold rounded-lg transition-all duration-300 flex items-center gap-3 mx-auto" to={"/techlaunchng/internships"}>
             Enroll for free!
