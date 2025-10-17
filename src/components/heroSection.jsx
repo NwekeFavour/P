@@ -104,7 +104,7 @@ export default function HeroSection() {
       <div className="relative z-10 container mx-auto px-6 pt-16 pb-24 text-center">
         <div className="max-w-4xl mx-auto">
           {/* Badge */}
-          <div className="sm:inline-flex flex sm:justify-center justify-start sm:w-[220px] w-[190px] items-center gap-2 px-4 py-2 mb-6 rounded-full bg-sky-950/50 border border-sky-800/50 text-blue-300 text-sm backdrop-blur-sm">
+          <div className="sm:inline-flex flex sm:justify-center justify-start sm:w-[220px] w-[190px] items-center gap-2 px-4 py-2 mb-6 rounded-full bg-sky-950/50 border border-sky-800/50 text-blue-300 text-sm  backdrop-blur-sm">
             <TrendingUp className="w-4 h-4" />
             <span>Build. Learn. Earn</span>
           </div>

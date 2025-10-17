@@ -135,17 +135,17 @@ export default function Premium() {
       <Header />
 
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 text-white py-24 px-6">
+      <section className="relative overflow-hidden bg-[#f9fcff] text-white py-24 px-6">
         <div className="max-w-7xl mx-auto text-center">
-          <Crown className="mx-auto w-10 h-10 text-yellow-400 mb-6" />
-          <h1 className="text-[30px] md:text-[32px] lg:text-[50px] font-bold leading-tight mb-4">
-            Unlock <span className="text-yellow-400">Premium Access</span>, Level Up Your Tech Career
+          <Crown className="mx-auto w-10 h-10 text-blue-900/80 mb-6" />
+          <h1 className="text-[30px] md:text-[32px] lg:text-[50px] font-bold leading-tight mb-4 text-blue-900/80">
+            Unlock <span className="text-neutral-500">Premium Access</span>, Level Up Your Tech Career
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-8">
+          <p className="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-8">
             Go beyond the basics. Premium members get mentorship, certificates, job referrals,
             and exclusive access to real-world challenges designed by industry experts.
           </p>
-          <Link to={"/premium/checkout"} className="group px-8 py-3 w-fit bg-yellow-400 text-gray-900 font-semibold rounded-lg hover:bg-yellow-300 transition flex items-center gap-2 mx-auto">
+          <Link to={"/premium/checkout"} className="group px-8 py-3 w-fit bg-blue-900/90 text-neutral-100 font-semibold rounded-lg hover:bg-blue-900/70 transition flex items-center gap-2 mx-auto">
             Upgrade Now <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
