@@ -144,7 +144,7 @@ function Apply() {
           </div>
 
           {/* Right side — Form */}
-          <div className="flex flex-1 items-center justify-center px-4 py-10 sm:px-6 sm:py-12">
+          <div className="flex flex-1 items-center justify-center px-4 py-14 sm:px-6 sm:py-12">
             <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
               <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
                 Enroll Now 🚀
