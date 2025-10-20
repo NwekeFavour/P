@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 
-// In-memory stores (replace with DB in production)
+// In-memory stores
 const users = new Map();
 const tokens = new Map();
 
@@ -18,7 +18,7 @@ module.exports = {
     return user;
   },
 
-  // OAuth2 model methods (minimal subset to support password grant and bearer tokens)
+  // OAuth2 model methods 
   async getClient(clientId, clientSecret) {
     // Accept any client for this minimal example
     return {
@@ -60,12 +60,12 @@ module.exports = {
     return user;
   },
 
-  // bearer token auth - attach user to request
+  
   async verifyScope(token, scope) {
     return true;
   },
 
-  // Helper for manual token creation used by /auth/login
+ 
   async generateAccessToken(userId) {
     const accessToken = uuidv4();
     const expiresIn = 60 * 60; // 1 hour

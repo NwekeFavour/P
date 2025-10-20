@@ -1,7 +1,7 @@
 {
   "name": "p-backend",
   "version": "1.0.0",
-  "description": "Minimal OAuth2 password-grant auth server for P project",
+  "description": "Minimal OAuth2 password",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
