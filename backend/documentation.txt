@@ -1,0 +1,51 @@
+Auth server (minimal) - documentation
+
+Files added:
+- server.js : Express server exposing /auth/register and /auth/login
+- model.js  : Minimal oauth2-server model + in-memory user/token stores
+- package.json : dependencies
+
+Endpoints
+
+1) POST /auth/register
+   - Body (application/json): { "email": "user@example.com", "password": "secret" }
+   - Behavior: hashes the password with bcrypt and stores the user in an in-memory store.
+   - Response: 201 { id, email } on success, 409 if user exists, 400 for missing fields.
+
+2) POST /auth/login
+   - Body (application/json): { "email": "user@example.com", "password": "secret" }
+   - Behavior: verifies password and returns an access token (UUID) with expires_in (seconds).
+   - Response: 200 { access_token, token_type: 'bearer', expires_in }
+   - This is the login endpoint you can give to an integrator. It is a simple token-based login. Tokens are stored in memory.
+
+3) GET /me
+   - Protected by Bearer token using the oauth2-server middleware.
+   - Provide Authorization: Bearer <access_token>
+
+Notes and next steps
+- Storage: currently in-memory (Map). For production, replace with a persistent DB and lookups in model.js.
+- Client handling: model.getClient currently accepts any client. For production, implement proper client storage and validation.
+- Token format: tokens are UUIDs here. Consider using JWTs if you need self-contained tokens.
+- Error handling: very minimal. Expand responses and logging for production.
+
+How to run (Windows PowerShell)
+1) cd to backend folder:
+   cd c:/Users/ohanu/OneDrive/Desktop/Nf/P-1/backend
+2) install dependencies:
+   npm install
+3) start server:
+   npm start
+
+Example usage
+1) Register:
+   POST http://localhost:4000/auth/register
+   Body: { "email": "me@x.com", "password": "secret" }
+
+2) Login:
+   POST http://localhost:4000/auth/login
+   Body: { "email": "me@x.com", "password": "secret" }
+   Response: { "access_token": "...", "token_type": "bearer", "expires_in": 3600 }
+
+3) Protected request:
+   GET http://localhost:4000/me
+   Header: Authorization: Bearer <access_token>
