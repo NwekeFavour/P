@@ -51,7 +51,7 @@ function Apply() {
     setLoading(true);
 
     try {
-      const response = await fetch("https://p2-ecru.vercel.app/api/applications/apply", {
+      const response = await fetch("http://localhost:5000/api/applications/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -60,7 +60,7 @@ function Apply() {
       const result = await response.json();
 
       if (result.success) {
-        localStorage.setItem("techlaunch_user", JSON.stringify(result.data));
+        localStorage.setItem("knownly_user", JSON.stringify(result.data));
 
         if (formData.package === "Paid") {
           setShowPremium(false); // Show payment page
@@ -87,7 +87,7 @@ function Apply() {
           🎉 Congratulations, {formData.fname}!
         </h1>
         <p className="text-gray-700 text-lg max-w-md mb-6">
-          You’ve successfully applied for the <strong>TechlaunchNG Internship Program</strong>!
+          You’ve successfully applied for the <strong>knownly Internship Program</strong>!
           We’re thrilled to have you on board and can’t wait for you to begin your journey.
         </p>
         <button
@@ -120,7 +120,7 @@ function Apply() {
                 Ready to <span className="text-blue-600">Level Up</span> Your Tech Career?
               </h1>
               <p className="mt-4 text-gray-600 text-sm md:text-base">
-                Join the HNG Internship and gain real-world experience, mentorship,
+                Join the <strong>KNOWNLY</strong> Internship and gain real-world experience, mentorship,
                 and a global network. Whether you’re into coding, design, data, or
                 marketing, we’ve got a track for you.
               </p>

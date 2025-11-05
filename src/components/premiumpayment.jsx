@@ -150,10 +150,10 @@ function PremiumPaymentPage({userData}) {
                             <p className="text-xs text-gray-500 text-center mt-4">
                             Need help? Email{" "}
                             <a
-                                href="mailto:premium@techlaunchng.com"
+                                href="mailto:premium@knownly.tech"
                                 className="text-blue-400 font-medium underline"
                             >
-                                premium@techlaunchng.com
+                                premium@knownly.tech
                             </a>
                             </p>
                         </>

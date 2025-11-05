@@ -24,7 +24,7 @@ export default function Int() {
 
   const testimonials = [
     {
-      quote: "TechLaunch NG didn't just teach me to code—it transformed my entire career trajectory. Within 2 months of graduating, I landed a role at one of Nigeria's top fintech companies.",
+      quote: "knownly didn't just teach me to code—it transformed my entire career trajectory. Within 2 months of graduating, I landed a role at one of Nigeria's top fintech companies.",
       author: "Adebayo Michael",
       role: "Software Engineer at Paystack",
       cohort: "Cohort 4 (2024)",
@@ -38,7 +38,7 @@ export default function Int() {
       image: "CO"
     },
     {
-      quote: "What sets TechLaunch apart is the real-world experience. You're not just learning—you're building actual products that real users interact with.",
+      quote: "What sets knownly apart is the real-world experience. You're not just learning—you're building actual products that real users interact with.",
       author: "Ibrahim Hassan",
       role: "Backend Engineer at Andela",
       cohort: "Cohort 5 (2024)",
@@ -93,11 +93,11 @@ export default function Int() {
                         <span className="text-gray-400">to the test?</span>
                         </h1>
                         <p className="text-[13px] md:text-[14px] lg:text-[15px] text-gray-600 text-justify leading-relaxed">
-                            TechLaunchNG Internship is a remote, stage-based bootcamp where students gain hands-on experience, build real projects, and work in teams like a real tech company. Open to frontend devs, backend devs, designers, data analysts, and writers.
+                            knownly Internship is a remote, stage-based bootcamp where students gain hands-on experience, build real projects, and work in teams like a real tech company. Open to frontend devs, backend devs, designers, data analysts, and writers.
                             🚀 Next cohort starts soon, Free to apply!
                         </p>
                         <div className="flex gap-4 justify-start items-center mt-5 mb-8">
-                            <Link className="group lg:text-center md:text-start text-start px-3 lg:px-5 py-2 bg-gray-900 hover:bg-gray-800 text-white text-[14px] font-semibold rounded-lg transition-all duration-300 flex items-center gap-3" to={"/techlaunchng/internships"}> 
+                            <Link className="group lg:text-center md:text-start text-start px-3 lg:px-5 py-2 bg-gray-900 hover:bg-gray-800 text-white text-[14px] font-semibold rounded-lg transition-all duration-300 flex items-center gap-3" to={"/knownly/internships"}> 
                                 Enroll for free!
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </Link>
@@ -188,7 +188,7 @@ export default function Int() {
                 <div>
                 <div className="sm:w-20 w-14 h-14 sm:h-20 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl mb-6" />
                 <h2 className="text-[27px] md:text-[35px] lg:text-[40px] font-bold text-gray-900 mb-6 leading-tight">
-                    TechLaunch is for those who believe that they are special...
+                    knownly is for those who believe that they are special...
                 </h2>
                 <p className="text-lg text-gray-600 mb-6 leading-relaxed">
                     We're focused on the best of the best. Work with other very smart techies to collaboratively learn and build solutions in a 8-week, intensive bootcamp.
@@ -224,7 +224,7 @@ export default function Int() {
             <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
                 <h2 className="text-[26px] md:text-5xl font-bold text-gray-900 mb-4">
-                What unique advantage does<br />TechLaunch give you?
+                What unique advantage does<br />knownly give you?
                 </h2>
             </div>
             <div   className="grid md:grid-cols-3 gap-8">
@@ -266,7 +266,7 @@ export default function Int() {
             <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Life-changing Stories</h2>
                 <p className="text-[16px] text-gray-600">
-                Read how TechLaunch changed the lives of interns who attended the program
+                Read how knownly changed the lives of interns who attended the program
                 </p>
             </div>
 
@@ -407,9 +407,9 @@ export default function Int() {
             Ready to transform your career?
           </h2>
           <p className="md:text-[14px] text-[13px] text-gray-400 mb-10">
-            Applications for TechLaunchNG Internships close in 3 weeks. Don't miss your chance.
+            Applications for knownly Internships close in 3 weeks. Don't miss your chance.
           </p>
-          <Link className="group sm:px-4 w-[fit-content] px-3 py-2 sm:py-2 bg-white hover:bg-gray-100 text-gray-900 text-[16px] font-bold rounded-lg transition-all duration-300 flex items-center gap-3 mx-auto" to={"/techlaunchng/internships"}>
+          <Link className="group sm:px-4 w-[fit-content] px-3 py-2 sm:py-2 bg-white hover:bg-gray-100 text-gray-900 text-[16px] font-bold rounded-lg transition-all duration-300 flex items-center gap-3 mx-auto" to={"/knownly/internships"}>
             Enroll for free!
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>

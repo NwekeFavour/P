@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-10">
           {/* About */}
           <div>
-            <h4 className="text-white font-bold mb-4">TechLaunch NG</h4>
+            <h4 className="text-white font-bold mb-4">knownly</h4>
             <p className="text-sm leading-relaxed">
               Helping Nigerian university students launch world-class tech careers
               through practical training, mentorship, and real-world projects.
@@ -22,7 +22,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-bold mb-4">Links</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to={"/techlaunchng/talents"} className="hover:text-white">Talent</Link></li>
+              <li><Link to={"/knownly/talents"} className="hover:text-white">Talent</Link></li>
               <li><Link to={"/internship"} className="hover:text-white">Internship</Link></li>
               <li><Link to={"/contact-us"} className="hover:text-white">Contact Us</Link></li>
               <li><Link to={"#faq"} className="hover:text-white">FAQ</Link></li>
@@ -34,7 +34,7 @@ export default function Footer() {
             <h4 className="text-white font-bold mb-4">Contact</h4>
             <ul className="space-y-2 text-sm">
               <li className="flex items-center gap-2">
-                <Mail className="w-4 h-4" /> hello@techlaunchng.com
+                <Mail className="w-4 h-4" /> hello@knownly.tech
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4" /> +234 801 234 5678
@@ -72,7 +72,7 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-          <p>© {currentYear} TechLaunch NG. All rights reserved.</p>
+          <p>© {currentYear} knownly. All rights reserved.</p>
           <div className="flex gap-4">
             <a href="#privacy" className="hover:text-white">Privacy Policy</a>
             <a href="#terms" className="hover:text-white">Terms</a>

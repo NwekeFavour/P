@@ -1,4 +1,4 @@
-import { Check, X, Zap, Crown, Sparkles, ArrowRight, Star } from 'lucide-react';
+import { Check, X, Zap, Crown, Sparkles, Target, ArrowRight, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function PricingSection() {
@@ -8,22 +8,21 @@ export default function PricingSection() {
       tagline: 'Try Before You Commit',
       icon: Sparkles,
       price: '₦0',
-      description: 'Get started and explore our learning materials.',
+      description: 'Start exploring tech with access to essential learning materials and community support.',
       features: [
-        { text: 'Access to learning materials', included: true },
+        { text: 'Access to beginner learning materials', included: true },
         { text: 'Community forum access', included: true },
         { text: 'Weekly group webinars', included: true },
-        { text: 'Work on small projects', included: true },
+        { text: 'Participate in mini-projects', included: true },
+        { text: 'Mentorship support', included: false },
         { text: 'Real-world projects', included: false },
-        { text: '1-on-1 mentorship', included: false },
-        { text: 'Resume & portfolio support', included: false },
-        { text: 'Job placement assistance', included: false },
-        { text: 'Industry certificate', included: false }
+        { text: 'Certificate of completion', included: false },
+        { text: 'Job placement support', included: false }
       ],
       highlighted: false,
       color: 'gray',
       cta: 'Start Free',
-      link: "/techlaunchng/internships"
+      link: "/knownly/internships"
     },
     {
       name: 'Premium',
@@ -31,26 +30,47 @@ export default function PricingSection() {
       icon: Crown,
       price: '₦5,000',
       period: 'one-time payment',
-      description: 'Full access to program, projects, mentorship, and career support.',
+      description: 'Full 8-week program with real-world projects, mentorship, and certification.',
       features: [
         { text: 'Everything in Free, plus:', included: true, bold: true },
-        { text: 'Full 12-week intensive program', included: true },
+        { text: 'Full 8-week intensive program', included: true },
         { text: '3–5 real-world projects', included: true },
         { text: 'Weekly 1-on-1 mentorship', included: true },
         { text: 'Priority code reviews', included: true },
         { text: 'Resume & portfolio workshops', included: true },
         { text: 'Mock interview preparation', included: true },
-        { text: 'Direct company introductions', included: true },
         { text: 'Industry-recognized certificate', included: true },
         { text: 'Lifetime alumni network access', included: true },
-        { text: 'Job placement support', included: true, highlight: true },
-        { text: 'Certificate of completion', included: true, highlight: true }
+        { text: 'Job placement support', included: true, highlight: true }
       ],
       highlighted: true,
       color: 'gray',
       cta: 'Go Premium',
       link: "/premium",
       badge: 'BEST VALUE'
+    },
+    {
+      name: 'Premium+ Track',
+      tagline: 'Advance Your Expertise',
+      icon: Target,
+      price: '₦10,000',
+      period: 'one-time payment',
+      description: 'Take your career further with specialized tracks in areas like Frontend, Backend, or UI/UX Design.',
+      features: [
+        { text: 'Everything in Premium, plus:', included: true, bold: true },
+        { text: 'Choose a specialization track', included: true },
+        { text: 'Advanced real-world capstone project', included: true },
+        { text: 'Direct mentorship from industry experts', included: true },
+        { text: 'Career roadmap & specialization certification', included: true },
+        { text: 'Job referral to partner companies', included: true, highlight: true },
+        { text: '1-year alumni network access', included: true },
+        { text: 'Exclusive specialization badge', included: true }
+      ],
+      highlighted: false,
+      color: 'gray',
+      cta: 'Enroll Now',
+      link: "/specialization",
+      badge: 'ADVANCED'
     }
   ];
 
@@ -84,17 +104,17 @@ export default function PricingSection() {
           </div>
           <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
             One Payment,
-            <span className="block bg-gradient-to-r from-sky-600 access via-gray-600 to-sky-600 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-sky-600 via-gray-600 to-sky-600 bg-clip-text text-transparent">
               Lifetime Access
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Try for free or unlock everything with a single payment. No subscriptions. No hidden fees.
+            Start free, upgrade for premium benefits, or specialize in your chosen career path. No subscriptions. No hidden fees.
           </p>
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
           {plans.map((plan, index) => {
             const colors = colorClasses[plan.color];
             const Icon = plan.icon;
@@ -160,7 +180,8 @@ export default function PricingSection() {
                       ))}
                     </ul>
 
-                    <Link to={plan.link}
+                    <Link
+                      to={plan.link}
                       className={`w-full py-4 rounded-xl font-bold text-white bg-gradient-to-r ${colors.button} shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group`}
                     >
                       {plan.cta}
@@ -183,8 +204,8 @@ export default function PricingSection() {
               Our Promise to You
             </h3>
             <p className="text-gray-700 text-lg leading-relaxed mb-6">
-              Complete the program, put in the work, and you’ll have the skills, portfolio, 
-              and connections to land a tech job. We’ll support you until you get interview opportunities.
+              Complete any of our programs and you’ll gain the skills, projects, and mentorship 
+              needed to launch or grow your tech career — guaranteed.
             </p>
             <div className="inline-flex items-center gap-2 text-purple-600 font-semibold">
               <Check className="w-6 h-6" />

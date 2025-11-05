@@ -32,12 +32,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} /> 
         <Route path="/login" element={<Login />} /> 
-        <Route path="/techlaunchng/internships" element={<Apply />} /> 
+        <Route path="/knownly/internships" element={<Apply />} /> 
         <Route path="/internship" element={<Int />} /> 
         <Route path="/contact-us" element={<Contact />} /> 
         <Route path="/premium" element={<Premium />} /> 
         <Route path="/sign-up" element={<Register />} /> 
-        <Route path="/techlaunchng/talents" element={<Talent />} /> 
+        <Route path="/knownly/talents" element={<Talent />} /> 
         <Route path="/admin" element={<AdmindashboardPage />} /> 
         <Route path="/internships/join" element={<JoinWorkspace />} /> 
         <Route path="/admin/premium" element={<AdminPrem />} /> 

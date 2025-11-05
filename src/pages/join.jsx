@@ -16,7 +16,7 @@ function JoinWorkspace() {
         <div className="absolute inset-0 opacity-10">
           <img
             src={ManTwo}
-            alt="TechLaunchNG-Internship-Man-Background"
+            alt="knownly-Internship-Man-Background"
             className="w-full h-full object-cover"
           />
         </div>
@@ -24,7 +24,7 @@ function JoinWorkspace() {
         {/* Content Layer */}
         <div className="relative z-10 max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
-            Join the <span className="text-gray-700">TechLaunch NG</span>{" "}
+            Join the <span className="text-gray-700">knownly</span>{" "}
             Workspace
           </h1>
 
@@ -53,10 +53,10 @@ function JoinWorkspace() {
             <p>
               If both links fail, please try again later or contact{" "}
               <a
-                href="mailto:support@techlaunch.ng"
+                href="mailto:support@knownly.ng"
                 className="text-blue-600 hover:underline"
               >
-                support@techlaunch.ng
+                support@knownly.ng
               </a>{" "}
               for assistance.
             </p>

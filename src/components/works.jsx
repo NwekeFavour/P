@@ -8,7 +8,7 @@ export default function HowItWorksSection() {
       number: '01',
       icon: FileText,
       title: 'Apply Online',
-      description: 'Submit your application with your university details and tell us why you want to join. No prior coding experience required—just passion and commitment.',
+      description: 'Submit your application with your university details and tell us why you want to join. No prior coding experience required, just passion and commitment.',
       duration: '10 minutes',
       color: 'blue'
     },
@@ -24,7 +24,7 @@ export default function HowItWorksSection() {
       number: '03',
       icon: Code,
       title: 'Start Learning & Building',
-      description: 'Join your cohort of 500 students. Week 1-2: intensive training bootcamp. Week 3-12: work on real projects with daily standups, code reviews, and mentorship.',
+      description: 'Join your cohort of 500 students. Week 1-2: intensive training bootcamp. Week 3-8: work on real projects with daily standups, code reviews, and mentorship.',
       duration: '8 weeks',
       color: 'green'
     },
@@ -249,9 +249,9 @@ export default function HowItWorksSection() {
             Ready to Start Your Journey?
           </h3>
           <p className="text-gray-600 sm:text-[20px] text-[16px] mb-8 max-w-2xl mx-auto">
-            Applications for TechLaunchNG internships close in 3 weeks. Don't miss your chance.
+            Applications for knownly internships close in 3 weeks. Don't miss your chance.
           </p>
-          <Link to={"/techlaunchng/internships"} className="group px-10 py-5 bg-gradient-to-r from-sky-600 to-gray-600 hover:from-sky-700 hover:to-gray-700 text-white text-lg font-bold rounded-full shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
+          <Link to={"/knownly/internships"} className="group px-10 py-5 bg-gradient-to-r from-sky-600 to-gray-600 hover:from-sky-700 hover:to-gray-700 text-white text-lg font-bold rounded-full shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
             Apply Now
             <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </Link>

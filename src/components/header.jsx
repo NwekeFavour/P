@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Rocket, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Knownly from '../assets/images/knownly-removebg-preview.png';
 
 export default function Header() {
   const [activeLink, setActiveLink] = useState('home');
@@ -10,7 +11,7 @@ export default function Header() {
   const navLinks = [
     { id: 'home', label: 'Home', href: '/' },
     { id: 'internship', label: 'Internship', href: '/internship' },
-    { id: 'talent', label: 'Talent', href: '/techlaunchng/talents' },
+    { id: 'talent', label: 'Talent', href: '/knownly/talents' },
     { id: 'premium', label: 'Premium', href: '/premium' },
   ];
 
@@ -44,15 +45,8 @@ export default function Header() {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center gap-3">
-              <div className="relative">
-                <Rocket className="w-9 h-9 text-blue-600" />
-                <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              </div>
               <div>
-                <span className="text-2xl font-bold text-gray-900 tracking-tight">
-                  TechLaunch NG
-                </span>
-                <div className="text-xs text-gray-500">Build. Learn. Earn.</div>
+                <img src={Knownly} className='w-full h-[60px]' alt="" />
               </div>
             </div>
 
@@ -81,7 +75,7 @@ export default function Header() {
 
             {/* CTA Buttons */}
             <div className="hidden lg:flex items-center gap-3">
-              <Link to={"/techlaunchng/internships"} className="px-6 py-2 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold rounded-lg transition-colors">
+              <Link to={"/knownly/internships"} className="px-6 py-2 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold rounded-lg transition-colors">
                 Apply Now
               </Link>
             </div>
