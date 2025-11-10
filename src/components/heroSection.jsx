@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Rocket, TrendingUp, ArrowRight, Loader2 } from "lucide-react";
+import { Rocket, TrendingUp, ArrowRight, Loader2, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,7 +10,6 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Link } from "react-router-dom";
 import Header from "./header";
 
 export default function HeroSection() {
@@ -20,6 +19,7 @@ export default function HeroSection() {
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
+  // Generate starfield once
   useEffect(() => {
     const generatedStars = Array.from({ length: 200 }, (_, i) => {
       const brightness = Math.random();
@@ -38,6 +38,7 @@ export default function HeroSection() {
     setStars(generatedStars);
   }, []);
 
+  // Handle AI request
   const handleAskAI = async (e) => {
     e.preventDefault();
     if (!question.trim()) return;
@@ -52,9 +53,9 @@ export default function HeroSection() {
         body: JSON.stringify({ question }),
       });
 
-    await new Promise((r) => setTimeout(r, 2000));
-    setAnswer("This is your AI-generated answer...");
-        const data = await res.json();
+      await new Promise((r) => setTimeout(r, 2000)); // simulate short delay
+
+      const data = await res.json();
       setAnswer(data.answer);
     } catch (error) {
       setAnswer("⚠️ Error: Could not fetch response.");
@@ -73,9 +74,9 @@ export default function HeroSection() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-black text-white">
-      {/* Background layers */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-950 to-black" />
-      <div className="absolute inset-0">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-950 to-black pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none">
         {stars.map((star) => (
           <div
             key={star.id}
@@ -90,11 +91,9 @@ export default function HeroSection() {
                 ? `twinkle ${star.twinkleDuration}s ease-in-out ${star.twinkleDelay}s infinite`
                 : "none",
               boxShadow:
-                star.size > 1.5
-                  ? "0 0 2px rgba(255,255,255,0.8)"
-                  : "none",
+                star.size > 1.5 ? "0 0 2px rgba(255,255,255,0.8)" : "none",
             }}
-          />   
+          />
         ))}
       </div>
 
@@ -104,7 +103,7 @@ export default function HeroSection() {
       <div className="relative z-10 container mx-auto px-6 pt-16 pb-24 text-center">
         <div className="max-w-4xl mx-auto">
           {/* Badge */}
-          <div className="sm:inline-flex flex sm:justify-center justify-start sm:w-[220px] w-[190px] items-center gap-2 px-4 py-2 mb-6 rounded-full bg-sky-950/50 border border-sky-800/50 text-blue-300 text-sm  backdrop-blur-sm">
+          <div className="sm:inline-flex flex sm:justify-center justify-start sm:w-[220px] w-[190px] items-center gap-2 px-4 py-2 mb-6 rounded-full bg-sky-950/50 border border-sky-800/50 text-blue-300 text-sm backdrop-blur-sm">
             <TrendingUp className="w-4 h-4" />
             <span>Build. Learn. Earn</span>
           </div>
@@ -112,7 +111,7 @@ export default function HeroSection() {
           {/* Headline */}
           <h1 className="lg:text-[60px] text-start sm:text-center md:text-[50px] sm:text-[40px] text-[28px] font-[600] text-white sm:mb-2 mb-4 leading-tight">
             Launch Your Tech Career
-            <span className="block strats bg-gradient-to-r dark:from-gray-100 dark:via-gray-200 dark:to-sky-100 from-gray-300 font-[700] via-gray-500 to-sky-900 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r dark:from-gray-100 dark:via-gray-200 dark:to-sky-100 from-gray-300 font-[700] via-gray-500 to-sky-900 bg-clip-text text-transparent">
               Into The Stratosphere
             </span>
           </h1>
@@ -124,11 +123,10 @@ export default function HeroSection() {
           </p>
 
           {/* AI Input */}
-          <div className="sm:max-w-2xl mx-auto space-y-6">
-            {/* Question input form */}
+          <div className="sm:max-w-2xl mx-auto space-y-6 relative">
             <form
               onSubmit={handleAskAI}
-              className="bg-[#262626]/40 rounded-lg px-3 sm:px-4 mx-auto flex gap-3 border border-gray-700"
+              className="bg-[#262626]/40 rounded-lg px-3 sm:px-4 mx-auto flex gap-3 border border-gray-700 items-center relative"
             >
               <Input
                 type="text"
@@ -137,40 +135,55 @@ export default function HeroSection() {
                 onChange={(e) => setQuestion(e.target.value)}
                 className="flex-1 h-12 sm:h-14 border-0 text-white placeholder:text-gray-400 bg-transparent focus-visible:ring-0"
               />
+
+              {/* Loader inside input */}
+              {loading && (
+                <div className="absolute right-14 flex items-center gap-2 text-gray-300">
+                  <Loader2 className="w-5 h-5 animate-spin" /> Asking...
+                </div>
+              )}
+
               <Button
                 type="submit"
                 size="lg"
                 disabled={loading}
                 className="h-12 sm:h-14 px-6 sm:px-8 bg-transparent hover:bg-transparent text-white font-medium flex items-center justify-center gap-2"
               >
-                {loading ? (
-                  <>
-                    <Loader2 className="animate-spin w-5 h-5" /> Asking...
-                  </>
-                ) : (
+                {!loading && (
                   <>
                     Ask <ArrowRight className="w-5 h-5" />
                   </>
                 )}
               </Button>
             </form>
-          </div>
 
-          {/* Preset Questions */}
-          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-6">
-            {presetQuestions.map((q, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setQuestion(q)}
-                className="px-4 py-2 border border-gray-700 rounded-xl text-gray-300 hover:bg-gray-800 hover:border-gray-600 transition text-sm sm:text-base"
-              >
-                {q}
-              </button>
-            ))}
+            {/* Preset Questions */}
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-6">
+              {presetQuestions.map((q, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setQuestion(q)}
+                  className="px-4 py-2 border border-gray-700 rounded-xl text-gray-300 hover:bg-gray-800 hover:border-gray-600 transition text-sm sm:text-base"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Floating Reopen Button */}
+      {answer && !modalOpen && (
+        <button
+          onClick={() => setModalOpen(true)}
+          className="fixed z-50 bottom-6 right-6 bg-gray-600 hover:bg-neutral-700 text-white rounded-full p-3 shadow-lg transition-all animate-bounce"
+          title="View AI Response"
+        >
+          <MessageCircle className="w-6 h-6" />
+        </button>
+      )}
 
       {/* Answer Modal */}
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
@@ -182,10 +195,8 @@ export default function HeroSection() {
             </DialogDescription>
           </DialogHeader>
 
-          {/* Body */}
           <div className="mt-4 p-3 sm:p-4 bg-[#262626] border border-[#ffff]/20 rounded-lg text-gray-200 whitespace-pre-line text-sm sm:text-base">
             {loading ? (
-              // Skeleton loader (replaces answer while waiting)
               <div className="space-y-3 animate-pulse">
                 <div className="h-4 bg-gray-700/50 rounded w-3/4"></div>
                 <div className="h-4 bg-gray-700/50 rounded w-1/2"></div>
@@ -211,7 +222,6 @@ export default function HeroSection() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
 
       {/* Star Animation */}
       <style>{`
