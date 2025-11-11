@@ -14,7 +14,7 @@ export default function Users() {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const res = await fetch("https://p2-ecru.vercel.app/api/applications/apply");
+        const res = await fetch("https://p2-pied-omega.vercel.app/api/applications/apply");
         const result = await res.json();
         setUserData(result.data || []); // ✅ handle your API structure
         console.log(result);

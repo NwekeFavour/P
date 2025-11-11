@@ -51,7 +51,7 @@ function Apply() {
     setLoading(true);
 // https://p2-ecru.vercel.app
     try {
-      const response = await fetch("https://p2-ecru.vercel.app/api/applications/apply", {
+      const response = await fetch("https://p2-pied-omega.vercel.app/api/applications/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
