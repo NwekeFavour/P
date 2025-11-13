@@ -10,7 +10,7 @@ const ProtectedRoute = ({ user, allowedRoles }) => {
   if (!allowedRoles.includes(user)) {
     return <Navigate to="/unauthorized" replace />;
   }
-
+  
   return <Outlet />;
 };
 
