@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import { Route, Routes } from 'react-router-dom'
-import Home from './pages/home'
+import { useEffect, useState } from 'react';
+import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import Home from './pages/home';
 import Aos from 'aos';
 import "aos/dist/aos.css";
 import Apply from './pages/apply';
@@ -11,42 +11,74 @@ import Int from './pages/int';
 import ScrollToTop from './components/scrolltoTop';
 import Premium from './pages/premium';
 import Contact from './pages/contact';
-import AdmindashboardPage from './pages/admin/dash';
-import Users from './pages/admin/users';
+import Users from './pages/superAdmin/users';
 import Talent from './pages/talent';
 import Prem from './pages/prem';
-import AdminPrem from './pages/admin/prem';
+import AdminPrem from './pages/superAdmin/prem';
 import JoinWorkspace from './pages/join';
+import SAdminDashboard from './pages/superAdmin/dash';
+import Cohorts from './pages/superAdmin/cohorts';
+import ProtectedRoute from './protectRoute';
+import Error from './components/error';
+import AdminDashboard from './pages/admin/admin';
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    Aos.init({
-      duration: 1000,  // animation duration (default: 400)
-      once: true,      // whether animation should happen only once
-      easing: "ease-in-out", // smooth animation
-    });
+    Aos.init({ duration: 1000, once: true, easing: "ease-in-out" });
+
+    // ✅ Restore user from localStorage
+    const token = localStorage.getItem("adminToken");
+    const role = localStorage.getItem("user");
+
+    if (token && role) {
+      setUser(role.replace(/"/g, ''));
+    } else{
+      setUser(null)
+    }
+
+    setLoading(false);
   }, []);
+
+  if (loading) {
+    // 🌀 Prevent premature redirect during load
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+  }
+
   return (
     <>
-      <ScrollToTop/>
+      <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Home />} /> 
-        <Route path="/login" element={<Login />} /> 
-        <Route path="/knownly/internships" element={<Apply />} /> 
-        <Route path="/internship" element={<Int />} /> 
-        <Route path="/contact-us" element={<Contact />} /> 
-        <Route path="/premium" element={<Premium />} /> 
-        <Route path="/sign-up" element={<Register />} /> 
-        <Route path="/knownly/talents" element={<Talent />} /> 
-        <Route path="/admin" element={<AdmindashboardPage />} /> 
-        <Route path="/internships/join" element={<JoinWorkspace />} /> 
-        <Route path="/admin/premium" element={<AdminPrem />} /> 
-        <Route path="/premium/checkout" element={<Prem />} /> 
-        <Route path="/admin/users" element={<Users />} /> 
-      </Routes>
+        {/* Public routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login setUser={setUser}/>} />
+        <Route path="/sign-up" element={<Register />} />
+        <Route path="/knownly/internships" element={<Apply />} />
+        <Route path="/internship" element={<Int />} />
+        <Route path="/contact-us" element={<Contact />} />
+        <Route path="/premium" element={<Premium />} />
+        <Route path="/knownly/talents" element={<Talent />} />
+        <Route path="/internships/join" element={<JoinWorkspace />} />
+        <Route path="/premium/checkout" element={<Prem />} />
+        <Route path="/unauthorized" element={<Error />} />
 
+        {/* Protected Admin routes */}
+        <Route element={<ProtectedRoute user={user} allowedRoles={["admin"]} />}>
+          <Route path="/admin" element={<AdminDashboard />} />
+        </Route>
+
+        {/* Protected Super Admin routes */}
+        <Route element={<ProtectedRoute user={user} allowedRoles={["super-admin"]} />}>
+          <Route path="/dashboard" element={<SAdminDashboard />} />
+          <Route path="/dashboard/premium" element={<AdminPrem />} />
+          <Route path="/dashboard/cohorts" element={<Cohorts />} />
+          <Route path="/dashboard/users" element={<Users />} />
+        </Route>
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

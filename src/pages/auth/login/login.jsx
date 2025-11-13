@@ -2,12 +2,12 @@ import React from 'react';
 import Authlayout from '../layout';
 import LoginComp from '../../../components/loginComp';
 
-function Login(props) {
+function Login({setUser}) {
     return (
         <Authlayout>
-            <LoginComp/>
+            <LoginComp setUser={setUser}/>
         </Authlayout>
     );
 }
 
-export default Login;
+export default Login;  

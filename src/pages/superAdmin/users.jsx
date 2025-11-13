@@ -3,23 +3,27 @@ import AdminLayout from './layout';
 import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-export default function AdminPrem() {
+export default function Users() {
   const [admin] = useState("Joshua");
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const usersPerPage = 6;
 
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const res = await fetch("https://p2-pied-omega.vercel.app/api/applications/apply?package=premium");
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/applications/apply`);
         const result = await res.json();
-        setUserData(result.data || []); // ✅ handle your API structure
-        // console.log(result.data);
+        if (result.success && Array.isArray(result.data)) {
+          setUserData(result.data);
+        } else {
+          setUserData([]); // handle empty or failed response
+        }
+        console.log("Fetched users:", result);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching users:", error);
+        setUserData([]);
       } finally {
         setLoading(false);
       }
@@ -35,7 +39,6 @@ export default function AdminPrem() {
   const nextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
 
-  // ✅ Skeleton preloader (for table rows)
   const SkeletonRow = () => (
     <tr className="animate-pulse">
       <td className="px-6 py-4">
@@ -55,14 +58,11 @@ export default function AdminPrem() {
 
   return (
     <AdminLayout>
-      <div className="p-2 md:p-6">
+      <div className="p-4 md:p-6">
         {/* Header */}
         <div className="flex items-center justify-between gap-3 lg:mb-3">
-          <h2 className="text-[22px] md:text-2xl font-bold text-gray-800">Premium Users</h2>
-          <Link
-            className="flex items-center gap-2 cursor-pointer px-3 py-1 rounded-md bg-gray-100 transition"
-            onClick={() => {}}
-          >
+          <h2 className="text-[22px] md:text-2xl font-bold text-gray-800">Users</h2>
+          <Link className="flex items-center gap-2 cursor-pointer px-3 py-1 rounded-md bg-gray-100 transition">
             <p className="m-0 font-semibold text-sm">{admin}</p>
             <ChevronDown className="w-4 h-4 inline-block ml-1" />
           </Link>
@@ -85,86 +85,75 @@ export default function AdminPrem() {
             </thead>
             <tbody>
               {loading
-                ? Array.from({ length: 6 }).map((_, i) => <SkeletonRow key={i} />) : currentUsers.length == 0  ? (
-                    <tr>
-                        <td  className="m-0 text-center text-gray-500 font-medium py-4" colSpan="4">No Current Premium Subscribers</td>
-                    </tr>                
-                ) 
+                ? Array.from({ length: usersPerPage }).map((_, i) => <SkeletonRow key={i} />)
+                : currentUsers.length === 0
+                ? (
+                  <tr>
+                    <td colSpan={4} className="text-center py-4 text-gray-500 font-medium">
+                      No users found
+                    </td>
+                  </tr>
+                )
                 : currentUsers.map((user) => (
-                    <tr
-                      key={user._id || user.id}
-                      className="bg-gray-50 hover:bg-gray-100 transition-colors rounded-lg"
-                    >
-                      <td className="px-6 py-4 font-medium text-gray-900 rounded-l-lg">
-                        {user.fname ? `${user.fname} ${user.lname}` : user.name}
-                      </td>
-                      <td className="px-6 py-4">{user.email}</td>
-                      <td className="px-6 py-4">{user.role || "User"}</td>
-                      <td className="px-6 py-4 rounded-r-lg">
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            user.level === "free"
-                              ? "bg-gray-200 text-gray-700"
-                              : "bg-yellow-100 text-yellow-800"
-                          }`}
-                        >
-                          {user.package == "Free" ? "Free" : "Premium"}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                  <tr key={user._id} className="bg-gray-50 hover:bg-gray-100 transition-colors rounded-lg">
+                    <td className="px-6 py-4 font-medium text-gray-900 rounded-l-lg">
+                      {user.fname ? `${user.fname} ${user.lname}` : user.name || "N/A"}
+                    </td>
+                    <td className="px-6 py-4">{user.email}</td>
+                    <td className="px-6 py-4">{user.role || "Incubees"}</td>
+                    <td className="px-6 py-4 rounded-r-lg">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${
+                          user.package?.toLowerCase() === "free"
+                            ? "bg-gray-200 text-gray-700"
+                            : "bg-yellow-100 text-yellow-800"
+                        }`}
+                      >
+                        {user.package?.charAt(0).toUpperCase() + user.package?.slice(1) || "Free"}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
 
         {/* Mobile Cards */}
-        <div className="space-y-4 lg:hidden">                
+        <div className="space-y-4 lg:hidden">
           {loading
             ? Array.from({ length: 3 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="animate-pulse bg-gray-100 p-4 rounded-xl border border-gray-200"
-                >
-                  <div className="h-4 bg-gray-300 rounded w-1/2 mb-3"></div>
-                  <div className="h-3 bg-gray-300 rounded w-3/4 mb-2"></div>
-                  <div className="h-3 bg-gray-300 rounded w-1/3"></div>
-                </div>
+                <div key={i} className="animate-pulse bg-gray-100 p-4 rounded-xl border border-gray-200"></div>
               ))
-              :userData.length === 0 ?
-                (
-                    <div>
-                        <p className="m-0 text-center py-5">No Current Premium Subscribers</p>
-                    </div>
-                )
+            : currentUsers.length === 0
+            ? (
+                <div className="text-center text-gray-500 font-medium py-3">
+                  No users found
+                </div>
+              )
             : currentUsers.map((user) => (
-                <div
-                  key={user._id || user.id}
-                  className="bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm"
-                >
+                <div key={user._id} className="bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm">
                   <div className="flex justify-between items-center mb-2">
                     <h3 className="font-semibold text-gray-900">
-                      {user.fname ? `${user.fname} ${user.lname}` : user.name}
+                      {user.fname ? `${user.fname} ${user.lname}` : user.name || "N/A"}
                     </h3>
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        user.level === "free"
+                        user.package?.toLowerCase() === "free"
                           ? "bg-gray-200 text-gray-700"
                           : "bg-yellow-100 text-yellow-800"
                       }`}
                     >
-                      {user.package == "free" ? "Free" : "Premium"}
+                      {user.package?.charAt(0).toUpperCase() + user.package?.slice(1) || "Free"}
                     </span>
                   </div>
                   <p className="text-sm text-gray-600">{user.email}</p>
-                  <p className="text-sm text-gray-500 mt-1">
-                    {user.role || "User"}
-                  </p>
+                  <p className="text-sm text-gray-500 mt-1">{user.role || "User"}</p>
                 </div>
               ))}
         </div>
 
         {/* Pagination */}
-        {!loading && (
+        {!loading && totalPages > 1 && (
           <div className="flex justify-center sm:justify-end items-center gap-3 mt-6">
             <button
               onClick={prevPage}
