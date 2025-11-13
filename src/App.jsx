@@ -63,6 +63,7 @@ function App() {
         <Route path="/internships/join" element={<JoinWorkspace />} />
         <Route path="/premium/checkout" element={<Prem />} />
         <Route path="/unauthorized" element={<Error />} />
+        <Route path="*" element={<Error />} />
 
         {/* Protected Admin routes */}
         <Route element={<ProtectedRoute user={user} allowedRoles={["admin"]} />}>
