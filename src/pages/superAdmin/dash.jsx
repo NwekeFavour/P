@@ -8,9 +8,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Bell, Search, Filter, ChevronLeft, ChevronRight, User2Icon } from "lucide-react";
 import AdminLayout from "./layout";
+import { toast } from "sonner";
 
 export default function SAdminDashboard() {
   const [overallStats, setOverallStats] = useState({
@@ -24,16 +32,17 @@ export default function SAdminDashboard() {
   const [cohorts, setCohorts] = useState([]);
   const [applications, setApplications] = useState([]);
   const [cohortStats, setCohortStats] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [selectedCohort, setSelectedCohort] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const token = localStorage.getItem("adminToken");
   const [user, setUser] = useState(null);
   const BASE_URL = import.meta.env.VITE_BACKEND_URL;
-
+  const [role, setRole] = useState("");
   useEffect(() => {
     const fetchAdmin = async () => {
       if (!token) return;
+      setLoading(true);
       try {
         const res = await fetch(`${BASE_URL}/api/auth/me`, {
           headers: {
@@ -41,15 +50,23 @@ export default function SAdminDashboard() {
             "Content-Type": "application/json",
           },
         });
+
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
         const data = await res.json();
+        setRole(data.data.role);
         setUser(data.data.fname + " " + data.data.lname);
       } catch (err) {
+        toast(err.message || "Failed to fetch admin data");
         console.error("Failed to fetch admin:", err);
+      } finally {
+        setLoading(false); 
       }
     };
+
     fetchAdmin();
   }, [token]);
+
 
   // Fetch all cohorts
   useEffect(() => {
@@ -57,8 +74,10 @@ export default function SAdminDashboard() {
       try {
         const res = await fetch(`${BASE_URL}/api/applications/cohorts`);
         const data = await res.json();
+        toast(data.message || "Cohorts fetched successfully", 2000);
         setCohorts(data.data || []);
       } catch (err) {
+        toast(err.message || "Failed to fetch cohorts");
         console.error(err);
       }
     };
@@ -72,7 +91,9 @@ export default function SAdminDashboard() {
         const res = await fetch(`${BASE_URL}/api/applications/stats`);
         const data = await res.json();
         setOverallStats(data.stats);
+        toast(data.message || "Overall stats fetched successfully");
       } catch (err) {
+        toast(err.message || "Failed to fetch overall stats");
         console.error(err);
       }
     };
@@ -92,17 +113,19 @@ export default function SAdminDashboard() {
         const appsRes = await fetch(appsUrl);
         const appsData = await appsRes.json();
         setApplications(appsData.data || []);
-
+        toast(appsData.message || "Applications fetched successfully", 2000);
         if (selectedCohort !== "all") {
           const statsRes = await fetch(
             `${BASE_URL}/api/applications/cohorts/${selectedCohort}/stats`
           );
           const statsData = await statsRes.json();
           setCohortStats(statsData.stats);
+          toast(statsData.message || "Cohort stats fetched successfully", 2000);
         } else {
           setCohortStats(null);
         }
       } catch (err) {
+        toast(err.message || "Failed to fetch applications or cohort stats");
         console.error(err);
       } finally {
         setLoading(false);
@@ -136,7 +159,7 @@ export default function SAdminDashboard() {
 
   return (
     <AdminLayout setUser={setUser}>
-      <div className="space-y-6 bg-white min-h-screen p-4">
+      <div className="space-y-6 bg-white w-full min-h-screen p-4">
         {/* Top Bar */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div className="flex items-center gap-4 w-full sm:w-auto">
@@ -145,23 +168,57 @@ export default function SAdminDashboard() {
               <input
                 type="text"
                 placeholder="Search applications"
-                className="w-full sm:w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 text-sm"
+                className="w-full sm:w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-neutral-400 text-sm"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <Bell className="w-5 h-5 text-gray-600 cursor-pointer hover:text-gray-800" />
             <div className="flex items-center gap-3">
-              <div className="w-fit border rounded-full p-2">
-                <User2Icon className="w-6 h-5" />
-              </div>
-              <div className="hidden sm:block">
-                <p className="font-semibold text-sm text-gray-800">Super Admin</p>
-                <p className="text-xs text-gray-500">{user}</p>
-              </div>
-            </div>
+
+              {/* Mobile Dropdown Trigger */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="sm:hidden w-fit border rounded-full p-2">
+                    <User2Icon className="w-6 h-5" />
+                  </button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent className="sm:hidden w-48">
+                  <DropdownMenuLabel className="font-semibold">Account Info</DropdownMenuLabel>
+
+                  <DropdownMenuItem>
+                    <span className="font-medium mr-1">Role:</span> {role}
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem>
+                    <span className="font-medium mr-1">User:</span> {user}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Desktop Info */}
+              {/* Desktop Info */}
+              {loading ? (
+                <div className="hidden sm:flex items-center">
+                  <div className="animate-pulse bg-gray-200 rounded-full w-8 h-8"></div>
+                  <div className="ml-2">
+                    <div className="animate-pulse bg-gray-200 rounded-md w-20 h-4 mb-1"></div>
+                    <div className="animate-pulse bg-gray-200 rounded-md w-28 h-3"></div>
+                  </div>
+                </div>
+              ) : (
+                <div className="hidden sm:flex items-center">
+                  <User2Icon className="w-6 h-5" />
+                  <div className="ml-2">
+                    <p className="font-semibold text-sm text-gray-800 capitalize">{role}</p>
+                    <p className="text-xs text-gray-500">{user}</p>
+                  </div>
+                </div>
+              )}
+
+            </div>        
           </div>
         </div>
 
@@ -171,7 +228,7 @@ export default function SAdminDashboard() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             { label: "Total Users", value: overallStats.totalUsers, subtitle: "Active users" },
             { label: "Pending Applications", value: overallStats.pendingApplications, subtitle: "Awaiting review" },
@@ -237,7 +294,7 @@ export default function SAdminDashboard() {
           )}
 
           {/* Mobile Cards View */}
-          <div className="sm:hidden space-y-3">
+          <div className="md:hidden space-y-3">
             {loading ? (
               <p className="text-center py-8 text-gray-500">Loading...</p>
             ) : filteredApplications.length === 0 ? (
@@ -272,7 +329,7 @@ export default function SAdminDashboard() {
           </div>
 
           {/* Desktop Table View */}
-          <div className="hidden sm:block">
+          <div className="hidden md:block">
             <ScrollArea className="w-full">
               <Table className="min-w-full">
                 <TableHeader>

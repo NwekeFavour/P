@@ -21,6 +21,7 @@ import Cohorts from './pages/superAdmin/cohorts';
 import ProtectedRoute from './protectRoute';
 import Error from './components/error';
 import AdminDashboard from './pages/admin/admin';
+import { Toaster } from 'sonner';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -50,6 +51,7 @@ function App() {
   return (
     <>
       <ScrollToTop />
+      <Toaster richColors closeButton position='top-right' />
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<Home />} />

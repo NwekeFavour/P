@@ -2,10 +2,20 @@ import React, { useEffect, useState } from "react";
 import AdminLayout from "./layout";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"; 
+import { toast } from "sonner";
+import { User2Icon } from "lucide-react";
 
 export default function AdminDashboard() {
   const [cohorts, setCohorts] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [applications, setApplications] = useState([]);
   const [loadingCohorts, setLoadingCohorts] = useState(true);
   const [loadingApps, setLoadingApps] = useState(true);
@@ -14,6 +24,32 @@ export default function AdminDashboard() {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [error, setError] = useState(null);
+  const token = localStorage.getItem("adminToken");
+  const [role, setRole] = useState("");
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const fetchAdmin = async () => {
+      if (!token) return;
+      try {
+        const res = await fetch(`${BASE_URL}/api/auth/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        setLoading(true)
+        const data = await res.json();
+        setRole(data.data.role);
+        setUser(data.data.fname + " " + data.data.lname);
+      } catch (err) {
+        console.error("Failed to fetch admin:", err);
+      }finally{
+        setLoading(true)
+      }
+    };
+    fetchAdmin();
+  }, [token]);
   const handleDeleteApplicant = async (id) => {
     try {
       const res = await fetch(`${BASE_URL}/api/applications/${id}`, { 
@@ -22,9 +58,10 @@ export default function AdminDashboard() {
       });
       const data = await res.json();
       if (res.ok) {
+        toast(data.message || "Status updated successfully.");
         setApplications((prev) => prev.filter((app) => app._id !== id));
       } else {
-        alert(data.message || "Failed to delete applicant.");
+        setError(data.message || "Failed to delete applicant.");
       }
     } catch (error) {
       console.error(error);
@@ -75,6 +112,7 @@ export default function AdminDashboard() {
     } catch (error) {
       setError("Error fetching applications." || error)
       console.error(error);
+      toast(error.message || "Error fetching applications.");
     } finally {
       setLoadingApps(false);
     }
@@ -107,6 +145,7 @@ export default function AdminDashboard() {
         setApplications((prev) =>
           prev.map((app) => (app._id === id ? { ...app, status } : app))
         );
+        toast(data.message || "Status updated successfully.");
       } else {
         setError(data.message || "Failed to update status.");
       }
@@ -134,9 +173,52 @@ export default function AdminDashboard() {
   return (
     <AdminLayout>
       <div className=" sm:p-6 bg-gray-50 min-h-screen space-y-6">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
-          Admin Dashboard
-        </h1>
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
+              Admin Dashboard
+            </h1>
+          </div>
+          <div className="flex items-center gap-3">
+
+            {/* Mobile Dropdown Trigger */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="sm:hidden w-fit border rounded-full p-2">
+                  <User2Icon className="w-6 h-5" />
+                </button>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent className="sm:hidden w-48">
+                <DropdownMenuLabel className="font-semibold">Account Info</DropdownMenuLabel>
+
+                <DropdownMenuItem>
+                  <span className="font-medium mr-1">Role:</span> {role}
+                </DropdownMenuItem>
+
+                <DropdownMenuItem>
+                  <span className="font-medium mr-1">User:</span> {user}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Desktop Info */}
+            {loading ? (
+              <div className="hidden sm:flex items-center">
+                <div>
+                  <User2Icon className="w-6 h-5" />
+                </div>
+                <div className="ml-2">
+                  <p className="font-semibold text-sm text-gray-800 capitalize">{role}</p>
+                  <p className="text-xs text-gray-500">{user}</p>
+                </div>
+              </div>
+            ) : (
+              <div className="hidden sm:block animate-pulse bg-gray-200 rounded-md w-24 h-6"></div>
+            )}
+
+          </div>       
+        </div>
 
         {/* Filter Button for Active Cohorts */}
         <div className="flex gap-2 mb-4">
@@ -162,7 +244,7 @@ export default function AdminDashboard() {
           </div>
         )  
         }
-        <Card className="shadow-none w-full max-w-[335px] sm:max-w-xl md:max-w-2xl lg:max-w-4xl mx-auto lg:mx-0 border-none rounded-xl bg-transparent overflow-x-auto">
+        <Card className="shadow-none w-full max-w-[330px] sm:max-w-xl md:max-w-2xl lg:max-w-4xl mx-auto lg:mx-0 border-none rounded-xl bg-transparent overflow-x-auto">
           <CardHeader className="bg-gray-100 px-6 py-4">
             <h2 className="text-lg font-semibold text-gray-800">Cohorts</h2>
           </CardHeader>
@@ -220,7 +302,7 @@ export default function AdminDashboard() {
         </Card>
 
         {/* Applications Card */}
-        <Card className="shadow-none w-full max-w-[335px] mx-auto md:max-w-2xl sm:max-w-xl lg:max-w-4xl lg:mx-0 border-none rounded-xl bg-transparent overflow-x-auto">
+        <Card className="shadow-none w-full max-w-[330  px] mx-auto md:max-w-2xl sm:max-w-xl lg:max-w-4xl lg:mx-0 border-none rounded-xl bg-transparent overflow-x-auto">
           <CardHeader className="bg-gray-100 px-6 py-4">
             <h2 className="text-lg font-semibold text-gray-800">Applications</h2>
           </CardHeader>

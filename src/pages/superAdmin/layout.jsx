@@ -29,10 +29,10 @@ export default function AdminLayout({ children }) {
   const NavLinks = () => (
     <nav className="space-y-2 mt-6">
       {[
-        { name: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" />, path: "/dashboard" },
-        { name: "Users", icon: <Users className="w-5 h-5" />, path: "/dashboard/users" },
+        { name: "Dashboard", icon: <LayoutDashboard className="w-5 h-5 text-gray-800" />, path: "/dashboard" },
+        { name: "Users", icon: <Users className="w-5 h-5 text-gray-800" />, path: "/dashboard/users" },
         { name: "Premium", icon: <img src={Star} className="w-5 h-5" alt="star-icon" />, path: "/dashboard/premium" },
-        { name: "Cohorts", icon: <Layers className="w-5 h-5 text-blue-500" />, path: "/dashboard/cohorts" },
+        { name: "Cohorts", icon: <Layers className="w-5 h-5 text-gray-800" />, path: "/dashboard/cohorts" },
       ].map((link) => (
         <Link
           key={link.name}
@@ -100,7 +100,7 @@ export default function AdminLayout({ children }) {
       </div>
 
       {/* Main content */}
-      <main className="flex-1 p-6 xl:ml-72 pt-24 xl:pt-8 transition-all">
+      <main className="flex-1 md:px-2 sm:px-0  p-6 lg:ml-0 xl:ml-72 pt-24 xl:pt-8 transition-all">
         {children}
       </main>
     </div>
