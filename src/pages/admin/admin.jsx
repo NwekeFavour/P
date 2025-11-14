@@ -202,7 +202,7 @@ export default function AdminDashboard() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Desktop Info */}
+            {/* Desktop Info */}  
             {loading ? (
               <div className="hidden sm:flex items-center">
                 <div>
