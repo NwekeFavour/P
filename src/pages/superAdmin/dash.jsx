@@ -189,16 +189,15 @@ export default function SAdminDashboard() {
                   <DropdownMenuLabel className="font-semibold">Account Info</DropdownMenuLabel>
 
                   <DropdownMenuItem>
-                    <span className="font-medium mr-1">Role:</span> {role}
+                    <span className="font-medium mr-1 capitalize">Role:</span> {role}
                   </DropdownMenuItem>
 
                   <DropdownMenuItem>
-                    <span className="font-medium mr-1">User:</span> {user}
+                    <span className="font-medium mr-1 capitalize">User:</span> {user}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {/* Desktop Info */}
               {/* Desktop Info */}
               {loading ? (
                 <div className="hidden sm:flex items-center">
@@ -213,7 +212,7 @@ export default function SAdminDashboard() {
                   <User2Icon className="w-6 h-5" />
                   <div className="ml-2">
                     <p className="font-semibold text-sm text-gray-800 capitalize">{role}</p>
-                    <p className="text-xs text-gray-500">{user}</p>
+                    <p className="text-xs text-gray-500 capitalize">{user}</p>
                   </div>
                 </div>
               )}
