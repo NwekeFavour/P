@@ -302,7 +302,7 @@ export default function AdminDashboard() {
         </Card>
 
         {/* Applications Card */}
-        <Card className="shadow-none w-full max-w-[330  px] mx-auto md:max-w-2xl sm:max-w-xl lg:max-w-4xl lg:mx-0 border-none rounded-xl bg-transparent overflow-x-auto">
+        <Card className="shadow-none w-full max-w-[330px] mx-auto md:max-w-2xl sm:max-w-xl lg:max-w-4xl lg:mx-0 border-none rounded-xl bg-transparent overflow-x-auto">
           <CardHeader className="bg-gray-100 px-6 py-4">
             <h2 className="text-lg font-semibold text-gray-800">Applications</h2>
           </CardHeader>
