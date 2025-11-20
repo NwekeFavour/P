@@ -37,10 +37,10 @@ export default function Footer() {
                 <Mail className="w-4 h-4" /> hello@knownly.tech
               </li>
               <li className="flex items-center gap-2">
-                <Phone className="w-4 h-4" /> +234 801 234 5678
+                <Phone className="w-4 h-4" /> +234 916 343 1707
               </li>
               <li className="flex items-center gap-2">
-                <MapPin className="w-4 h-4" /> Lagos, Nigeria
+                <MapPin className="w-4 h-4" /> Abuja, Nigeria
               </li>
             </ul>
           </div>
