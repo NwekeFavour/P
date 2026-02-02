@@ -124,7 +124,7 @@ export default function SAdminDashboard() {
           {/* Left Column: The Application Feed (8 Cols) */}
           <div className="lg:col-span-8 space-y-6">
             {/* Feed Header */}
-            <div className="flex items-center justify-between pb-2 border-b border-gray-50">
+            <div className="flex flex-wrap items-center justify-between pb-2 border-b border-gray-50">
               <div className="flex items-center gap-3">
                 <h2 className="text-xl font-bold text-gray-900">Applicants</h2>
                 <span className="px-2.5 py-1 bg-gray-900 text-white text-[10px] font-black rounded-lg tracking-tighter">
@@ -132,12 +132,12 @@ export default function SAdminDashboard() {
                 </span>
               </div>
 
-              <div className="relative group">
+              <div className="relative md:mt-0 mt-3 group">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-gray-900 transition-colors" />
                 <input
                   type="text"
                   placeholder="Quick search..."
-                  className="pl-10 pr-4 py-2 bg-gray-50/50 border border-transparent focus:bg-white focus:border-gray-200 focus:ring-4 focus:ring-gray-50 rounded-2xl text-sm transition-all w-48 md:w-64 outline-none"
+                  className="pl-10 pr-4 py-2 bg-gray-50/50 border border-transparent focus:bg-white focus:border-gray-200 focus:ring-4 focus:ring-gray-50 rounded-2xl text-sm transition-all w-full md:w-64 outline-none"
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
