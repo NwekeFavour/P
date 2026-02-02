@@ -22,6 +22,7 @@ import ProtectedRoute from './protectRoute';
 import Error from './components/error';
 import AdminDashboard from './pages/admin/admin';
 import { Toaster } from 'sonner';
+import CohortManagement from './pages/admin/cohorts';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -72,6 +73,9 @@ function App() {
         {/* Protected Admin routes */}
         <Route element={<ProtectedRoute user={user} allowedRoles={["admin"]} />}>
           <Route path="/admin" element={<AdminDashboard />} />
+        </Route>
+        <Route element={<ProtectedRoute user={user} allowedRoles={["admin"]} />}>
+          <Route path="/admin/cohorts" element={<CohortManagement />} />
         </Route>
 
         {/* Protected Super Admin routes */}

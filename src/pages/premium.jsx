@@ -1,5 +1,7 @@
 import { Check, X, Zap, Crown, Sparkles, Rocket, ArrowRight, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Header from '../components/header';
+import Footer from '../components/footer';
 
 export default function PricingSection() {
   const plans = [
@@ -48,7 +50,7 @@ export default function PricingSection() {
       highlighted: false,
       color: 'gray',
       cta: 'Go Premium',
-      link: "/premium"
+      link: "/premium/checkout"
     },
     {
       name: 'Premium+ Track',
@@ -95,6 +97,8 @@ export default function PricingSection() {
   };
 
   return (
+    <div>
+      <Header/>
     <div className="bg-gradient-to-br from-gray-50 via-white to-gray-50 py-20 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
@@ -216,5 +220,8 @@ export default function PricingSection() {
         </div>
       </div>
     </div>
+    <Footer/>
+    </div>
+
   );
 }

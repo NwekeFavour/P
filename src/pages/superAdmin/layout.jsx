@@ -1,108 +1,214 @@
 import React, { useEffect, useState } from "react";
-import { Users, LogOut, LayoutDashboard, Menu, X, Layers } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { 
+  Users, LogOut, LayoutDashboard, Menu, X, 
+  Layers, Settings, ChevronRight, AlertCircle, 
+  Loader2, ShieldCheck, Briefcase 
+} from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import Star from "../../assets/images/star.svg"
-export default function AdminLayout({ children }) {
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { toast } from "sonner"; // Assuming you use sonner for notifications
+
+export default function SuperAdminLayout({ children }) {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const [user, setUser] = useState(null);
-  const tokenFromStorage = localStorage.getItem("adminToken");
-  const [token, setToken] = useState(tokenFromStorage);
-  const [refresh, setRefresh] = useState(0);
+  const location = useLocation();
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const [adminData, setAdminData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAdmin = async () => {
+      const token = localStorage.getItem("adminToken");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      try {
+        const response = await axios.get("http://localhost:5000/api/auth/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.data.success) {
+          // Extra security check for Super Admin role if needed
+          setAdminData(response.data.data);
+        }
+      } catch (error) {
+        console.error("Session invalid:", error);
+        localStorage.removeItem("adminToken");
+        navigate("/login");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAdmin();
+  }, [navigate]);
+
   const handleLogout = () => {
     localStorage.removeItem("adminToken");
-    localStorage.removeItem("user")
-    setRefresh(prev => prev + 1)
+    localStorage.removeItem("user");
+    setIsLogoutModalOpen(false);
     navigate("/login");
   };
 
-   useEffect(() => {
-  const currentToken = localStorage.getItem("adminToken");
-  if (!currentToken) {
-    navigate("/login");
-  } else {
-    setToken(currentToken);
-  }
-}, [refresh, navigate]);
+  const navItems = [
+    { name: "Overview", icon: <LayoutDashboard className="w-5 h-5" />, path: "/dashboard" },
+    { name: "Manage Users", icon: <Users className="w-5 h-5" />, path: "/dashboard/users" },
+    { name: "Active Cohorts", icon: <Layers className="w-5 h-5" />, path: "/dashboard/cohorts" },
+    { name: "Applications", icon: <Briefcase className="w-5 h-5" />, path: "/dashboard/applications" },
+    { name: "System Settings", icon: <Settings className="w-5 h-5" />, path: "/dashboard/settings" },
+  ];
 
-  const NavLinks = () => (
-    <nav className="space-y-2 mt-6">
-      {[
-        { name: "Dashboard", icon: <LayoutDashboard className="w-5 h-5 text-gray-800" />, path: "/dashboard" },
-        { name: "Users", icon: <Users className="w-5 h-5 text-gray-800" />, path: "/dashboard/users" },
-        { name: "Premium", icon: <img src={Star} className="w-5 h-5" alt="star-icon" />, path: "/dashboard/premium" },
-        { name: "Cohorts", icon: <Layers className="w-5 h-5 text-gray-800" />, path: "/dashboard/cohorts" },
-      ].map((link) => (
-        <Link
-          key={link.name}
-          to={link.path}
-          className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors font-medium text-gray-700"
-          onClick={() => setOpen(false)}
-        >
-          <div className="w-8 h-8 bg-gray-200 text-gray-600 rounded-lg flex items-center justify-center transition-colors group-hover:bg-gray-300">
-            {link.icon}
-          </div>
-          <span>{link.name}</span>
-        </Link>
-      ))}
+  const NavLinks = ({ closeMenu = () => {} }) => (
+    <nav className="space-y-1.5 mt-4">
+      {navItems.map((link) => {
+        const isActive = location.pathname === link.path;
+        return (
+          <Link
+            key={link.name}
+            to={link.path}
+            onClick={closeMenu}
+            className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 group ${
+              isActive 
+                ? "bg-gray-900 text-white shadow-lg shadow-gray-200" 
+                : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <span className={`${isActive ? "text-white" : "text-gray-400 group-hover:text-gray-900"}`}>
+                {link.icon}
+              </span>
+              <span className="font-semibold text-[14px]">{link.name}</span>
+            </div>
+            {isActive && <ChevronRight className="w-4 h-4 opacity-50" />}
+          </Link>
+        );
+      })}
     </nav>
   );
 
+  if (loading) {
+    return (
+      <div className="h-screen w-screen flex flex-col items-center justify-center bg-white">
+        <Loader2 className="w-10 h-10 animate-spin text-gray-900 mb-4" />
+        <p className="text-gray-500 font-medium animate-pulse">Securing Session...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex bg-gray-50 min-h-screen font-sans text-gray-800">
-      {/* Desktop Sidebar */}
-      <aside className="w-72 fixed top-0 left-0 bottom-0 bg-transparent shadow-md p-6 hidden xl:flex flex-col justify-between">
+    <div className="flex bg-[#F8F9FA] min-h-screen antialiased text-slate-900">
+      
+      {/* --- DESKTOP SIDEBAR --- */}
+      <aside className="w-72 fixed top-0 left-0 bottom-0 bg-white border-r border-gray-100 p-6 hidden lg:flex flex-col justify-between z-50">
         <div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-8">Admin Panel</h2>
+          <div className="flex items-center gap-3 px-2 mb-10">
+            <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center shadow-xl shadow-gray-200">
+              <ShieldCheck className="text-white w-6 h-6" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold leading-tight">Knownly</h2>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded">Super Admin</span>
+            </div>
+          </div>
+          
+          <p className="px-2 text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-4">Core Management</p>
           <NavLinks />
         </div>
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-3 p-3 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors font-medium"
-        >
-          <LogOut className="w-5 h-5" />
-          <span>Logout</span>
-        </button>
-      </aside>
 
-      {/* Mobile Header + Sheet */}
-      <div className="xl:hidden fixed top-0 left-0 w-full bg-white shadow-md flex items-center justify-between px-5 py-4 z-50">
-        <h2 className="text-lg font-bold text-gray-800">Admin Panel</h2>
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild>
-            <button className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition">
-              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </SheetTrigger>
-          <SheetContent
-            side="left"
-            className="bg-white text-gray-800 border-none p-6 flex flex-col justify-between shadow-lg w-64"
-          >
-            <div>
-              <SheetHeader>
-                <SheetTitle className="text-xl font-bold mb-6">Menu</SheetTitle>
-              </SheetHeader>
-              <NavLinks />
+        {/* PROFILE SECTION */}
+        <div className="pt-6 border-t border-gray-100">
+          <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold shadow-lg shadow-indigo-100">
+                {adminData?.fname?.[0]}{adminData?.lname?.[0]}
+              </div>
+              <div className="overflow-hidden">
+                <p className="text-sm font-bold text-gray-900 truncate">{adminData?.fname} {adminData?.lname}</p>
+                <p className="text-[11px] text-gray-500 truncate">{adminData?.email}</p>
+              </div>
             </div>
             <button
-              onClick={() => {
-                handleLogout();
-                setOpen(false);
-              }}
-              className="flex items-center gap-3 p-3 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors mt-8 font-medium"
+              onClick={() => setIsLogoutModalOpen(true)}
+              className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold text-white bg-red-500 hover:bg-red-600 transition-all w-full shadow-md shadow-red-100"
             >
-              <LogOut className="w-5 h-5" />
-              <span>Logout</span>
+              <LogOut className="w-4 h-4" />
+              Sign Out
             </button>
+          </div>
+        </div>
+      </aside>
+
+      {/* --- MOBILE HEADER --- */}
+      <header className="lg:hidden fixed top-0 left-0 right-0 h-20 bg-white/80 backdrop-blur-md border-b border-gray-100 z-[60] px-6 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <ShieldCheck className="w-6 h-6 text-indigo-600" />
+          <h2 className="text-xl font-bold">Knownly</h2>
+        </div>
+
+        <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="rounded-full bg-gray-50">
+              <Menu className="w-6 h-6" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-80 p-6 border-none">
+            <SheetHeader className="mb-8">
+              <SheetTitle className="text-left flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-indigo-600" />
+                Super Admin Panel
+              </SheetTitle>
+            </SheetHeader>
+            <NavLinks closeMenu={() => setIsMobileOpen(false)} />
           </SheetContent>
         </Sheet>
-      </div>
+      </header>
 
-      {/* Main content */}
-      <main className="flex-1 md:px-2 sm:px-0  p-6 lg:ml-0 xl:ml-72 pt-24 xl:pt-8 transition-all">
-        {children}
+      {/* --- MAIN CONTENT --- */}
+      <main className="flex-1 lg:ml-72 transition-all min-h-screen">
+        <div className="max-w-[1600px] mx-auto p-6 lg:p-12 pt-28 lg:pt-12">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+            {children}
+          </div>
+        </div>
       </main>
+
+      {/* --- LOGOUT MODAL --- */}
+      <Dialog open={isLogoutModalOpen} onOpenChange={setIsLogoutModalOpen}>
+        <DialogContent className="sm:max-w-[420px] rounded-[2rem] border-none p-10 shadow-2xl">
+          <div className="flex flex-col items-center text-center">
+            <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-6">
+              <AlertCircle className="w-10 h-10 text-red-500" />
+            </div>
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-black">End Session?</DialogTitle>
+              <DialogDescription className="text-gray-500 text-base mt-2">
+                You are about to sign out of the <span className="font-bold text-gray-900">Knownly Super Admin</span> portal. Do you wish to proceed?
+              </DialogDescription>
+            </DialogHeader>
+          </div>
+          <DialogFooter className="flex flex-col sm:flex-row gap-3 mt-8">
+            <Button 
+              variant="outline" 
+              onClick={() => setIsLogoutModalOpen(false)} 
+              className="rounded-2xl h-12 flex-1 border-2 border-gray-100 font-bold hover:bg-gray-50"
+            >
+              Stay Logged In
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={handleLogout} 
+              className="rounded-2xl h-12 flex-1 bg-red-500 hover:bg-red-600 font-bold shadow-lg shadow-red-200"
+            >
+              Sign Out
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

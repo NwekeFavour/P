@@ -35,7 +35,7 @@ const AdminPrem = () => {
 
   return (
     <AdminLayout>
-      <div className="p-4 sm:p-6 bg-gray-50 min-h-screen space-y-6">
+      <div className=" bg-gray-50 min-h-screen space-y-6">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Premium Applications Dashboard</h1>
 
         {/* Stats Section */}

@@ -20,7 +20,7 @@ export default function Users() {
         } else {
           setUserData([]); // handle empty or failed response
         }
-        console.log("Fetched users:", result);
+        // console.log("Fetched users:", result);
       } catch (error) {
         console.error("Error fetching users:", error);
         setUserData([]);
