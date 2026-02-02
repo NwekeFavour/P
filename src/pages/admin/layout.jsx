@@ -28,7 +28,7 @@ export default function AdminLayout({ children }) {
       }
 
       try {
-        const response = await axios.get("http://localhost:5000/api/auth/me", {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/auth/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
