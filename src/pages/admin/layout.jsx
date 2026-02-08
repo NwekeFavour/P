@@ -180,7 +180,7 @@ export default function AdminLayout({ children }) {
           pt-24 on mobile to clear the header, lg:pt-10 on desktop
       */}
       <main className="flex-1 transition-all lg:ml-64 bg-[#FBFBFC]">
-        <div className="max-w-[1400px] mx-auto p-6 md:p-10 md:pt-20 pt-24 lg:pt-10">
+        <div className="max-w-[1400px] mx-auto p-4 md:p-10 md:pt-20 pt-24 lg:pt-10">
           <div className="animate-in fade-in slide-in-from-bottom-3 duration-500">
             {children}
           </div>

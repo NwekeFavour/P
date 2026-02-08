@@ -352,8 +352,7 @@ function Apply() {
                     <option>Frontend Development</option>
                     <option>Backend Development</option>
                     <option>UI/UX Design</option>
-                    <option>Data Analysis</option>
-                    <option>Project Management</option>
+                    <option>Digital Marketing</option>
                   </select>
                 </div>
 

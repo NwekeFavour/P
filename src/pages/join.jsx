@@ -53,10 +53,10 @@ function JoinWorkspace() {
             <p>
               If both links fail, please try again later or contact{" "}
               <a
-                href="mailto:support@knownly.ng"
+                href="mailto:support@knownly.tech"
                 className="text-blue-600 hover:underline"
               >
-                support@knownly.ng
+                support@knownly.tech
               </a>{" "}
               for assistance.
             </p>

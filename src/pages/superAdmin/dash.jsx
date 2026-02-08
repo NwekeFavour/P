@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import AdminLayout from "./layout";
 import { toast } from "sonner";
+import axios from "axios";
 
 export default function SAdminDashboard() {
   const [overallStats, setOverallStats] = useState({
@@ -28,10 +29,119 @@ export default function SAdminDashboard() {
   });
   const [applications, setApplications] = useState([]);
   const [selectedCohort, setSelectedCohort] = useState("all");
+  const [cohorts, setCohorts] = useState([]);
+  const [activeCohorts, setActiveCohorts] = useState([]);
+  const [distribution, setDistribution] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
+  const [trends, setTrends] = useState({ reach: 0, pending: 0, rate: 0 });
 
-  // ... (Your fetch logic remains the same as before) ...
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const token = localStorage.getItem("adminToken");
+        const headers = { Authorization: `Bearer ${token}` };
+
+        // 1. Fetch Applications & Stats (Assuming your existing endpoint)
+        const appRes = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/applications/apply`,
+          { headers },
+        );
+
+        // 2. Fetch Cohorts
+        const cohortRes = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/applications/cohorts`,
+          { headers },
+        );
+
+        const ResactiveCohorts = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/applications/cohorts/all-active`,
+          { headers },
+        );
+
+        if (ResactiveCohorts.data.success) {
+          setActiveCohorts(ResactiveCohorts.data.data);
+        }
+
+        if (appRes.data.success) {
+          setApplications(appRes.data.data);
+          // Calculate dynamic stats
+          setOverallStats({
+            totalUsers: appRes.data.totalCount || appRes.data.data.length,
+            pendingApplications: appRes.data.data.filter(
+              (a) => a.status === "Pending",
+            ).length,
+            conversionRate: `${((appRes.data.data.filter((a) => a.status === "Approved").length / appRes.data.data.length) * 100).toFixed(1)}%`,
+          });
+        }
+
+        if (cohortRes.data.success) {
+          setCohorts(cohortRes.data.data);
+          calculateDistribution(appRes.data.data);
+        }
+      } catch (error) {
+        toast.error("Failed to sync dashboard data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Add this helper inside or above fetchData
+  const calculateTrends = (apps) => {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const newApps = apps.filter(
+      (a) => new Date(a.createdAt) > sevenDaysAgo,
+    ).length;
+    const totalApps = apps.length;
+
+    // Simple growth calculation: (New / Total) * 100
+    const growth = totalApps > 0 ? ((newApps / totalApps) * 100).toFixed(1) : 0;
+
+    setTrends({
+      reach: growth,
+      pending: apps.filter(
+        (a) => a.status === "Pending" && new Date(a.createdAt) > sevenDaysAgo,
+      ).length,
+      rate: (
+        (apps.filter((a) => a.status === "Approved").length / totalApps) *
+        10
+      ).toFixed(1), // Simulated rate change
+    });
+  };
+
+  // Then call calculateTrends(appRes.data.data) inside your useEffect after setting applications
+
+  const calculateDistribution = (apps) => {
+    const total = apps.length;
+    if (total === 0) return;
+
+    const counts = apps.reduce((acc, app) => {
+      const track = app.track || "Other";
+      acc[track] = (acc[track] || 0) + 1;
+      return acc;
+    }, {});
+
+    const distArray = Object.entries(counts)
+      .map(([name, count]) => ({
+        name,
+        val: Math.round((count / total) * 100),
+        color:
+          name === "Frontend"
+            ? "bg-blue-500"
+            : name === "Backend"
+              ? "bg-gray-900"
+              : "bg-indigo-400",
+      }))
+      .sort((a, b) => b.val - a.val);
+
+    setDistribution(distArray);
+  };
 
   const filteredApplications = applications.filter((app) =>
     `${app.fname} ${app.lname}`
@@ -62,16 +172,14 @@ export default function SAdminDashboard() {
     <AdminLayout>
       <div className="max-w-7xl mx-auto space-y-10 pb-20">
         <div className="mb-8">
+          <h1 className="text-2xl font-bold text-gray-900 capitalize tracking-tight">
+            {location.pathname.split("/").pop() || "Dashboard"}
+          </h1>
 
-            <h1 className="text-2xl font-bold text-gray-900 capitalize tracking-tight">
-
-              {location.pathname.split("/").pop() || "Dashboard"}
-
-            </h1>
-
-            <p className="text-gray-400 text-sm font-medium">Manage your platform resources and users.</p>
-
-          </div>
+          <p className="text-gray-400 text-sm font-medium">
+            Manage your platform resources and users.
+          </p>
+        </div>
         {/* Section 1: Minimalist Metric Row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-gray-200 border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
           {[
@@ -79,41 +187,77 @@ export default function SAdminDashboard() {
               label: "Total Platform Reach",
               value: overallStats.totalUsers,
               icon: <Globe className="w-4 h-4" />,
+              trend: `+${trends.reach}%`,
+              trendType: "neutral",
+              subText: "new this week",
             },
             {
               label: "Pending Reviews",
               value: overallStats.pendingApplications,
               icon: <Clock className="w-4 h-4" />,
+              trend: trends.pending > 0 ? `+${trends.pending}` : "Clear",
+              trendType: trends.pending > 5 ? "warning" : "success",
+              subText: "needs attention",
             },
             {
               label: "Admission Rate",
               value: overallStats.conversionRate,
               icon: <Zap className="w-4 h-4" />,
+              trend: `${trends.rate}%`,
+              trendType: parseFloat(trends.rate) > 5 ? "success" : "neutral",
+              subText: "vs last month",
             },
             {
               label: "Active Cohorts",
-              value: "12",
+              value: activeCohorts.length,
               icon: <LayoutGrid className="w-4 h-4" />,
+              trend: "Live",
+              trendType: "success",
+              subText: "running now",
             },
           ].map((stat, i) => (
             <div
               key={i}
-              className="bg-white p-6 hover:bg-gray-50 transition-colors"
+              className="bg-white p-6 hover:bg-gray-50/80 transition-all duration-300 group relative"
             >
-              <div className="flex items-center gap-2 text-gray-400 mb-3">
-                {stat.icon}
-                <span className="text-[11px] font-bold uppercase tracking-tighter">
+              {/* Header: Icon and Label */}
+              <div className="flex items-center gap-2.5 mb-4">
+                <div className="text-gray-400 group-hover:text-gray-900 transition-colors duration-300">
+                  {stat.icon}
+                </div>
+                <span className="text-[11px] font-bold uppercase tracking-widest text-gray-400 leading-none">
                   {stat.label}
                 </span>
               </div>
-              <div className="flex items-baseline gap-2">
-                <h3 className="text-2xl font-bold text-gray-900">
-                  {stat.value}
-                </h3>
-                <span className="text-emerald-500 text-xs font-medium">
-                  +2.5%
-                </span>
+
+              {/* Content: Value and Trend side-by-side */}
+              <div className="flex items-end justify-between">
+                <div>
+                  <h3 className="text-3xl font-bold tracking-tight text-gray-900 leading-none">
+                    {stat.value}
+                  </h3>
+                </div>
+
+                <div className="flex flex-col items-end">
+                  <span
+                    className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold transition-colors ${
+                      stat.trendType === "success"
+                        ? "text-emerald-700 bg-emerald-50"
+                        : stat.trendType === "warning"
+                          ? "text-amber-700 bg-amber-50"
+                          : "text-blue-700 bg-blue-50"
+                    }`}
+                  >
+                    {stat.trend}
+                  </span>
+                  <span className="text-[9px] text-gray-400 mt-1.5 font-bold uppercase tracking-tighter">
+                    {stat.subText}
+                  </span>
+                </div>
               </div>
+
+              {/* Subtle bottom border accent on hover */}
+              <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-gray-900 transition-all duration-300 group-hover:w-full" />
             </div>
           ))}
         </div>
@@ -205,35 +349,51 @@ export default function SAdminDashboard() {
             {/* Distribution Card */}
             <div className="p-8 rounded-[2rem] bg-white border border-gray-100 shadow-sm shadow-gray-200/50">
               <div className="flex items-center justify-between mb-8">
-                <h3 className="text-sm font-black uppercase tracking-widest text-gray-900">
-                  Distribution
-                </h3>
-                <Layers className="w-4 h-4 text-gray-400" />
+                <div className="space-y-1">
+                  <h3 className="text-sm font-black uppercase tracking-widest text-gray-900">
+                    Track Distribution
+                  </h3>
+                  <p className="text-[10px] text-gray-400 font-bold uppercase">
+                    Across all cohorts
+                  </p>
+                </div>
+                <Activity className="w-4 h-4 text-gray-400" />
               </div>
 
               <div className="space-y-6">
-                {[
-                  { name: "Frontend", color: "bg-blue-500", val: 45 },
-                  { name: "Backend", color: "bg-gray-900", val: 30 },
-                  { name: "Design", color: "bg-indigo-400", val: 25 },
-                ].map((item) => (
-                  <div key={item.name} className="group cursor-default">
-                    <div className="flex justify-between items-end mb-2">
-                      <span className="text-xs font-bold text-gray-500 group-hover:text-gray-900 transition-colors">
-                        {item.name}
-                      </span>
-                      <span className="text-xs font-black text-gray-900">
-                        {item.val}%
-                      </span>
+                {distribution.length > 0 ? (
+                  distribution.map((item) => (
+                    <div key={item.name} className="group cursor-default">
+                      <div className="flex justify-between items-end mb-2">
+                        <span className="text-xs font-bold text-gray-500 group-hover:text-gray-900 transition-colors">
+                          {item.name}
+                        </span>
+                        <span className="text-xs font-black text-gray-900">
+                          {item.val}%
+                        </span>
+                      </div>
+                      <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full ${item.color} rounded-full transition-all duration-1000 ease-out`}
+                          style={{ width: `${item.val}%` }}
+                        />
+                      </div>
                     </div>
-                    <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full ${item.color} rounded-full transition-all duration-1000`}
-                        style={{ width: `${item.val}%` }}
-                      />
-                    </div>
+                  ))
+                ) : (
+                  <div className="py-4 text-center text-xs text-gray-400 italic">
+                    Awaiting application data...
                   </div>
-                ))}
+                )}
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-gray-50">
+                <div className="flex items-center justify-between text-[11px] font-bold text-gray-400">
+                  <span>Active Cohorts</span>
+                  <span className="text-gray-900">
+                    {cohorts.filter((c) => c.isActive).length}
+                  </span>
+                </div>
               </div>
             </div>
 

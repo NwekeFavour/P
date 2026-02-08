@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AdminLayout from './layout';
-import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, User2, Mail, Search, MoreVertical } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Users() {
@@ -8,174 +8,190 @@ export default function Users() {
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const usersPerPage = 6;
+  const usersPerPage = 8;
 
   useEffect(() => {
-    const fetchApplications = async () => {
+    const fetchUsers = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/applications/apply`);
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${localStorage.getItem("adminToken")}`
+          },
+        });
         const result = await res.json();
         if (result.success && Array.isArray(result.data)) {
           setUserData(result.data);
-        } else {
-          setUserData([]); // handle empty or failed response
         }
-        // console.log("Fetched users:", result);
       } catch (error) {
         console.error("Error fetching users:", error);
-        setUserData([]);
       } finally {
         setLoading(false);
       }
     };
-    fetchApplications();
+    fetchUsers();
   }, []);
 
   const totalPages = Math.ceil(userData.length / usersPerPage);
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = userData.slice(indexOfFirstUser, indexOfLastUser);
-
-  const nextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-
-  const SkeletonRow = () => (
-    <tr className="animate-pulse">
-      <td className="px-6 py-4">
-        <div className="h-4 bg-gray-300 rounded w-3/4"></div>
-      </td>
-      <td className="px-6 py-4">
-        <div className="h-4 bg-gray-300 rounded w-5/6"></div>
-      </td>
-      <td className="px-6 py-4">
-        <div className="h-4 bg-gray-300 rounded w-2/3"></div>
-      </td>
-      <td className="px-6 py-4">
-        <div className="h-4 bg-gray-300 rounded w-1/2"></div>
-      </td>
-    </tr>
-  );
+  const currentUsers = userData.slice((currentPage - 1) * usersPerPage, currentPage * usersPerPage);
 
   return (
     <AdminLayout>
-      <div className="p-4 md:p-6">
-        {/* Header */}
-        <div className="flex items-center justify-between gap-3 lg:mb-3">
-          <h2 className="text-[22px] md:text-2xl font-bold text-gray-800">Users</h2>
-          <Link className="flex items-center gap-2 cursor-pointer px-3 py-1 rounded-md bg-gray-100 transition">
-            <p className="m-0 font-semibold text-sm">{admin}</p>
-            <ChevronDown className="w-4 h-4 inline-block ml-1" />
-          </Link>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 md:space-y-8 pb-20">
+        
+        {/* Header Section - Stacks on Mobile */}
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="space-y-1">
+            <h1 className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight">User Management</h1>
+            <p className="text-gray-400 text-xs md:text-sm font-medium">Configure permissions and monitor platform access.</p>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+             <div className="relative group flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-gray-900 transition-colors" />
+                <input 
+                  type="text" 
+                  placeholder="Search users..." 
+                  className="w-full pl-10 pr-4 py-2.5 md:py-2 bg-white border border-gray-100 rounded-xl text-sm focus:ring-4 focus:ring-gray-50 outline-none md:w-64 transition-all"
+                />
+             </div>
+             <button className="flex items-center justify-center gap-2 px-4 py-2.5 md:py-2 bg-gray-900 text-white rounded-xl text-xs font-bold hover:bg-gray-800 transition-all active:scale-95">
+               Add New User
+             </button>
+          </div>
         </div>
 
-        <p className="m-0 text-gray-400 md:mt-0 mt-2 text-[13px] mb-6 md:w-full w-1/2">
-          Review and manage user accounts
-        </p>
+        {/* Stats Summary - 2 Columns on Mobile, 4 on Desktop */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                <p className="text-[9px] md:text-[10px] font-black uppercase text-gray-400 tracking-widest mb-1">Total Users</p>
+                <p className="text-lg md:text-xl font-bold text-gray-900">{userData.length}</p>
+            </div>
+            <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                <p className="text-[9px] md:text-[10px] font-black uppercase text-gray-400 tracking-widest mb-1">Active Now</p>
+                <p className="text-lg md:text-xl font-bold text-emerald-600">{userData.filter(u => u.isActive).length}</p>
+            </div>
+        </div>
 
-        {/* Desktop Table */}
-        <div className="hidden lg:block overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700 bg-transparent border-separate border-spacing-y-2">
-            <thead className="bg-gray-300/30 text-gray-600 uppercase text-xs font-semibold">
-              <tr>
-                <th className="px-6 py-3 rounded-l-lg">Name</th>
-                <th className="px-6 py-3">Email</th>
-                <th className="px-6 py-3">Role</th>
-                <th className="px-6 py-3 rounded-r-lg">Plan</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading
-                ? Array.from({ length: usersPerPage }).map((_, i) => <SkeletonRow key={i} />)
-                : currentUsers.length === 0
-                ? (
-                  <tr>
-                    <td colSpan={4} className="text-center py-4 text-gray-500 font-medium">
-                      No users found
+        {/* Content Area */}
+        <div className="bg-white rounded-[1.5rem] md:rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden">
+          
+          {/* Desktop Table - Hidden on Mobile */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-gray-50 bg-gray-50/30">
+                  <th className="px-6 py-4 text-[11px] font-black text-gray-400 uppercase tracking-widest">User</th>
+                  <th className="px-6 py-4 text-[11px] font-black text-gray-400 uppercase tracking-widest">Contact</th>
+                  <th className="px-6 py-4 text-[11px] font-black text-gray-400 uppercase tracking-widest">Status</th>
+                  <th className="px-6 py-4 text-[11px] font-black text-gray-400 uppercase tracking-widest">Cohorts</th>
+                  <th className="px-6 py-4 text-[11px] font-black text-gray-400 uppercase tracking-widest text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {!loading && currentUsers.map((user) => (
+                  <tr key={user._id} className="group hover:bg-gray-50/50 transition-colors">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-xl bg-gray-100 flex items-center justify-center font-bold text-gray-700 group-hover:bg-gray-900 group-hover:text-white transition-all text-sm">
+                          {user.fname?.[0] || <User2 size={16} />}
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-gray-900 leading-none mb-1">{user.fname} {user.lname}</p>
+                          <p className="text-[10px] text-gray-400 font-medium uppercase tracking-tighter">@{user.role}</p>
+                        </div>
+                      </div>
                     </td>
-                  </tr>
-                )
-                : currentUsers.map((user) => (
-                  <tr key={user._id} className="bg-gray-50 hover:bg-gray-100 transition-colors rounded-lg">
-                    <td className="px-6 py-4 font-medium text-gray-900 rounded-l-lg">
-                      {user.fname ? `${user.fname} ${user.lname}` : user.name || "N/A"}
+                    <td className="px-6 py-4">
+                      <span className="text-xs font-medium text-gray-500">{user.email}</span>
                     </td>
-                    <td className="px-6 py-4">{user.email}</td>
-                    <td className="px-6 py-4">{user.role || "Incubees"}</td>
-                    <td className="px-6 py-4 rounded-r-lg">
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          user.package?.toLowerCase() === "free"
-                            ? "bg-gray-200 text-gray-700"
-                            : "bg-yellow-100 text-yellow-800"
-                        }`}
-                      >
-                        {user.package?.charAt(0).toUpperCase() + user.package?.slice(1) || "Free"}
-                      </span>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-1.5">
+                        <span className={`w-1.5 h-1.5 rounded-full ${user.isActive ? 'bg-emerald-500' : 'bg-red-400'}`} />
+                        <span className="text-[11px] font-bold text-gray-700 capitalize">{user.isActive ? 'Active' : 'Disabled'}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex flex-wrap gap-1">
+                        {user.assignedCohorts?.slice(0, 2).map((c, i) => (
+                          <span key={i} className="px-2 py-0.5 bg-gray-100 text-gray-600 text-[9px] font-bold rounded-md">
+                            {c.name}
+                          </span>
+                        ))}
+                        {user.assignedCohorts?.length > 2 && <span className="text-[9px] text-gray-400">+{user.assignedCohorts.length - 2} more</span>}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <button className="p-2 text-gray-400 hover:text-gray-900 transition-colors"><ChevronRight size={18} /></button>
                     </td>
                   </tr>
                 ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Mobile Cards */}
-        <div className="space-y-4 lg:hidden">
-          {loading
-            ? Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="animate-pulse bg-gray-100 p-4 rounded-xl border border-gray-200"></div>
-              ))
-            : currentUsers.length === 0
-            ? (
-                <div className="text-center text-gray-500 font-medium py-3">
-                  No users found
-                </div>
-              )
-            : currentUsers.map((user) => (
-                <div key={user._id} className="bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm">
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-semibold text-gray-900">
-                      {user.fname ? `${user.fname} ${user.lname}` : user.name || "N/A"}
-                    </h3>
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        user.package?.toLowerCase() === "free"
-                          ? "bg-gray-200 text-gray-700"
-                          : "bg-yellow-100 text-yellow-800"
-                      }`}
-                    >
-                      {user.package?.charAt(0).toUpperCase() + user.package?.slice(1) || "Free"}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600">{user.email}</p>
-                  <p className="text-sm text-gray-500 mt-1">{user.role || "User"}</p>
-                </div>
-              ))}
-        </div>
-
-        {/* Pagination */}
-        {!loading && totalPages > 1 && (
-          <div className="flex justify-center sm:justify-end items-center gap-3 mt-6">
-            <button
-              onClick={prevPage}
-              disabled={currentPage === 1}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200 disabled:opacity-50"
-            >
-              <ChevronLeft className="w-4 h-4" /> Prev
-            </button>
-
-            <span className="text-sm text-gray-600">
-              Page <strong>{currentPage}</strong> of {totalPages}
-            </span>
-
-            <button
-              onClick={nextPage}
-              disabled={currentPage === totalPages}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200 disabled:opacity-50"
-            >
-              Next <ChevronRight className="w-4 h-4" />
-            </button>
+              </tbody>
+            </table>
           </div>
-        )}
+
+          {/* Mobile Card List - Hidden on Desktop */}
+          <div className="md:hidden divide-y divide-gray-50">
+            {!loading && currentUsers.map((user) => (
+              <div key={user._id} className="p-4 space-y-3 active:bg-gray-50 transition-colors">
+                <div className="flex justify-between items-start">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gray-900 text-white flex items-center justify-center font-bold text-sm">
+                      {user.fname?.[0]}
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-gray-900">{user.fname} {user.lname}</h3>
+                      <p className="text-xs text-gray-400">@{user.role}</p>
+                    </div>
+                  </div>
+                  <button className="p-1 text-gray-400"><MoreVertical size={18} /></button>
+                </div>
+                
+                <div className="flex flex-col gap-2 bg-gray-50/50 p-3 rounded-xl">
+                  <div className="flex items-center gap-2 text-gray-500">
+                    <Mail size={12} />
+                    <span className="text-xs font-medium">{user.email}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                     <div className="flex flex-wrap gap-1">
+                        {user.assignedCohorts?.map((c, i) => (
+                          <span key={i} className="px-2 py-0.5 bg-white border border-gray-100 text-gray-500 text-[9px] font-bold rounded-md">
+                            {c.name}
+                          </span>
+                        ))}
+                     </div>
+                     <span className={`px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-widest ${user.isActive ? 'text-emerald-600 bg-emerald-50' : 'text-red-600 bg-red-50'}`}>
+                        {user.isActive ? 'Active' : 'Off'}
+                     </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Footer - Dynamic Text for Mobile */}
+          <div className="px-6 py-4 bg-gray-50/30 border-t border-gray-50 flex items-center justify-between">
+            <p className="text-[10px] md:text-xs text-gray-400 font-medium">
+              Page <span className="text-gray-900">{currentPage}</span> of <span className="text-gray-900">{totalPages}</span>
+            </p>
+            <div className="flex gap-2">
+              <button 
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="p-2 rounded-xl bg-white border border-gray-100 disabled:opacity-30 active:scale-90 transition-all shadow-sm"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button 
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="p-2 rounded-xl bg-white border border-gray-100 disabled:opacity-30 active:scale-90 transition-all shadow-sm"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </AdminLayout>
   );

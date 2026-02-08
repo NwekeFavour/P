@@ -2,11 +2,17 @@ import React, { useState, useEffect } from "react";
 import AdminLayout from "./layout";
 import { 
   Calendar, Layers, Plus, Trash2, Clock, Globe, 
-  ChevronRight, AlertCircle, CheckCircle2, Search, X 
+  ChevronRight, AlertCircle, CheckCircle2, Search, X, 
+  Edit3,
+  Hash
 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+
 import { 
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter 
 } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner"; // Assuming you use sonner for sleek notifications
 
@@ -18,6 +24,15 @@ export default function Cohorts() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedCohort, setSelectedCohort] = useState(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
+   const [editForm, setEditForm] = useState({
+      name: "",
+      startDate: "",
+      applicationDeadline: "",
+      maxCapacity: "",
+      availableTracks: ""
+    });
   
   const [form, setForm] = useState({
     name: "",
@@ -69,6 +84,59 @@ export default function Cohorts() {
       setLoading(false);
     }
   };
+
+    // Open Edit Panel
+    const handleEditClick = (cohort) => {
+      setSelectedCohort(cohort);
+      setEditForm({
+        name: cohort.name,
+        startDate: cohort.startDate ? cohort.startDate.split("T")[0] : "",
+        applicationDeadline: cohort.applicationDeadline ? cohort.applicationDeadline.split("T")[0] : "",
+        maxCapacity: cohort.maxCapacity || "",
+        availableTracks: cohort.availableTracks?.join(", ") || ""
+      });
+      setIsEditOpen(true);
+    };
+
+      // Submit PATCH Request
+      const handleUpdate = async (e) => {
+        e.preventDefault();
+        
+        // Frontend Validation (Matching your backend logic)
+        if (new Date(editForm.applicationDeadline) <= new Date()) {
+          return toast.error("Deadline must be a future date");
+        }
+    
+        setLoading(true);
+        try {
+          const res = await fetch(`${BASE_URL}/api/applications/cohorts/${selectedCohort._id}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+            },
+            body: JSON.stringify({
+              ...editForm,
+              availableTracks: editForm.availableTracks.split(",").map(t => t.trim()).filter(t => t !== ""),
+              maxCapacity: Number(editForm.maxCapacity)
+            }),
+          });
+    
+          const data = await res.json();
+          if (data.success) {
+            toast.success("Cohort configuration updated");
+            setIsEditOpen(false);
+            fetchCohorts();
+          } else {
+            toast.error(data.message || "Update failed");
+          }
+        } catch (err) {
+          toast.error("Server connection error");
+        } finally {
+          setLoading(false);
+        }
+      };
+    
 
   const handleDelete = async () => {
     try {
@@ -129,13 +197,23 @@ export default function Cohorts() {
                   }`}>
                     {cohort.isActive ? "● Active" : "Closed"}
                   </div>
-                  
+                  <div>
+                  <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={() => handleEditClick(cohort)}
+                  className="rounded-xl hover:bg-slate-50 text-slate-400 hover:text-indigo-600 transition-colors"
+                >
+                  <Edit3 className="w-5 h-5" />
+                </Button>
                   <button 
                     onClick={() => { setSelectedCohort(cohort._id); setIsDeleteModalOpen(true); }}
                     className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all opacity-0 group-hover:opacity-100"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
+                  </div>
+
                 </div>
 
                 <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
@@ -268,6 +346,86 @@ export default function Cohorts() {
           </DialogContent>
         </Dialog>
 
+
+        {/* --- Edit Slide-over Panel --- */}
+        <Sheet className="z-50!" open={isEditOpen} onOpenChange={setIsEditOpen}>
+          <SheetContent className="w-full sm:max-w-md z-70! bg-white border-none shadow-2xl p-0">
+            <div className="h-full flex flex-col">
+              <SheetHeader className="p-8 bg-slate-50/50 border-b border-slate-100">
+                <SheetTitle className="text-2xl font-black text-slate-900">Edit Configuration</SheetTitle>
+                <SheetDescription className="font-medium text-slate-500">
+                  Update parameters for <span className="text-indigo-600 font-bold">{selectedCohort?.name}</span>
+                </SheetDescription>
+              </SheetHeader>
+
+              <form onSubmit={handleUpdate} className="flex-1 overflow-y-auto p-8 space-y-6">
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-black uppercase text-slate-400 ml-1">Cohort Name</label>
+                  <Input 
+                    value={editForm.name}
+                    onChange={(e) => setEditForm({...editForm, name: e.target.value})}
+                    className="rounded-2xl border-slate-100 bg-slate-50/50 py-6 focus:ring-indigo-500"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-black uppercase text-slate-400 ml-1 text-xs">Start Date</label>
+                    <Input 
+                      type="date"
+                      value={editForm.startDate}
+                      onChange={(e) => setEditForm({...editForm, startDate: e.target.value})}
+                      className="rounded-2xl border-slate-100 bg-slate-50/50 py-6"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-black uppercase text-slate-400 ml-1">Deadline</label>
+                    <Input
+                      type="date"
+                      value={editForm.applicationDeadline}
+                      onChange={(e) => setEditForm({...editForm, applicationDeadline: e.target.value})}
+                      className="rounded-2xl border-slate-100 bg-slate-50/50 py-6"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-black uppercase text-slate-400 ml-1">Max Capacity</label>
+                  <div className="relative">
+                    <Hash className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <Input 
+                      type="number"
+                      value={editForm.maxCapacity}
+                      onChange={(e) => setEditForm({...editForm, maxCapacity: e.target.value})}
+                      className="rounded-2xl border-slate-100 bg-slate-50/50 py-6 pl-11"
+                      placeholder="e.g. 100"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-black uppercase text-slate-400 ml-1">Available Tracks</label>
+                  <textarea 
+                    value={editForm.availableTracks}
+                    onChange={(e) => setEditForm({...editForm, availableTracks: e.target.value})}
+                    className="w-full min-h-[120px] rounded-[1.5rem] border border-slate-100 bg-slate-50/50 p-4 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                    placeholder="Frontend, Backend, UI/UX..."
+                  />
+                </div>
+              </form>
+
+              <div className="p-8 border-t border-slate-100 bg-white">
+                <Button 
+                  onClick={handleUpdate}
+                  disabled={loading}
+                  className="w-full py-7 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg shadow-xl shadow-indigo-100"
+                >
+                  {loading ? "Synchronizing..." : "Save Changes"}
+                </Button>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </AdminLayout>
   );
