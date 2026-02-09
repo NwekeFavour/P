@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ChevronDown, Rocket, Briefcase,  GraduationCap, DollarSign, CircleHelp } from 'lucide-react';
 
 export default function Accordion() {
@@ -112,7 +112,7 @@ export default function Accordion() {
         <div className='text-center mb-12'> 
            <h2 className="sm:flex flex-wrap justify-center gap-2 text-center font-[500]xl:text-[35px] md:text-[32px] sm:text-[30px] text-[25px] mb-5">
                 Why Join 
-                <span className="font-[800] sm:ps-0 ps-1">knownly Internships?</span>
+                <span className="font-extrabold sm:ps-0 ps-1">knownly Internships?</span>
             </h2>
             <p className="m-0 text-center">Unlock your potential and join a network that shapes tech leaders.</p>
         </div>
