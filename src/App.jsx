@@ -13,7 +13,6 @@ import Premium from './pages/premium';
 import Contact from './pages/contact';
 import Users from './pages/superAdmin/users';
 import Talent from './pages/talent';
-import Prem from './pages/prem';
 import AdminPrem from './pages/superAdmin/prem';
 import JoinWorkspace from './pages/join';
 import SAdminDashboard from './pages/superAdmin/dash';
@@ -66,7 +65,6 @@ function App() {
         <Route path="/premium" element={<Premium />} />
         <Route path="/knownly/talents" element={<Talent />} />
         <Route path="/internships/join" element={<JoinWorkspace />} />
-        <Route path="/premium/checkout" element={<Prem />} />
         <Route path="/unauthorized" element={<Error />} />
         <Route path="*" element={<Error />} />
 

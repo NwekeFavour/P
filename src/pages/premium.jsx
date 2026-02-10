@@ -50,7 +50,7 @@ export default function PricingSection() {
       highlighted: false,
       color: 'gray',
       cta: 'Go Premium',
-      link: "/premium/checkout"
+      link: "/knownly/internships"
     },
     {
       name: 'Premium+ Track',

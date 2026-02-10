@@ -86,7 +86,7 @@ function Apply() {
       const result = await response.json();
 
       if (result.success) {
-        if (formData.package === "Paid") {
+        if (formData.package === "Premium") {
           setShowPremium(false);
         } else {
           setMessage("🎉 Application submitted successfully!");
@@ -425,11 +425,11 @@ function Apply() {
                       <input
                         type="radio"
                         name="package"
-                        value="Paid"
-                        checked={formData.package === "Paid"}
+                        value="Premium"
+                        checked={formData.package === "Premium"}
                         onChange={handleChange}
                       />
-                      Paid – Certificate + 1yr Premium Access
+                      Premium – Certificate + 1yr Premium Access
                     </label>
                   </div>
                 </div>
