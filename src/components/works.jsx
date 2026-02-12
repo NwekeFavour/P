@@ -37,7 +37,7 @@ export default function HowItWorksSection() {
       icon: Code,
       title: "Start Learning & Building",
       description:
-        "Join your cohort of 500 students. Week 1-2: intensive training bootcamp. Week 3-8: work on real projects with daily standups, code reviews, and mentorship.",
+        "Join your cohort of 200 incubees. Week 1-2: intensive training bootcamp. Week 3-8: work on real projects with daily standups, code reviews, and mentorship.",
       duration: "8 weeks",
       color: "green",
     },
@@ -54,12 +54,12 @@ export default function HowItWorksSection() {
 
   const colorClasses = {
     blue: {
-      gradient: "from-blue-500 to-cyan-500",
-      bg: "bg-blue-500",
-      lightBg: "bg-blue-50",
-      text: "text-blue-600",
-      border: "border-blue-200",
-      iconBg: "bg-blue-100",
+      gradient: "from-indigo-500 to-cyan-500",
+      bg: "bg-indigo-500",
+      lightBg: "bg-indigo-50",
+      text: "text-indigo-600",
+      border: "border-indigo-200",
+      iconBg: "bg-indigo-100",
     },
     purple: {
       gradient: "from-purple-500 to-pink-500",
@@ -307,7 +307,7 @@ export default function HowItWorksSection() {
           </p>
           <Link
             to={"/knownly/internships"}
-            className="group px-10 py-5 bg-gradient-to-r from-sky-600 to-gray-600 hover:from-sky-700 hover:to-gray-700 text-white text-lg font-bold rounded-full shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
+            className="group px-10 py-5 bg-gradient-to-r from-indigo-600 to-indigo-900 hover:from-sky-700 hover:to-gray-700 text-white text-lg font-bold rounded-full shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
             Apply Now
             <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </Link>

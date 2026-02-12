@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin, Youtube } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
+import Knownly from "../assets/images/knownly.svg"
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -11,7 +11,9 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-10">
           {/* About */}
           <div>
-            <h4 className="text-white font-bold mb-4">knownly</h4>
+            <h4 className="text-white font-bold mb-4">
+              <img className='w-25 rounded-md sm:rounded-full h-25' src={Knownly} alt="" />
+            </h4>
             <p className="text-sm leading-relaxed">
               Helping Nigerian university students launch world-class tech careers
               through practical training, mentorship, and real-world projects.
@@ -52,7 +54,7 @@ export default function Footer() {
               <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-white">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-white">
+              <a href="https://x.com/knownlyhq" target="_blank" rel="noreferrer" className="hover:text-white">
                 <Twitter className="w-5 h-5" />
               </a>
               <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-white">

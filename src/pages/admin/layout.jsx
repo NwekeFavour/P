@@ -63,7 +63,6 @@ export default function AdminLayout({ children }) {
     { name: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" />, path: "/admin" },
     { name: "Applications", icon: <FileText className="w-5 h-5" />, path: "/admin/applications" },
     { name: "Cohorts", icon: <Layers className="w-5 h-5" />, path: "/admin/cohorts" },
-    { name: "Users", icon: <Users className="w-5 h-5" />, path: "/admin/users" },
     { name: "Settings", icon: <Settings className="w-5 h-5" />, path: "/admin/settings" },
   ];
 

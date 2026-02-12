@@ -22,7 +22,9 @@ import Error from './components/error';
 import AdminDashboard from './pages/admin/admin';
 import { Toaster } from 'sonner';
 import CohortManagement from './pages/admin/cohorts';
-
+import ApplicationsDashboard from './pages/admin/application'
+import PaymentCallback from './components/paymentcallback';
+import VerifyCertificate from './pages/verifycertificate';
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -67,6 +69,8 @@ function App() {
         <Route path="/internships/join" element={<JoinWorkspace />} />
         <Route path="/unauthorized" element={<Error />} />
         <Route path="*" element={<Error />} />
+        <Route path='/payment/callback' element={<PaymentCallback/>}/>
+        <Route path="/verify/:certificateId" element={<VerifyCertificate />} />
 
         {/* Protected Admin routes */}
         <Route element={<ProtectedRoute user={user} allowedRoles={["admin"]} />}>
@@ -74,6 +78,9 @@ function App() {
         </Route>
         <Route element={<ProtectedRoute user={user} allowedRoles={["admin"]} />}>
           <Route path="/admin/cohorts" element={<CohortManagement />} />
+        </Route>
+        <Route element={<ProtectedRoute user={user} allowedRoles={["admin"]} /> }>
+          <Route path='/admin/applications' element={<ApplicationsDashboard/>}/>
         </Route>
 
         {/* Protected Super Admin routes */}

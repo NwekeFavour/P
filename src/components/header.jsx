@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { Rocket, Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import Knownly from '../assets/images/knownly-removebg-preview.png';
+import React, { useState, useEffect } from "react";
+import { Rocket, Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
+import Knownly from "../assets/images/knownly-removebg-preview.png";
 
 export default function Header() {
-  const [activeLink, setActiveLink] = useState('home');
+  const [activeLink, setActiveLink] = useState("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const navLinks = [
-    { id: 'home', label: 'Home', href: '/' },
-    { id: 'internship', label: 'Internship', href: '/internship' },
-    { id: 'talent', label: 'Talent', href: '/knownly/talents' },
-    { id: 'premium', label: 'Premium', href: '/premium' },
+    { id: "home", label: "Home", href: "/" },
+    { id: "internship", label: "Internship", href: "/internship" },
+    { id: "talent", label: "Talent", href: "/knownly/talents" },
+    { id: "premium", label: "Premium", href: "/premium" },
   ];
 
-   useEffect(() => {
-    const current = navLinks.find(link => link.href === location.pathname);
-    setActiveLink(current ? current.id : '');
+  useEffect(() => {
+    const current = navLinks.find((link) => link.href === location.pathname);
+    setActiveLink(current ? current.id : "");
   }, [location.pathname]);
 
   const handleNavClick = (linkId, href) => {
     setActiveLink(linkId);
     setMobileMenuOpen(false);
-    
+
     // Simulate route loading
     setIsLoading(true);
     setTimeout(() => {
@@ -45,8 +45,16 @@ export default function Header() {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center gap-3">
-              <div>
-                <img src={Knownly} className='w-full h-[60px]' alt="" />
+              <div className="flex flex-col items-start leading-none group cursor-pointer">
+                {/* The Brand Name */}
+                <span className="text-2xl brand font-bold! tracking-tighter text-gray-900 md:text-3xl">
+                  KNOWNLY
+                </span>
+
+                {/* The Sub-text */}
+                <span className="text-[10px] brand font-bold! tracking-[0.25em] text-indigo-600 uppercase mt-0.5 flex items-center justify-center w-[100%]">
+                  Internships
+                </span>
               </div>
             </div>
 
@@ -61,8 +69,8 @@ export default function Header() {
                   }}
                   className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
                     activeLink === link.id
-                      ? 'text-gray-900'
-                      : 'text-gray-600 hover:text-gray-900'
+                      ? "text-gray-900"
+                      : "text-gray-600 hover:text-gray-900"
                   }`}
                 >
                   {link.label}
@@ -75,7 +83,10 @@ export default function Header() {
 
             {/* CTA Buttons */}
             <div className="hidden lg:flex items-center gap-3">
-              <Link to={"/knownly/internships"} className="px-6 py-2 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold rounded-lg transition-colors">
+              <Link
+                to={"/knownly/internships"}
+                className="px-6 py-2 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold rounded-lg transition-colors"
+              >
                 Apply Now
               </Link>
             </div>
@@ -106,15 +117,18 @@ export default function Header() {
                     }}
                     className={`px-4 py-3 text-sm font-medium transition-colors rounded-lg ${
                       activeLink === link.id
-                        ? 'bg-gray-100 text-gray-900'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                        ? "bg-gray-100 text-gray-900"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                     }`}
                   >
                     {link.label}
                   </Link>
                 ))}
                 <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-gray-200">
-                  <Link to={"/internship"} className="px-4 py-3 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold rounded-lg transition-colors">
+                  <Link
+                    to={"/internship"}
+                    className="px-4 py-3 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold rounded-lg transition-colors"
+                  >
                     Apply Now
                   </Link>
                 </div>

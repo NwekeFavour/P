@@ -38,7 +38,7 @@ function JoinWorkspace() {
           {/* Buttons */}
           <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
             <Link
-              href="https://join.slack.com/example-link"
+              to={"https://join.slack.com/t/knownlyinternship/shared_invite/zt-3pk0c61rb-WmFhBN30yghiEpXf6d8Jrw"}
               className="flex items-center justify-center gap-2 bg-gray-900 text-white px-8 py-3 rounded-full text-sm font-semibold shadow-md hover:bg-gray-800 transition-transform duration-300"
             >
               Join Workspace <ArrowRight className="w-4 h-4" />

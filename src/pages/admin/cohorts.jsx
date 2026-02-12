@@ -9,9 +9,16 @@ import {
   ChevronRight,
   Trash2,
   ExternalLink,
+  CheckCircle2,
   History,
+  Edit3,
+  RefreshCcw
 } from "lucide-react";
+import { 
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription 
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Sheet,
   SheetContent,
@@ -34,11 +41,18 @@ export default function CohortManagement() {
   const [isDeleteSheetOpen, setIsDeleteSheetOpen] = useState(false);
   const [submissionToManage, setSubmissionToManage] = useState(null);
   const [activeLogUser, setActiveLogUser] = useState(null);
-
+  const [reviewFilter, setReviewFilter] = useState("all");
+const [selectedSub, setSelectedSub] = useState(null);
+const [isModalOpen, setIsModalOpen] = useState(false);
   const openDeleteManager = (sub) => {
     setSubmissionToManage(sub);
     setIsDeleteSheetOpen(true);
   };
+
+  const openEditModal = (submission) => {
+  setSelectedSub(submission);
+  setIsModalOpen(true);
+};
 
   const handleSheetClose = (open) => {
     setIsDeleteSheetOpen(open);
@@ -46,6 +60,11 @@ export default function CohortManagement() {
   };
 
   const fetchSubmissions = async (cohortId) => {
+    if (!cohortId) {
+    console.warn("Cohort not selected, fetching all submissions instead...");
+    // optional: you could fetch all submissions for admin, or skip fetch
+    return;
+  }
     try {
       const res = await fetch(
         `${BASE_URL}/api/applications/cohorts/${cohortId}/submissions`,
@@ -124,9 +143,30 @@ export default function CohortManagement() {
     new Map(students.map((s) => [s.email, s])).values(),
   );
 
-  const filteredSubmissions = activeLogUser
-    ? submissions.filter((sub) => sub.application?._id === activeLogUser._id)
-    : submissions;
+  const canReviewApplicant = (app) =>
+    app?.package === "Premium" && app?.status === "Approved";
+
+  const filteredSubmissions = submissions.filter((sub) => {
+    if (activeLogUser && sub.application?._id !== activeLogUser._id) {
+      return false;
+    }
+
+    const app = sub.application;
+
+    if (reviewFilter === "premium") {
+      return app?.package === "Premium";
+    }
+
+    if (reviewFilter === "approved") {
+      return app?.status === "Approved";
+    }
+
+    if (reviewFilter === "reviewable") {
+      return canReviewApplicant(app);
+    }
+
+    return true; // all
+  });
 
   return (
     <AdminLayout>
@@ -318,6 +358,11 @@ export default function CohortManagement() {
                                 <div>
                                   <p className="text-sm font-black text-slate-900">
                                     {student.fname} {student.lname}
+                                    {student?.package === "Premium" && (
+                                      <span className="px-2 py-0.5 rounded-full text-[8px] font-black bg-amber-100 text-amber-700">
+                                        PAID
+                                      </span>
+                                    )}
                                   </p>
                                   <p className="text-[10px] text-slate-400 font-bold uppercase">
                                     {student.track}
@@ -375,47 +420,82 @@ export default function CohortManagement() {
                   <div className="bg-white border border-slate-100 rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden">
                     {/* MOBILE VIEW: Card List (Visible on < 640px) */}
                     <div className="block sm:hidden divide-y divide-slate-50">
-                      {filteredSubmissions.map((sub) => (
-                        <div key={sub._id} className="p-4 flex flex-col gap-3">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <p className="text-sm font-black text-slate-900 leading-tight">
-                                {sub.application?.fname}{" "}
-                                {sub.application?.lname}
-                              </p>
-                              <p className="text-[9px] font-bold text-indigo-500 uppercase tracking-widest">
-                                {sub.application?.track}
-                              </p>
+                      {filteredSubmissions.map((sub) => {
+                        const reviewable = canReviewApplicant(sub.application);
+                        console.log(sub);
+                        return (
+                          <div
+                            key={sub._id}
+                            className="p-4 flex flex-col gap-3"
+                          >
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <div className="flex flex-wrap items-center gap-2">
+                                  <p className="text-sm font-black text-slate-900 leading-tight">
+                                    {sub.application?.fname}{" "}
+                                    {sub.application?.lname}
+                                  </p>
+
+                                  {sub.application?.package !== "Premium" && (
+                                    <span className="px-2 py-0.5 rounded-full text-[8px] font-black bg-slate-100 text-slate-500">
+                                      FREE
+                                    </span>
+                                  )}
+
+                                  {sub.application?.package === "Premium" &&
+                                    sub.application?.status !== "Approved" && (
+                                      <span className="px-2 py-0.5 rounded-full text-[8px] font-black bg-amber-100 text-amber-700">
+                                        PAID — NOT APPROVED
+                                      </span>
+                                    )}
+
+                                  {canReviewApplicant(sub.application) && (
+                                    <span className="px-2 py-0.5 rounded-full text-[8px] font-black bg-emerald-100 text-emerald-700">
+                                      REVIEWABLE
+                                    </span>
+                                  )}
+                                </div>
+
+                                <p className="text-[9px] font-bold text-indigo-500 uppercase tracking-widest">
+                                  {sub.application?.track}
+                                </p>
+                              </div>
+                              <span
+                                className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase ${
+                                  sub.status === "Pending Review"
+                                    ? "bg-amber-100 text-amber-700"
+                                    : "bg-emerald-100 text-emerald-700"
+                                }`}
+                              >
+                                {sub.status}
+                              </span>
                             </div>
-                            <span
-                              className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase ${
-                                sub.status === "Pending Review"
-                                  ? "bg-amber-100 text-amber-700"
-                                  : "bg-emerald-100 text-emerald-700"
-                              }`}
-                            >
-                              {sub.status}
-                            </span>
-                          </div>
 
-                          <div className="flex items-center justify-between mt-1">
-                            <a
-                              href={sub.projectLink}
-                              target="_blank"
-                              className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg active:scale-95 transition-all"
-                            >
-                              View Project <ExternalLink className="w-3 h-3" />
-                            </a>
+                            <div className="flex items-center justify-between mt-1">
+                              <a
+                                href={sub.projectLink}
+                                target="_blank"
+                                className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg active:scale-95 transition-all"
+                              >
+                                View Project{" "}
+                                <ExternalLink className="w-3 h-3" />
+                              </a>
 
-                            <button
-                              onClick={() => openDeleteManager(sub)}
-                              className="p-2 text-slate-300 hover:text-red-600 active:bg-red-50 rounded-lg transition-colors"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
+                              <button
+                                disabled={!reviewable}
+                                onClick={() => openDeleteManager(sub)}
+                                className={`p-2 rounded-lg transition ${
+                                  reviewable
+                                    ? "text-slate-300 hover:text-red-600 hover:bg-red-50"
+                                    : "text-slate-200 cursor-not-allowed"
+                                }`}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                       {filteredSubmissions.length === 0 && (
                         <div className="p-8 text-center text-slate-400 text-xs font-bold">
                           No submissions found.
@@ -447,27 +527,52 @@ export default function CohortManagement() {
                               className="hover:bg-slate-50/30 transition-colors group"
                             >
                               <td className="px-6 py-4">
-                                <p className="text-sm font-black text-slate-900">
-                                  {sub.application?.fname}{" "}
-                                  {sub.application?.lname}
-                                </p>
-                                <p className="text-[9px] font-bold text-indigo-500 uppercase tracking-widest">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <p className="text-sm font-black text-slate-900">
+                                    {sub.application?.fname}{" "}
+                                    {sub.application?.lname}
+                                  </p>
+
+                                  {/* STATUS BADGES */}
+                                  {sub.application?.package !== "Premium" ? (
+                                    <span className="px-2 py-0.5 rounded-full text-[9px] font-black bg-slate-100 text-slate-500">
+                                      FREE
+                                    </span>
+                                  ) : (
+                                    <span className="px-2 py-0.5 rounded-full text-[9px] font-black bg-amber-100 text-amber-700 border border-amber-200 shadow-sm">
+                                      PREMIUM
+                                    </span>
+                                  )}
+
+                                  {sub.application?.package === "Premium" &&
+                                    sub.application?.status !== "Approved" && (
+                                      <span className="px-2 py-0.5 rounded-full text-[9px] font-black bg-rose-50 text-rose-600 border border-rose-100">
+                                        PENDING APPROVAL
+                                      </span>
+                                    )}
+                                </div>
+
+                                <p className="text-[9px] font-bold text-indigo-500 uppercase tracking-widest mt-1">
                                   {sub.application?.track}
                                 </p>
                               </td>
+
                               <td className="px-6 py-4">
                                 <a
                                   href={sub.projectLink}
                                   target="_blank"
+                                  rel="noreferrer"
                                   className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:underline"
                                 >
                                   View Link <ExternalLink className="w-3 h-3" />
                                 </a>
                               </td>
+
                               <td className="px-6 py-4">
                                 <span
                                   className={`px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-tighter ${
-                                    sub.status === "Pending Review"
+                                    sub.status === "Pending Review" ||
+                                    sub.status === "Pending"
                                       ? "bg-amber-100 text-amber-700"
                                       : "bg-emerald-100 text-emerald-700"
                                   }`}
@@ -475,20 +580,42 @@ export default function CohortManagement() {
                                   {sub.status}
                                 </span>
                               </td>
+
                               <td className="px-6 py-4 text-right">
-                                <button
-                                  onClick={() => openDeleteManager(sub)}
-                                  className="p-2 opacity-0 group-hover:opacity-100 hover:bg-red-50 rounded-lg text-slate-300 hover:text-red-600 transition-all"
-                                >
-                                  <Trash2 className="w-4 h-4" />
-                                </button>
+                                <div className="flex items-center justify-end gap-2">
+                                  {/* EDIT BUTTON: Only for Premium */}
+                                  {(sub.application?.package === "Premium" || sub.application?.track === "UI/UX Design" || sub.application?.track === "Digital Marketing") && (
+                                    <button
+                                      onClick={() => openEditModal(sub)} // You'll need to define this function
+                                      className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 text-indigo-600 rounded-lg text-xs font-black hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
+                                    >
+                                      <Edit3 className="w-3 h-3" />
+                                      REVIEW
+                                    </button>
+                                  )}
+
+                                  {/* DELETE BUTTON: Visible on hover */}
+                                  <button
+                                    onClick={() => openDeleteManager(sub)}
+                                    className="p-2 opacity-0 group-hover:opacity-100 hover:bg-red-50 rounded-lg text-slate-300 hover:text-red-600 transition-all"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </div>
                               </td>
                             </tr>
                           ))}
+
                         </tbody>
                       </table>
                     </div>
                   </div>
+                  <ReviewSubmissionModal 
+      isOpen={isModalOpen} 
+      onClose={() => setIsModalOpen(false)}
+      submission={selectedSub}
+      onUpdateSuccess={fetchSubmissions} // Assuming this is your data-fetcher
+    />
                   {filteredSubmissions.length === 0 && (
                     <div className="py-12 text-center text-slate-400 text-xs font-bold">
                       No submissions found.
@@ -500,6 +627,8 @@ export default function CohortManagement() {
           </div>
         )}
       </div>
+
+      
 
       {/* --- Responsive Delete Sheet --- */}
       <Sheet open={isDeleteSheetOpen} onOpenChange={handleSheetClose}>
@@ -591,5 +720,121 @@ export default function CohortManagement() {
         </SheetContent>
       </Sheet>
     </AdminLayout>
+  );
+}
+
+
+
+function ReviewSubmissionModal({ isOpen, onClose, submission, onUpdateSuccess }) {
+  const [loading, setLoading] = useState(false);
+  const [feedback, setFeedback] = useState(submission?.feedback || "");
+  const [selectedStatus, setSelectedStatus] = useState(submission?.status || "Pending");
+
+  const handleUpdate = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/submissions/${submission._id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+        body: JSON.stringify({ 
+          status: selectedStatus, 
+          feedback 
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        toast.success("Submission updated successfully");
+        onUpdateSuccess(); // Refresh the list in the parent
+        onClose();
+      }
+    } catch (err) {
+      toast.error("Failed to update submission");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[500px] rounded-[2rem] border-none shadow-2xl p-8">
+        <DialogHeader>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-700 uppercase tracking-widest">
+              Premium Review
+            </span>
+          </div>
+          <DialogTitle className="text-2xl font-black text-slate-900">
+            Review {submission?.application?.fname}'s Project
+          </DialogTitle>
+          <DialogDescription className="font-medium text-slate-500">
+            Evaluate the submission and provide constructive feedback.
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-6 py-4">
+          {/* Project Link Preview */}
+          <div className="p-4 bg-indigo-50 rounded-2xl flex justify-between items-center border border-indigo-100">
+            <div>
+              <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Submitted Link</p>
+              <p className="text-sm font-bold text-indigo-900 truncate max-w-[250px]">{submission?.projectLink}</p>
+            </div>
+            <a 
+              href={submission?.projectLink} 
+              target="_blank" 
+              className="p-2 bg-white rounded-xl text-indigo-600 hover:shadow-md transition-all"
+            >
+              <ExternalLink className="w-4 h-4" />
+            </a>
+          </div>
+
+          {/* Status Selection */}
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { id: "Accepted", icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
+              { id: "Needs Revision", icon: RefreshCcw, color: "text-amber-600", bg: "bg-amber-50" }
+            ].map((status) => (
+              <button
+                key={status.id}
+                onClick={() => setSelectedStatus(status.id)}
+                className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all ${
+                  selectedStatus === status.id 
+                  ? "border-indigo-600 bg-indigo-50/50" 
+                  : "border-gray-50 bg-gray-50/30 hover:border-gray-200"
+                }`}
+              >
+                <status.icon className={`w-6 h-6 ${status.color}`} />
+                <span className="text-xs font-black uppercase tracking-tight">{status.id}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Feedback Input */}
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Feedback to Intern</label>
+            <Textarea 
+              placeholder="Explain what they did well or what needs to be improved..."
+              className="min-h-[120px] rounded-2xl border-slate-100 bg-slate-50 focus:bg-white focus:ring-indigo-500/20 transition-all"
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="flex gap-3">
+          <Button variant="ghost" onClick={onClose} className="flex-1 rounded-2xl font-bold">Cancel</Button>
+          <Button 
+            disabled={loading}
+            onClick={handleUpdate}
+            className="flex-[2] rounded-2xl bg-indigo-600 hover:bg-indigo-700 font-black shadow-lg shadow-indigo-100"
+          >
+            {loading ? "Saving..." : "Submit Review"}
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

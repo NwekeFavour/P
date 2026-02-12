@@ -36,6 +36,7 @@ function Apply() {
   });
 
   const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+  const PREMIUM_ONLY_TRACKS = ["UI/UX Design", "Digital Marketing"];
 
   // Load universities
   useEffect(() => {
@@ -66,9 +67,31 @@ function Apply() {
   }, []);
 
   // Handle input change
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  if (name === "track") {
+    if (PREMIUM_ONLY_TRACKS.includes(value)) {
+      setFormData({
+        ...formData,
+        track: value,
+        package: "Premium", // auto-switch
+      });
+      setShowPremium(true);
+    } else {
+      setFormData({
+        ...formData,
+        track: value,
+      });
+    }
+  } else {
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  }
+};
+
 
   // Handle submit
   const handleSubmit = async (e) => {
@@ -356,6 +379,14 @@ function Apply() {
                   </select>
                 </div>
 
+                {PREMIUM_ONLY_TRACKS.includes(formData.track) && (
+                  <div className="mt-2 text-xs bg-yellow-100 text-yellow-800 p-2 rounded-md">
+                    ⚠️ <strong>{formData.track}</strong> is a Premium-only track.
+                    Certificate and 1-year Premium access required.
+                  </div>
+                )}
+
+
                 {/* Social */}
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-700">
@@ -416,6 +447,7 @@ function Apply() {
                         type="radio"
                         name="package"
                         value="Free"
+                        disabled={PREMIUM_ONLY_TRACKS.includes(formData.track)}
                         checked={formData.package === "Free"}
                         onChange={handleChange}
                       />
