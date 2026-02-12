@@ -67,31 +67,30 @@ function Apply() {
   }, []);
 
   // Handle input change
-const handleChange = (e) => {
-  const { name, value } = e.target;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
-  if (name === "track") {
-    if (PREMIUM_ONLY_TRACKS.includes(value)) {
-      setFormData({
-        ...formData,
-        track: value,
-        package: "Premium", // auto-switch
-      });
-      setShowPremium(true);
+    if (name === "track") {
+      if (PREMIUM_ONLY_TRACKS.includes(value)) {
+        setFormData({
+          ...formData,
+          track: value,
+          package: "Premium", // auto-switch
+        });
+        setShowPremium(true);
+      } else {
+        setFormData({
+          ...formData,
+          track: value,
+        });
+      }
     } else {
       setFormData({
         ...formData,
-        track: value,
+        [name]: value,
       });
     }
-  } else {
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  }
-};
-
+  };
 
   // Handle submit
   const handleSubmit = async (e) => {
@@ -192,10 +191,10 @@ const handleChange = (e) => {
           </div>
 
           {/* Right form */}
-          <div className="flex flex-1 items-center justify-center px-4 py-14 sm:px-6 sm:py-12">
-            <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+          <div className="flex bg-white flex-1 items-center justify-center px-4 py-14 sm:px-6 sm:py-12">
+            <div className="w-full max-w-md sm:p-0 p-4 rounded-2xl">
               <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
-                Enroll Now 🚀
+                Let's Get To Know You! 🚀
               </h2>
               {errorActive && (
                 <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm">
@@ -328,7 +327,7 @@ const handleChange = (e) => {
                             )}
                           </div>
 
-                          <div className="mt-4 flex items-center justify-between">
+                          <div className="mt-4 flex-wrap sm:flex items-center justify-between">
                             <div className="flex gap-2">
                               {c.availableTracks.slice(0, 2).map((track, i) => (
                                 <span
@@ -345,7 +344,7 @@ const handleChange = (e) => {
                               )}
                             </div>
                             <p
-                              className={`text-[10px] font-black uppercase tracking-tighter ${isPastDeadline ? "text-rose-500" : "text-emerald-600"}`}
+                              className={`text-[10px] sm:mt-0 mt-3 font-black uppercase tracking-tighter ${isPastDeadline ? "text-rose-500" : "text-emerald-600"}`}
                             >
                               Deadline:{" "}
                               {new Date(
@@ -381,11 +380,10 @@ const handleChange = (e) => {
 
                 {PREMIUM_ONLY_TRACKS.includes(formData.track) && (
                   <div className="mt-2 text-xs bg-yellow-100 text-yellow-800 p-2 rounded-md">
-                    ⚠️ <strong>{formData.track}</strong> is a Premium-only track.
-                    Certificate and 1-year Premium access required.
+                    ⚠️ <strong>{formData.track}</strong> is a Premium-only
+                    track. Certificate and 1-year Premium access required.
                   </div>
                 )}
-
 
                 {/* Social */}
                 <div>
@@ -478,7 +476,30 @@ const handleChange = (e) => {
                   </a>
                   .
                 </label>
-
+                {/* Premium Benefits Callout */}
+                {/* Knownly Premium Benefit Text */}
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <div className="bg-indigo-50/50 rounded-xl p-5 border border-indigo-100/30">
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      <span className="inline-flex h-2 w-2 rounded-full bg-indigo-500 mr-2"></span>
+                      Paying for <strong>Knownly Premium</strong> means you will
+                      receive your verified certificate as soon as you make it
+                      through <strong>Stage 8(Final Stage)</strong>. It also
+                      gives you exclusive access to the{" "}
+                      <strong>Knownly Premium Network</strong>, a dedicated
+                      workspace where you get job offers and network with other
+                      techies in weekly online events. If you face any challenge
+                      or need help, kindly reach out to{" "}
+                      <a
+                        href="mailto:support@knownly.tech"
+                        className="text-indigo-600 font-bold hover:underline"
+                      >
+                        support@knownly.tech
+                      </a>
+                      .
+                    </p>
+                  </div>
+                </div>
                 <button
                   type="submit"
                   disabled={loading}
