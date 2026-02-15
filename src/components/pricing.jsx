@@ -22,7 +22,7 @@ export default function PricingSection() {
       highlighted: false,
       color: 'gray',
       cta: 'Start Free',
-      link: "/knownly/internships"
+      link: "/internships"
     },
     {
       name: 'Premium',

@@ -25,7 +25,7 @@ export default function PricingSection() {
       highlighted: false,
       color: 'gray',
       cta: 'Start Free',
-      link: "/knownly/internships"
+      link: "/internships"
     },
     {
       name: 'Premium',
@@ -48,7 +48,7 @@ export default function PricingSection() {
       highlighted: false,
       color: 'gray',
       cta: 'Go Premium',
-      link: "/knownly/internships"
+      link: "/internships"
     },
     {
       name: 'Premium+ Track',

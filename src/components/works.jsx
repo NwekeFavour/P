@@ -306,7 +306,7 @@ export default function HowItWorksSection() {
             your chance.
           </p>
           <Link
-            to={"/knownly/internships"}
+            to={"/internships"}
             className="group px-10 py-5 bg-gradient-to-r from-indigo-600 to-indigo-900 hover:from-sky-700 hover:to-gray-700 text-white text-lg font-bold rounded-full shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-3">
             Apply Now
             <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />

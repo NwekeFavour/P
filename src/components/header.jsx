@@ -84,7 +84,7 @@ export default function Header() {
             {/* CTA Buttons */}
             <div className="hidden lg:flex items-center gap-3">
               <Link
-                to={"/knownly/internships"}
+                to={"/internships"}
                 className="px-6 py-2 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold rounded-lg transition-colors"
               >
                 Apply Now

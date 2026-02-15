@@ -97,7 +97,7 @@ export default function Int() {
                             🚀 Next cohort starts soon, Free to apply!
                         </p>
                         <div className="flex gap-4 justify-start items-center mt-5 mb-8">
-                            <Link className="group lg:text-center md:text-start text-start px-3 lg:px-5 py-2 bg-gray-900 hover:bg-gray-800 text-white text-[14px] font-semibold rounded-lg transition-all duration-300 flex items-center gap-3" to={"/knownly/internships"}> 
+                            <Link className="group lg:text-center md:text-start text-start px-3 lg:px-5 py-2 bg-gray-900 hover:bg-gray-800 text-white text-[14px] font-semibold rounded-lg transition-all duration-300 flex items-center gap-3" to={"/internships"}> 
                                 Enroll for free!
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </Link>
@@ -409,7 +409,7 @@ export default function Int() {
           <p className="md:text-[14px] text-[13px] text-gray-400 mb-10">
             Applications for knownly Internships close in 3 weeks. Don't miss your chance.
           </p>
-          <Link className="group sm:px-4 w-[fit-content] px-3 py-2 sm:py-2 bg-white hover:bg-gray-100 text-gray-900 text-[16px] font-bold rounded-lg transition-all duration-300 flex items-center gap-3 mx-auto" to={"/knownly/internships"}>
+          <Link className="group sm:px-4 w-[fit-content] px-3 py-2 sm:py-2 bg-white hover:bg-gray-100 text-gray-900 text-[16px] font-bold rounded-lg transition-all duration-300 flex items-center gap-3 mx-auto" to={"/internships"}>
             Enroll for free!
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>

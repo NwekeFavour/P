@@ -95,7 +95,7 @@ export default function HeroSection() {
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 mb-20">
-            <Button onClick={() => navigate("/knownly/internships")} className="h-14 px-8 bg-sky-500 hover:bg-sky-400 text-black font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(14,165,233,0.3)]">
+            <Button onClick={() => navigate("/internships")} className="h-14 px-8 bg-sky-500 hover:bg-sky-400 text-black font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(14,165,233,0.3)]">
               Get Started for Free
             </Button>
             <Button variant="ghost" className="h-14 px-8 text-white hover:bg-white/5 hover:text-white rounded-xl border border-white/10">
