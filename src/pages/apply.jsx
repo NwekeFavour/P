@@ -32,7 +32,6 @@ function Apply() {
     social: "",
     university: "",
     package: "Free",
-    cohortId: "", // added cohort
   });
 
   const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
@@ -46,25 +45,25 @@ function Apply() {
       .catch((err) => console.error("Error loading universities:", err));
   }, []);
 
-  // Load cohorts
-  useEffect(() => {
-    const fetchCohorts = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/api/applications/cohorts/active`);
-        const data = await res.json();
-        // console.log(data);
-        setErrorActive(data.message);
-        if (data.success && data.data) {
-          setCohorts([data.data]);
-          setErrorActive("");
-        }
-      } catch (err) {
-        setError(err.message);
-        console.error("Error fetching cohorts:", err);
-      }
-    };
-    fetchCohorts();
-  }, []);
+  // // Load cohorts
+  // useEffect(() => {
+  //   const fetchCohorts = async () => {
+  //     try {
+  //       const res = await fetch(`${BASE_URL}/api/applications/cohorts/active`);
+  //       const data = await res.json();
+  //       // console.log(data);
+  //       setErrorActive(data.message);
+  //       if (data.success && data.data) {
+  //         setCohorts([data.data]);
+  //         setErrorActive("");
+  //       }
+  //     } catch (err) {
+  //       setError(err.message);
+  //       console.error("Error fetching cohorts:", err);
+  //     }
+  //   };
+  //   fetchCohorts();
+  // }, []);
 
   // Handle input change
   const handleChange = (e) => {
@@ -194,7 +193,7 @@ function Apply() {
           <div className="flex bg-white flex-1 items-center justify-center px-4 py-14 sm:px-6 sm:py-12">
             <div className="w-full max-w-md sm:p-0 p-4 rounded-2xl">
               <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
-                Let's Get To Know You! 🚀
+                Reserve Your Spot Today! 🚀
               </h2>
               {errorActive && (
                 <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm">
@@ -202,10 +201,18 @@ function Apply() {
                 </div>
               )}
               <form className="space-y-5" onSubmit={handleSubmit}>
-                {error && <p className="text-red-600 text-sm">{error}</p>}
-                {message && <p className="text-blue-800 text-sm">{message}</p>}
+                {error && (
+                  <p className="text-red-600 text-sm font-medium bg-red-50 p-2 rounded">
+                    {error}
+                  </p>
+                )}
+                {message && (
+                  <p className="text-blue-800 text-sm font-medium bg-blue-50 p-2 rounded">
+                    {message}
+                  </p>
+                )}
 
-                {/* Name */}
+                {/* Name Row */}
                 <div className="grid gap-4 md:grid-cols-2">
                   <input
                     type="text"
@@ -214,7 +221,7 @@ function Apply() {
                     value={formData.fname}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
                   />
                   <input
                     type="text"
@@ -223,7 +230,7 @@ function Apply() {
                     value={formData.lname}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
                   />
                 </div>
 
@@ -235,7 +242,7 @@ function Apply() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
                 />
                 <input
                   type="tel"
@@ -243,122 +250,46 @@ function Apply() {
                   placeholder="Phone Number"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                  required
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
                 />
 
-                {/* Student / Professional */}
-                <div className="text-sm font-medium text-gray-700 mb-2">
-                  Are you a student or a professional?
-                </div>
-                <div className="flex flex-col gap-2 mb-4">
-                  <label className="flex items-center gap-2 text-sm">
-                    <input
-                      type="radio"
-                      name="level"
-                      value="Student"
-                      checked={formData.level === "Student"}
-                      onChange={(e) => {
-                        setIsStudent(true);
-                        setFormData({ ...formData, level: e.target.value });
-                      }}
-                    />
-                    Student
-                  </label>
-                  <label className="flex items-center gap-2 text-sm">
-                    <input
-                      type="radio"
-                      name="level"
-                      value="Professional"
-                      checked={formData.level === "Professional"}
-                      onChange={(e) => {
-                        setIsStudent(false);
-                        setFormData({ ...formData, level: e.target.value });
-                      }}
-                    />
-                    Professional
-                  </label>
-                </div>
-
-                {/* Cohort selection */}
-                <div className="space-y-3">
-                  <label className="text-sm font-bold text-slate-700 ml-1">
-                    Active Cohort
-                  </label>
-                  <div className="grid grid-cols-1 gap-3">
-                    {cohorts.map((c) => {
-                      const isSelected = formData.cohortId === c._id;
-                      const isPastDeadline =
-                        new Date(c.applicationDeadline) < new Date();
-
-                      return (
-                        <div
-                          key={c._id}
-                          onClick={() =>
-                            !isPastDeadline &&
-                            setFormData({ ...formData, cohortId: c._id })
-                          }
-                          className={`relative p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 ${
-                            isSelected
-                              ? "border-indigo-600 bg-indigo-50/50 shadow-md"
-                              : "border-slate-100 bg-white hover:border-slate-200"
-                          } ${isPastDeadline ? "opacity-50 cursor-not-allowed" : ""}`}
-                        >
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h4 className="font-black text-slate-900">
-                                {c.name}
-                              </h4>
-                              <p className="text-xs text-slate-500 mt-1">
-                                Starts:{" "}
-                                {new Date(c.startDate).toLocaleDateString(
-                                  undefined,
-                                  {
-                                    month: "short",
-                                    day: "numeric",
-                                    year: "numeric",
-                                  },
-                                )}
-                              </p>
-                            </div>
-                            {isSelected && (
-                              <div className="h-5 w-5 bg-indigo-600 rounded-full flex items-center justify-center">
-                                <Check className="w-3 h-3 text-white" />
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="mt-4 flex-wrap sm:flex items-center justify-between">
-                            <div className="flex gap-2">
-                              {c.availableTracks.slice(0, 2).map((track, i) => (
-                                <span
-                                  key={i}
-                                  className="text-[10px] px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md font-bold"
-                                >
-                                  {track}
-                                </span>
-                              ))}
-                              {c.availableTracks.length > 2 && (
-                                <span className="text-[10px] text-slate-400">
-                                  +{c.availableTracks.length - 2}
-                                </span>
-                              )}
-                            </div>
-                            <p
-                              className={`text-[10px] sm:mt-0 mt-3 font-black uppercase tracking-tighter ${isPastDeadline ? "text-rose-500" : "text-emerald-600"}`}
-                            >
-                              Deadline:{" "}
-                              {new Date(
-                                c.applicationDeadline,
-                              ).toLocaleDateString()}
-                            </p>
-                          </div>
-                        </div>
-                      );
-                    })}
+                {/* Student / Professional Toggle */}
+                <div>
+                  <div className="text-sm font-medium text-gray-700 mb-2">
+                    Are you a student or a professional?
+                  </div>
+                  <div className="flex gap-4">
+                    <label className="flex items-center gap-2 text-sm cursor-pointer">
+                      <input
+                        type="radio"
+                        name="level"
+                        value="Student"
+                        checked={formData.level === "Student"}
+                        onChange={(e) => {
+                          setIsStudent(true);
+                          setFormData({ ...formData, level: e.target.value });
+                        }}
+                      />
+                      Student
+                    </label>
+                    <label className="flex items-center gap-2 text-sm cursor-pointer">
+                      <input
+                        type="radio"
+                        name="level"
+                        value="Professional"
+                        checked={formData.level === "Professional"}
+                        onChange={(e) => {
+                          setIsStudent(false);
+                          setFormData({ ...formData, level: e.target.value });
+                        }}
+                      />
+                      Professional
+                    </label>
                   </div>
                 </div>
 
-                {/* Track */}
+                {/* Track Selection */}
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-700">
                     Select Your Track
@@ -367,7 +298,7 @@ function Apply() {
                     name="track"
                     value={formData.track}
                     onChange={handleChange}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
                     required
                   >
                     <option value="">Select a track</option>
@@ -379,30 +310,27 @@ function Apply() {
                 </div>
 
                 {PREMIUM_ONLY_TRACKS.includes(formData.track) && (
-                  <div className="mt-2 text-xs bg-yellow-100 text-yellow-800 p-2 rounded-md">
+                  <div className="mt-2 text-xs bg-yellow-50 text-yellow-800 p-3 border border-yellow-100 rounded-md">
                     ⚠️ <strong>{formData.track}</strong> is a Premium-only
                     track. Certificate and 1-year Premium access required.
                   </div>
                 )}
 
-                {/* Social */}
+                {/* Referral Source */}
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-700">
                     How did you hear about us?
                   </label>
                   <select
                     name="social"
-                    required // Ensures the browser validates it
+                    required
                     value={formData.social}
                     onChange={handleChange}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
                   >
-                    {/* 1. Add a placeholder with an empty value */}
                     <option value="" disabled>
                       Select an option
                     </option>
-
-                    {/* 2. Add explicit values to your options */}
                     <option value="Social Media">Social Media</option>
                     <option value="Friend or Colleague">
                       Friend or Colleague
@@ -412,7 +340,7 @@ function Apply() {
                   </select>
                 </div>
 
-                {/* University */}
+                {/* University (Conditional) */}
                 {isStudent && (
                   <div>
                     <label className="block mb-2 text-sm font-medium text-gray-700">
@@ -422,8 +350,9 @@ function Apply() {
                       name="university"
                       value={formData.university}
                       onChange={handleChange}
-                      className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
-                    >    
+                      required
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+                    >
                       <option value="">Select University</option>
                       {universities.map((uni, i) => (
                         <option key={i} value={uni.name}>
@@ -434,13 +363,15 @@ function Apply() {
                   </div>
                 )}
 
-                {/* Package */}
-                <div>
-                  <p className="text-sm text-gray-600 mb-2">
-                    Would you like a certificate?
+                {/* Package Choice */}
+                <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                  <p className="text-sm font-bold text-gray-700 mb-3">
+                    Certification & Access
                   </p>
-                  <div className="flex flex-col gap-2">
-                    <label className="flex items-center gap-2 text-sm">
+                  <div className="space-y-3">
+                    <label
+                      className={`flex items-center gap-2 text-sm ${PREMIUM_ONLY_TRACKS.includes(formData.track) ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                    >
                       <input
                         type="radio"
                         name="package"
@@ -451,7 +382,7 @@ function Apply() {
                       />
                       Free (No Certificate)
                     </label>
-                    <label className="flex items-center gap-2 text-sm">
+                    <label className="flex items-center gap-2 text-sm cursor-pointer">
                       <input
                         type="radio"
                         name="package"
@@ -459,25 +390,31 @@ function Apply() {
                         checked={formData.package === "Premium"}
                         onChange={handleChange}
                       />
-                      Premium – Certificate + 1yr Premium Access
+                      <span className="font-semibold text-indigo-600">
+                        Premium
+                      </span>{" "}
+                      – Certificate + 1yr Network Access
                     </label>
                   </div>
                 </div>
 
-                {/* Privacy */}
-                <label className="flex items-start gap-2 text-xs text-gray-600">
-                  <input type="checkbox" required />I agree to the{" "}
-                  <a href="/terms" className="text-blue-600 underline">
-                    Terms
-                  </a>{" "}
-                  and{" "}
-                  <a href="/privacy" className="text-blue-600 underline">
-                    Privacy Policy
-                  </a>
-                  .
+                {/* Terms */}
+                <label className="flex items-start gap-2 text-xs text-gray-600 cursor-pointer">
+                  <input type="checkbox" className="mt-0.5" required />
+                  <span>
+                    I agree to the{" "}
+                    <a href="/terms" className="text-indigo-600 underline">
+                      Terms
+                    </a>{" "}
+                    and{" "}
+                    <a href="/privacy" className="text-indigo-600 underline">
+                      Privacy Policy
+                    </a>
+                    .
+                  </span>
                 </label>
-                {/* Premium Benefits Callout */}
-                {/* Knownly Premium Benefit Text */}
+
+                {/* Premium Info Box */}
                 <div className="mt-8 pt-6 border-t border-slate-100">
                   <div className="bg-indigo-50/50 rounded-xl p-5 border border-indigo-100/30">
                     <p className="text-xs text-slate-600 leading-relaxed">
@@ -500,12 +437,17 @@ function Apply() {
                     </p>
                   </div>
                 </div>
+
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`w-full rounded-full py-3 text-white font-semibold transition mt-6 ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-gray-900 hover:bg-black"}`}
+                  className={`w-full rounded-full py-4 text-white font-bold transition-all shadow-lg ${
+                    loading
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98]"
+                  }`}
                 >
-                  {loading ? "Submitting..." : "Continue to Enroll"}
+                  {loading ? "Processing..." : "Continue to Enroll"}
                 </button>
               </form>
             </div>

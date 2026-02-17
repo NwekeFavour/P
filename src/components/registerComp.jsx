@@ -157,7 +157,7 @@ const [success, setSuccess] = useState(false); // Registration success state
               className="w-full border rounded px-3 py-2"
             >
               <option value="admin">Admin</option>
-              <option value="super-admin">Super Admin</option>
+              <option disabled value="super-admin">Super Admin</option>
             </select>
           </div>
 
