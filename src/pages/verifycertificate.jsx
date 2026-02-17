@@ -59,7 +59,6 @@ export default function VerifyCertificate() {
     <div className="min-h-screen bg-[#f8fafc] flex flex-col items-center justify-center p-6">
       {/* Brand Header */}
       <div className="flex items-center gap-2 mb-8">
-        <img src="https://knownly.tech/logo.png" alt="Logo" className="w-8 h-8" />
         <div className="flex flex-col leading-none">
           <span className="text-xl font-black tracking-tighter text-slate-900">KNOWNLY</span>
           <span className="text-[8px] font-bold tracking-[0.3em] text-indigo-600 uppercase">Internships</span>
