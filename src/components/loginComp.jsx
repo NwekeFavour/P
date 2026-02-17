@@ -26,7 +26,7 @@ function LoginComp({setUser}) {
       });
 
       const data = await res.json();
-        console.log(data); // Debug response
+        // console.log(data); // Debug response
 
       if (!res.ok) {
         setMessage(data.message || 'Login failed');

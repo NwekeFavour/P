@@ -481,17 +481,12 @@ const [isModalOpen, setIsModalOpen] = useState(false);
                                 <ExternalLink className="w-3 h-3" />
                               </a>
 
-                              <button
-                                disabled={!reviewable}
-                                onClick={() => openDeleteManager(sub)}
-                                className={`p-2 rounded-lg transition ${
-                                  reviewable
-                                    ? "text-slate-300 hover:text-red-600 hover:bg-red-50"
-                                    : "text-slate-200 cursor-not-allowed"
-                                }`}
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
+                               <button
+                                    onClick={() => openDeleteManager(sub)}
+                                    className="p-2 hover:bg-red-50 rounded-lg text-slate-300 hover:text-red-600 transition-all"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
                             </div>
                           </div>
                         );

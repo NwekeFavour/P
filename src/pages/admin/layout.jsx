@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { toast } from "sonner";
-
+import Knownly from "../../assets/images/knownly-removebg-preview.png"
 export default function AdminLayout({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -109,10 +109,7 @@ export default function AdminLayout({ children }) {
       <aside className="w-64 fixed top-0 left-0 bottom-0 bg-white border-r border-gray-100 p-6 hidden lg:flex flex-col justify-between z-40">
         <div>
           <div className="flex items-center gap-2 px-2 mb-10">
-            <div className="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center">
-              <div className="w-2 h-2 bg-white rounded-full animate-pulse shadow-[0_0_8px_white]" />
-            </div>
-            <h2 className="text-xl font-bold tracking-tight">Knownly</h2>
+            <img src={Knownly} className="w-30 h-24" alt="" />
           </div>
           
           <p className="px-2 text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-4">Management</p>
@@ -142,12 +139,9 @@ export default function AdminLayout({ children }) {
 
       {/* --- MOBILE HEADER (Visible below lg) --- */}
       <header className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-md border-b border-gray-100 z-50 px-6 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-gray-900 rounded flex items-center justify-center">
-            <div className="w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_4px_white]" />
-          </div>
-          <h2 className="text-lg font-bold">Knownly</h2>
-        </div>
+       {/* <div className="flex items-center gap-2 px-2 mb-10">
+            <img src={Knownly} className="w-30 h-24" alt="" />
+          </div> */}
 
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild>
