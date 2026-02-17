@@ -10,7 +10,6 @@ import Register from './pages/auth/signup/register';
 import Int from './pages/int';
 import ScrollToTop from './components/scrolltoTop';
 import Premium from './pages/premium';
-import Contact from './pages/contact';
 import Users from './pages/superAdmin/users';
 import Talent from './pages/talent';
 import AdminPrem from './pages/superAdmin/prem';
@@ -25,6 +24,7 @@ import CohortManagement from './pages/admin/cohorts';
 import ApplicationsDashboard from './pages/admin/application'
 import PaymentCallback from './components/paymentcallback';
 import VerifyCertificate from './pages/verifycertificate';
+import ContactPage from './pages/contact';
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -63,7 +63,7 @@ function App() {
         <Route path="/sign-up" element={<Register />} />
         <Route path="/internships" element={<Apply />} />
         <Route path="/internship" element={<Int />} />
-        <Route path="/contact-us" element={<Contact />} />
+        <Route path="/contact-us" element={<ContactPage />} />
         <Route path="/premium" element={<Premium />} />
         <Route path="/knownly/talents" element={<Talent />} />
         <Route path="/internships/join" element={<JoinWorkspace />} />
