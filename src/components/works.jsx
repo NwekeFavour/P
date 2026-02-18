@@ -259,7 +259,7 @@ export default function HowItWorksSection() {
                 Earning Opportunities
               </h4>
               <p className="text-gray-400 text-sm">
-                Connect with internships, projects & jobs — many earn
+                Connect with internships, projects & jobs, many earn
                 ₦150k–₦500k within months.
               </p>
             </div>

@@ -42,7 +42,7 @@ function Talent(props) {
                     A Trusted Marketplace for Exceptional Tech Talent
                     </p>
                     <p className="text-sm mt-3">
-                    Hire vetted, job-ready professionals across design, development, and product — trained to deliver results and drive innovation.
+                    Hire vetted, job-ready professionals across design, development, and product, trained to deliver results and drive innovation.
                     </p>
                 </div>
 
@@ -51,8 +51,8 @@ function Talent(props) {
                     <h3 className="text-xl font-bold mb-4 text-center">Why Hire From Us?</h3>
                     <ul className="space-y-3 text-sm leading-relaxed">
                     <li>✅ <span className="font-semibold">Pre-vetted professionals</span> trained through real-world projects.</li>
-                    <li>⚡ <span className="font-semibold">Faster onboarding</span> — talents who understand agile workflows.</li>
-                    <li>💡 <span className="font-semibold">Problem-solvers, not just coders</span> — ready to deliver business impact.</li>
+                    <li>⚡ <span className="font-semibold">Faster onboarding</span>, talents who understand agile workflows.</li>
+                    <li>💡 <span className="font-semibold">Problem-solvers, not just coders</span>, ready to deliver business impact.</li>
                     <li>🌍 <span className="font-semibold">Global collaboration experience</span> from working in diverse teams.</li>
                     </ul>
                 </div>
@@ -99,7 +99,7 @@ function Talent(props) {
                 </h2>
                 <p className="text-gray-600 mb-6 max-w-md">
                 Let’s help you find top-tier designers, developers, and product managers trained to 
-                deliver excellence from day one. Fill out the form to connect with us — we’ll match 
+                deliver excellence from day one. Fill out the form to connect with us, we’ll match 
                 you with the perfect talent for your team.
                 </p>
                 <p className="text-gray-500 text-sm">

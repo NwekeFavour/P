@@ -24,7 +24,7 @@ export default function Int() {
 
   const testimonials = [
     {
-      quote: "knownly didn't just teach me to code—it transformed my entire career trajectory. Within 2 months of graduating, I landed a role at one of Nigeria's top fintech companies.",
+      quote: "knownly didn't just teach me to code, it transformed my entire career trajectory. Within 2 months of graduating, I landed a role at one of Nigeria's top fintech companies.",
       author: "Adebayo Michael",
       role: "Software Engineer at Paystack",
       cohort: "Cohort 4 (2024)",
@@ -38,7 +38,7 @@ export default function Int() {
       image: "CO"
     },
     {
-      quote: "What sets knownly apart is the real-world experience. You're not just learning—you're building actual products that real users interact with.",
+      quote: "What sets knownly apart is the real-world experience. You're not just learningyou're building actual products that real users interact with.",
       author: "Ibrahim Hassan",
       role: "Backend Engineer at Andela",
       cohort: "Cohort 5 (2024)",
@@ -54,7 +54,7 @@ export default function Int() {
     },
     {
       title: 'Work Under Pressure',
-      description: 'Experience the intensity of real tech environments. Learn to ship code fast, debug efficiently, and meet tight deadlines—skills that matter.',
+      description: 'Experience the intensity of real tech environments. Learn to ship code fast, debug efficiently, and meet tight deadlines, skills that matter.',
       icon: Zap
     },
     {

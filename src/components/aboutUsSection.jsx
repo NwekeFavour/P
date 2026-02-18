@@ -22,7 +22,7 @@ export default function AboutUsSection() {
             </span>
           </h2>
           <p className="sm:text-[20px] text-[16px] text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            We believe every Nigerian student with passion and drive deserves the opportunity to build a thriving tech career—regardless of background or connections.
+            We believe every Nigerian student with passion and drive deserves the opportunity to build a thriving tech career, regardless of background or connections.
           </p>
         </div>
 
@@ -145,7 +145,7 @@ export default function AboutUsSection() {
                 </svg>
             </div>
             <p className="text-gray-600 text-lg mb-4 italic leading-relaxed">
-                "knownly didn't just teach me to code—they showed me I could build a career I'm proud of. Within 2 months of graduating, I landed a role at a top fintech company."
+                "knownly didn't just teach me to code, they showed me I could build a career I'm proud of. Within 2 months of graduating, I landed a role at a top fintech company."
             </p>
             <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">

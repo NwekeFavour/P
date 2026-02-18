@@ -445,7 +445,7 @@ const [isModalOpen, setIsModalOpen] = useState(false);
                                   {sub.application?.package === "Premium" &&
                                     sub.application?.status !== "Approved" && (
                                       <span className="px-2 py-0.5 rounded-full text-[8px] font-black bg-amber-100 text-amber-700">
-                                        PAID — NOT APPROVED
+                                        PAID - NOT APPROVED
                                       </span>
                                     )}
 

@@ -205,7 +205,7 @@ export default function PricingSection() {
             </h3>
             <p className="text-gray-700 text-lg leading-relaxed mb-6">
               Complete any of our programs and you’ll gain the skills, projects, and mentorship 
-              needed to launch or grow your tech career — guaranteed.
+              needed to launch or grow your tech career, guaranteed.
             </p>
             {/* <div className="inline-flex items-center gap-2 text-purple-600 font-semibold">
               <Check className="w-6 h-6" />

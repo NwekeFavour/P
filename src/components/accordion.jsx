@@ -27,13 +27,13 @@ export default function Accordion() {
     icon: Briefcase,
     color: 'purple',
     title: 'Will I Get a Job After?',
-    content: 'We aren’t just building a community of job hunters; we’re building a network of builders. Our focus is on technical mastery and product ownership. We provide the tools—resume workshops, LinkedIn optimization, and hiring manager intros—but the goal is to make your skills so undeniable that you dont just find a job, you choose your path.'
+    content: 'We aren’t just building a community of job hunters; we’re building a network of builders. Our focus is on technical mastery and product ownership. We provide the tools, resume workshops, LinkedIn optimization, and hiring manager intros, but the goal is to make your skills so undeniable that you dont just find a job, you choose your path.'
   },
   {
     icon: Rocket,
     color: 'orange',
     title: 'What Makes This Different?',
-    content: 'We don’t train job hunters — we build builders. You work on real products for real companies, operate in sprints, attend standups, receive senior code reviews, and ship features to production. You graduate with real-world experience and a builder’s mindset, not just a polished CV.'
+    content: 'We don’t train job hunters, we build builders. You work on real products for real companies, operate in sprints, attend standups, receive senior code reviews, and ship features to production. You graduate with real-world experience and a builder’s mindset, not just a polished CV.'
   }
 ];
 
