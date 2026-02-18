@@ -56,21 +56,23 @@ export default function AboutUsSection() {
 
             <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-md">
             <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
-                <Lightbulb className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900">Our Approach</h3>
-            </div>
-            <p className="text-gray-600 leading-relaxed  sm:text-[18px] text-[16px]">
-                We partner with Nigeria's leading tech companies to offer real projects, real mentorship, and real pay. No fake promises. No toy projects. Just authentic experience that prepares you for the job market.
-            </p>
+  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
+    <Lightbulb className="w-6 h-6 text-white" />
+  </div>
+  <h3 className="text-2xl font-bold text-gray-900">Our Approach</h3>
+</div>
+
+<p className="text-gray-600 leading-relaxed sm:text-[18px] text-[16px]">
+  We simulate real-world engineering environments where you work on meaningful products, follow agile sprints, receive senior-level code reviews, and ship production-ready features. No toy projects. No empty promises. Just practical experience that builds true product engineers.
+</p>
+
             </div>
         </div>
 
         {/* Right Column - Stats & Values */}
         <div className="space-y-6">
             {/* Impact Stats */}
-            <div className="bg-gradient-to-br from-sky-950/50  to-gray-950 rounded-3xl p-8 shadow-lg text-white">
+            {/* <div className="bg-gradient-to-br from-sky-950/50  to-gray-950 rounded-3xl p-8 shadow-lg text-white">
             <h3 className="text-2xl font-bold mb-6">Our Impact</h3>
             <div className="grid grid-cols-2 gap-6">
                 <div>
@@ -90,7 +92,7 @@ export default function AboutUsSection() {
                 <div className="text-sm opacity-90">Paid in Stipends</div>
                 </div>
             </div>
-            </div>
+            </div> */}
 
             {/* Core Values */}
             <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-md">
@@ -136,7 +138,7 @@ export default function AboutUsSection() {
             </div>
 
             {/* Testimonial Quote */}
-            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-md">
+            {/* <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-md">
             <div className="mb-4">
                 <svg className="w-10 h-10 text-blue-500 opacity-50" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
@@ -154,7 +156,7 @@ export default function AboutUsSection() {
                 <div className="text-sm text-gray-500">Cohort 4, Now at Paystack</div>
                 </div>
             </div>
-            </div>
+            </div> */}
         </div>
         </div>
 

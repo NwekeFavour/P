@@ -39,8 +39,8 @@ export default function PricingSection() {
         { text: 'Priority code reviews', included: true },
         { text: 'Resume & portfolio workshops', included: true },
         { text: 'Mock interview preparation', included: true },
+        { text: '1-year alumni network access', included: true },
         { text: 'Industry-recognized certificate', included: true },
-        { text: 'Lifetime alumni network access', included: true },
         { text: 'Job placement support', included: true, highlight: true }
       ],
       highlighted: true,
@@ -63,13 +63,13 @@ export default function PricingSection() {
         { text: 'Direct mentorship from industry experts', included: true },
         { text: 'Career roadmap & specialization certification', included: true },
         { text: 'Job referral to partner companies', included: true, highlight: true },
-        { text: '1-year alumni network access', included: true },
+        { text: 'Lifetime alumni network access', included: true },
         { text: 'Exclusive specialization badge', included: true }
       ],
       highlighted: false,
       color: 'gray',
       cta: 'Enroll Now',
-      link: "/specialization",
+      link: "/internships",
       badge: 'ADVANCED'
     }
   ];
@@ -207,10 +207,10 @@ export default function PricingSection() {
               Complete any of our programs and you’ll gain the skills, projects, and mentorship 
               needed to launch or grow your tech career — guaranteed.
             </p>
-            <div className="inline-flex items-center gap-2 text-purple-600 font-semibold">
+            {/* <div className="inline-flex items-center gap-2 text-purple-600 font-semibold">
               <Check className="w-6 h-6" />
               <span>95% of graduates secure jobs within 6 months</span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

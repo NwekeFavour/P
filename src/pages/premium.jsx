@@ -15,7 +15,7 @@ export default function PricingSection() {
         { text: 'Access to learning materials', included: true },
         { text: 'Community forum access', included: true },
         { text: 'Weekly group webinars', included: true },
-        { text: 'Work on small projects', included: true },
+        { text: 'Work on real-world projects', included: true },
         { text: 'Real-world projects', included: false },
         { text: '1-on-1 mentorship', included: false },
         { text: 'Resume & portfolio support', included: false },
@@ -71,7 +71,7 @@ export default function PricingSection() {
       highlighted: true,
       color: 'gray',
       cta: 'Join Premium+ Track',
-      link: "/premiumplus",
+      link: "/internships",
       badge: 'BEST VALUE'
     }
   ];
@@ -112,7 +112,7 @@ export default function PricingSection() {
               Lifetime Access
             </span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="md:text-xl text-[16px] text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Try for free, go premium, or join our exclusive Premium+ Track for specialized mentorship and career growth.
           </p>
         </div>
@@ -211,10 +211,10 @@ export default function PricingSection() {
               and confidence to land your dream role. We’ll support you with mentorship and 
               job readiness every step of the way.
             </p>
-            <div className="inline-flex items-center gap-2 text-purple-600 font-semibold">
+            {/* <div className="inline-flex items-center gap-2 text-purple-600 font-semibold">
               <Check className="w-6 h-6" />
               <span>95% of Premium+ graduates land roles within 6 months</span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -27,13 +27,13 @@ export default function Accordion() {
     icon: Briefcase,
     color: 'purple',
     title: 'Will I Get a Job After?',
-    content: 'We connect you with 50+ partner companies including Paystack, Flutterwave, and other top startups. You’ll also get resume workshops, mock interviews, LinkedIn optimization, and introductions to hiring managers. Most graduates land jobs within 6 months.'
+    content: 'We aren’t just building a community of job hunters; we’re building a network of builders. Our focus is on technical mastery and product ownership. We provide the tools—resume workshops, LinkedIn optimization, and hiring manager intros—but the goal is to make your skills so undeniable that you dont just find a job, you choose your path.'
   },
   {
     icon: Rocket,
     color: 'orange',
     title: 'What Makes This Different?',
-    content: 'Unlike other programs, you build real products for real companies while working in sprints, attending daily standups, and getting code reviews from senior engineers. You’ll ship features to production and learn directly from mentors at Paystack, Andela, and Flutterwave.'
+    content: 'We don’t train job hunters — we build builders. You work on real products for real companies, operate in sprints, attend standups, receive senior code reviews, and ship features to production. You graduate with real-world experience and a builder’s mindset, not just a polished CV.'
   }
 ];
 
