@@ -16,6 +16,7 @@ import {
   Inbox,
   Layers,
   Settings,
+  ChevronDown,
 } from "lucide-react";
 import AdminLayout from "./layout";
 import { toast } from "sonner";
@@ -27,6 +28,11 @@ export default function SAdminDashboard() {
     pendingApplications: 0,
     conversionRate: "0%",
   });
+  const [expandedIndex, setExpandedIndex] = useState(null);
+
+  const toggleDetails = (index) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
   const [applications, setApplications] = useState([]);
   const [selectedCohort, setSelectedCohort] = useState("all");
   const [cohorts, setCohorts] = useState([]);
@@ -300,43 +306,92 @@ export default function SAdminDashboard() {
                 </div>
               ) : filteredApplications.length > 0 ? (
                 <div className="grid grid-cols-1 gap-3">
-                  {filteredApplications.map((app, i) => (
-                    <div
-                      key={i}
-                      className="group flex items-center justify-between p-4 rounded-3xl bg-white border border-gray-50 hover:border-gray-200 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="relative">
-                          <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center text-lg font-bold text-gray-900 group-hover:bg-gray-900 group-hover:text-white transition-colors duration-300">
-                            {app.fname[0]}
-                          </div>
-                          <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 border-4 border-white rounded-full" />
-                        </div>
-                        <div>
-                          <h4 className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                            {app.fname} {app.lname}
-                          </h4>
-                          <p className="text-xs text-gray-400 font-medium tracking-tight">
-                            {app.email}
-                          </p>
-                        </div>
-                      </div>
+                  {filteredApplications.map((app, i) => {
+                    const isExpanded = expandedIndex === i;
+                    return (
+                      <div key={i} className="flex flex-col gap-2">
+                        {/* Main Card */}
+                        <div
+                          className={`group flex items-center justify-between p-4 rounded-3xl bg-white border border-gray-100 hover:shadow-md transition-shadow duration-300 cursor-pointer`}
+                          onClick={() => toggleDetails(i)}
+                        >
+                          <div className="flex items-center gap-4">
+                            {/* Avatar */}
+                            <div className="relative">
+                              <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center text-lg font-bold text-gray-900 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                                {app.fname[0]}
+                              </div>
+                              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full" />
+                            </div>
 
-                      <div className="flex items-center gap-6">
-                        <div className="hidden md:block text-right">
-                          <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">
-                            Applied For
-                          </p>
-                          <p className="text-xs font-bold text-gray-600">
-                            {app.track || "General"}
-                          </p>
+                            {/* Name & Email */}
+                            <div>
+                              <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                                {app.fname} {app.lname}
+                              </h4>
+                              <p className="text-xs text-gray-500 font-medium tracking-tight">
+                                {app.email}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Applied Track & Expand Icon */}
+                          <div className="flex items-center gap-4">
+                            <div className="hidden md:block text-right">
+                              <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">
+                                Applied For
+                              </p>
+                              <p className="text-xs font-semibold text-gray-600">
+                                {app.track || "General"}
+                              </p>
+                            </div>
+                            <div className="flex items-center justify-center p-2 rounded-full bg-gray-50 group-hover:bg-blue-600 transition-colors duration-300">
+                              {isExpanded ? (
+                                <ChevronDown className="w-5 h-5 text-gray-600 group-hover:text-white" />
+                              ) : (
+                                <ChevronRight className="w-5 h-5 text-gray-600 group-hover:text-white" />
+                              )}
+                            </div>
+                          </div>
                         </div>
-                        <div className="p-2 rounded-xl bg-gray-50 group-hover:bg-gray-900 group-hover:text-white transition-all">
-                          <ChevronRight className="w-5 h-5" />
-                        </div>
+
+                        {/* Expanded Details */}
+                        {isExpanded && (
+                          <div className="bg-gray-50 p-4 rounded-2xl border border-gray-200 animate-fadeIn shadow-sm">
+                            <h5 className="font-semibold text-gray-700 mb-3">
+                              Applicant Details
+                            </h5>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
+                              <p>
+                                <strong>Full Name:</strong> {app.fname}{" "}
+                                {app.lname}
+                              </p>
+                              <p>
+                                <strong>Email:</strong> {app.email}
+                              </p>
+                              <p>
+                                <strong>Phone:</strong> {app.phone || "N/A"}
+                              </p>
+                              <p>
+                                <strong>Track:</strong> {app.track || "General"}
+                              </p>
+                              <p>
+                                <strong>Level:</strong> {app.level || "N/A"}
+                              </p>
+                              <p>
+                                <strong>Social Source:</strong>{" "}
+                                {app.social || "N/A"}
+                              </p>
+                              <p>
+                                <strong>University:</strong>{" "}
+                                {app.university || "N/A"}
+                              </p>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               ) : (
                 <EmptyState />

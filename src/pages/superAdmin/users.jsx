@@ -55,9 +55,6 @@ export default function Users() {
                   className="w-full pl-10 pr-4 py-2.5 md:py-2 bg-white border border-gray-100 rounded-xl text-sm focus:ring-4 focus:ring-gray-50 outline-none md:w-64 transition-all"
                 />
              </div>
-             <button className="flex items-center justify-center gap-2 px-4 py-2.5 md:py-2 bg-gray-900 text-white rounded-xl text-xs font-bold hover:bg-gray-800 transition-all active:scale-95">
-               Add New User
-             </button>
           </div>
         </div>
 
