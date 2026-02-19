@@ -4,15 +4,16 @@ import { Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 
-function LoginComp({setUser}) {
-  const [onDisplay, setOnDisplay] = useState(false); // Password visibility
-  const [loading, setLoading] = useState(false); // Loading state
-  const [message, setMessage] = useState(''); // Error message
+function LoginComp({ setUser }) {
+  const [onDisplay, setOnDisplay] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const endpoint = `${import.meta.env.VITE_BACKEND_URL}/api/auth/login`;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
@@ -26,7 +27,6 @@ function LoginComp({setUser}) {
       });
 
       const data = await res.json();
-        // console.log(data); // Debug response
 
       if (!res.ok) {
         setMessage(data.message || 'Login failed');
@@ -34,20 +34,23 @@ function LoginComp({setUser}) {
         return;
       }
 
-      // Save token (e.g., localStorage)
       localStorage.setItem('adminToken', data.token);
-      const role = localStorage.setItem('user', JSON.stringify(data.user.role));
-    setUser(data.user.role);
-      // Redirect to dashboard or homepage
+      localStorage.setItem('user', JSON.stringify(data.user.role));
+      setUser(data.user.role);
+
       if (data.user.role === 'super-admin') navigate('/dashboard');
-        else if (data.user.role === 'admin') navigate('/admin');
-      
+      else if (data.user.role === 'admin') navigate('/admin');
     } catch (error) {
       console.error(error);
       setMessage('An unexpected error occurred');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleForgotPassword = () => {
+    // Navigate to forgot password page
+    navigate('/forgot-password');
   };
 
   return (
@@ -70,7 +73,7 @@ function LoginComp({setUser}) {
             />
           </div>
 
-          <div className="mb-4">
+          <div className="mb-2">
             <label htmlFor="password" className="block text-gray-700 mb-2">
               Password
             </label>
@@ -97,10 +100,17 @@ function LoginComp({setUser}) {
             </div>
           </div>
 
+          <div className="text-end mb-4 text-sm text-cyan-600 cursor-pointer hover:underline" onClick={handleForgotPassword}>
+            Forgot password?
+          </div>
+
           {message && <p className="text-red-500 text-sm mb-3">{message}</p>}
 
-            <Button disabled={loading} type="submit" className="w-full bg-gray-500/90 text-white py-2 px-4 rounded hover:bg-gray-600 transition duration-300">
-          
+          <Button
+            disabled={loading}
+            type="submit"
+            className="w-full bg-gray-500/90 text-white py-2 px-4 rounded hover:bg-gray-600 transition duration-300"
+          >
             {loading ? (
               <>
                 <svg

@@ -25,6 +25,8 @@ import ApplicationsDashboard from './pages/admin/application'
 import PaymentCallback from './components/paymentcallback';
 import VerifyCertificate from './pages/verifycertificate';
 import ContactPage from './pages/contact';
+import ForgotPasswordComp from './pages/forgot';
+import ResetPasswordComp from './pages/reset';
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -60,7 +62,9 @@ function App() {
         {/* Public routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login setUser={setUser}/>} />
+        <Route path='/forgot-password' element={<ForgotPasswordComp/>}/>
         <Route path="/sign-up" element={<Register />} />
+        <Route path='/auth/reset-password/:token' element={<ResetPasswordComp/>}/>
         <Route path="/internships" element={<Apply />} />
         <Route path="/internship" element={<Int />} />
         <Route path="/contact-us" element={<ContactPage />} />

@@ -47,7 +47,6 @@ function PremiumPaymentPage({ userData }) {
             university: userData?.university,
             track: userData?.track,
             level: userData?.level,
-            cohortId: userData?.cohortId,
             social: userData?.social || "Other",
           },
         }

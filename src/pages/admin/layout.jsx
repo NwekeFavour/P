@@ -149,7 +149,7 @@ export default function AdminLayout({ children }) {
               <Menu className="w-6 h-6" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-72 p-6 border-none">
+          <SheetContent side="left" className="w-72 p-6 border-none bg-white! ">
             <SheetHeader className="text-left mb-8">
               <SheetTitle className="text-xl font-bold">Menu</SheetTitle>
             </SheetHeader>
@@ -158,7 +158,7 @@ export default function AdminLayout({ children }) {
             <div className="absolute bottom-8 left-6 right-6">
                <button
                 onClick={() => { setIsMobileMenuOpen(false); setIsLogoutModalOpen(true); }}
-                className="flex items-center gap-2 text-sm font-bold text-red-500 w-full p-4 bg-red-50 rounded-2xl"
+                className="flex items-center bg-red-500 gap-2 text-sm font-bold text-slate-100 w-full p-4  rounded-2xl"
               >
                 <LogOut className="w-4 h-4" />
                 Sign Out
@@ -182,7 +182,7 @@ export default function AdminLayout({ children }) {
 
       {/* --- LOGOUT DIALOG --- */}
       <Dialog open={isLogoutModalOpen} onOpenChange={setIsLogoutModalOpen}>
-        <DialogContent className="sm:max-w-[400px] rounded-3xl border-none p-8">
+        <DialogContent className="sm:max-w-[400px] rounded-3xl border-none p-8 bg-white">
           <div className="flex flex-col items-center text-center">
             <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-4">
               <AlertCircle className="w-8 h-8 text-red-500" />

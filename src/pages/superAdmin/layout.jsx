@@ -219,7 +219,7 @@ export default function SuperAdminLayout({ children }) {
           </SheetTrigger>
           <SheetContent
             side="left"
-            className="w-80 p-6 border-none flex flex-col justify-between"
+            className="w-80 p-6 border-none flex flex-col justify-between bg-white"
           >
             <div>
               <SheetHeader className="mb-8">
@@ -249,7 +249,7 @@ export default function SuperAdminLayout({ children }) {
               </div>
               <Button
                 variant="destructive"
-                className="w-full rounded-2xl h-12 font-bold flex items-center gap-2 shadow-lg shadow-red-100"
+                className="w-full bg-red-500 rounded-2xl h-12 font-bold flex items-center gap-2 shadow-lg shadow-red-100"
                 onClick={() => {
                   setIsMobileOpen(false); // Close the drawer first
                   setIsLogoutModalOpen(true); // Open the logout dialog
@@ -274,7 +274,7 @@ export default function SuperAdminLayout({ children }) {
 
       {/* --- LOGOUT MODAL --- */}
       <Dialog open={isLogoutModalOpen} onOpenChange={setIsLogoutModalOpen}>
-        <DialogContent className="sm:max-w-[420px] rounded-[2rem] border-none p-10 shadow-2xl">
+        <DialogContent className="sm:max-w-[420px] rounded-[2rem] border-none p-10 shadow-2xl bg-white!">
           <div className="flex flex-col items-center text-center">
             <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-6">
               <AlertCircle className="w-10 h-10 text-red-500" />
