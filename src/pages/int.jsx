@@ -154,7 +154,7 @@ export default function Int() {
                 <div className="text-gray-600 text-sm uppercase tracking-wide">Hire Rate</div>
                 </div>
                 <div className="text-center">
-                <div className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">6</div>
+                <div className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">4</div>
                 <div className="text-gray-600 text-sm uppercase tracking-wide">Tracks</div>
                 </div>
                 <div className="text-center">
@@ -165,7 +165,7 @@ export default function Int() {
             </div>
         </section>
 
-        {/* Company Logos Section */}
+        {/* Company Logos Section
         <section className="bg-gray-50 py-16 px-6 border-y border-gray-200">
             <div className="max-w-7xl mx-auto text-center">
             <p className="text-sm uppercase tracking-wider text-gray-500 mb-8 font-semibold">
@@ -179,7 +179,7 @@ export default function Int() {
                 <div className="text-3xl font-bold text-gray-400">PiggyVest</div>
             </div>
             </div>
-        </section>
+        </section> */}
 
         {/* About Section */}
         <section className="py-24 px-6">
@@ -199,21 +199,21 @@ export default function Int() {
                 </div>
                 <div className="grid grid-cols-2 gap-6">
                 <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200">
-                    <div className="text-5xl font-bold text-gray-900 mb-2">3K+</div>
+                    <div className="text-5xl font-bold text-gray-900 mb-2">1K+</div>
                     <div className="text-gray-600 text-sm">Finalists</div>
                 </div>
                 <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200">
-                    <div className="text-5xl font-bold text-gray-900 mb-2">6+</div>
+                    <div className="text-5xl font-bold text-gray-900 mb-2">4+</div>
                     <div className="text-gray-600 text-sm">Tech Tracks</div>
                 </div>
                 <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200">
                     <div className="text-5xl font-bold text-gray-900 mb-2">21+</div>
-                    <div className="text-gray-600 text-sm">Countries</div>
+                    <div className="text-gray-600 text-sm">States</div>
                 </div>
-                <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200">
+                {/* <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200">
                     <div className="text-5xl font-bold text-gray-900 mb-2">50+</div>
                     <div className="text-gray-600 text-sm">Partners</div>
-                </div>
+                </div> */}
                 </div>
             </div>
             </div>
@@ -261,7 +261,7 @@ export default function Int() {
         </section>
 
       {/* Testimonials Section */}
-        <section className="bg-gray-50 py-24 px-6">
+        {/* <section className="bg-gray-50 py-24 px-6">
             <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Life-changing Stories</h2>
@@ -306,7 +306,7 @@ export default function Int() {
                 </div>
             </div>
             </div>
-        </section>
+        </section> */}
       {/* Premium Package Section */}
       <section className="bg-white py-24 px-6">
         <div className="max-w-6xl mx-auto text-center">
@@ -343,7 +343,7 @@ export default function Int() {
                 <li>✅ Alumni network access</li>
                 <li>✅ Priority support</li>
               </ul>
-              <Link to={"/premium/checkout"} className="mt-6 px-6 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition">
+              <Link to={"/internships"} className="mt-6 px-6 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition">
                 Upgrade to Premium
               </Link>
               <p className="mt-4 text-sm text-gray-400">
