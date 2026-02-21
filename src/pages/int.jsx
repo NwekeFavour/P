@@ -395,7 +395,7 @@ export default function Int() {
         <p className="mb-8 text-lg max-w-2xl mx-auto text-gray-950/50">
           Applications close soon. Secure your Premium spot and get mentorship, certification, and job support.
         </p>
-        <Link to={"/premium/checkout"} className="px-6 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition">
+        <Link to={"/internships"} className="px-6 py-3 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition">
           Get Premium Access
         </Link>
       </section>
