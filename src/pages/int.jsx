@@ -102,7 +102,7 @@ export default function Int() {
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </Link>
                             <div className="text-sm text-gray-500">
-                                <span className="font-semibold text-gray-900">Start Date:</span> February 15, 2025
+                                <span className="font-semibold text-gray-900">Start Date:</span> April 1, 2026
                             </div>
                         </div>
                     </div>
