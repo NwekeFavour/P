@@ -50,6 +50,7 @@
     { "name": "Adamawa State University", "type": "State" },
     { "name": "Akwa Ibom State University", "type": "State" },
     { "name": "Ambrose Alli University", "type": "State" },
+    {"name": "Rivers State University", "type": "State"},
     { "name": "Anambra State University", "type": "State" },
     { "name": "Bauchi State University", "type": "State" },
     { "name": "Benue State University", "type": "State" },
