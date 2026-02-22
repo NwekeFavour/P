@@ -28,7 +28,7 @@ export default function PaymentCallback() {
         if (data.success) {
           toast.success("Premium activated!");
           setSuccess(true);
-          setMessage("🎉 Congratulations! Your Premium subscription is now active.");
+          setMessage("🎉 Congratulations! Your Premium subscription is now successful.");
         } else {
           toast.error(data.message || "Payment verification failed");
           setMessage(data.message || "Payment verification failed");

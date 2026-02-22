@@ -27,6 +27,7 @@ import VerifyCertificate from './pages/verifycertificate';
 import ContactPage from './pages/contact';
 import ForgotPasswordComp from './pages/forgot';
 import ResetPasswordComp from './pages/reset';
+import UpgradePremiumPage from './pages/upgrade';
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -75,7 +76,7 @@ function App() {
         <Route path="*" element={<Error />} />
         <Route path='/payment/callback' element={<PaymentCallback/>}/>
         <Route path="/verify/:certificateId" element={<VerifyCertificate />} />
-
+        <Route path="/upgrade-premium" element={<UpgradePremiumPage/>}/>
         {/* Protected Admin routes */}
         <Route element={<ProtectedRoute user={user} allowedRoles={["admin"]} />}>
           <Route path="/admin" element={<AdminDashboard />} />

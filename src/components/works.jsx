@@ -312,7 +312,7 @@ export default function HowItWorksSection() {
             <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </Link>
           <p className="text-sm text-gray-500 mt-4">
-            500 spots remaining • Starting February 2025
+            200 spots remaining • Starting April 2025
           </p>
         </div>
       </div>

@@ -246,7 +246,7 @@ function MobileActionsDropdown({ app, onStatusChange }) {
           <MoreHorizontal className="w-4 h-4 text-gray-400" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="rounded-2xl w-52 p-2 shadow-2xl border-gray-100">
+      <DropdownMenuContent align="end" className="rounded-2xl bg-white! w-52 p-2 shadow-2xl border-gray-100">
         {/* Approve Action */}
         <DropdownMenuItem 
           onClick={() => onStatusChange(app._id, "Approved")}
