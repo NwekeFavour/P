@@ -72,6 +72,7 @@ export default function SAdminDashboard() {
 
         if (appRes.data.success) {
           setApplications(appRes.data.data);
+          calculateTrends(appRes.data.data);
           // Calculate dynamic stats
           setOverallStats({
             totalUsers: appRes.data.totalCount || appRes.data.data.length,
@@ -327,7 +328,7 @@ export default function SAdminDashboard() {
                             {/* Name & Email */}
                             <div>
                               <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                                {app.fname} {app.lname}
+                                {app.fname}
                               </h4>
                               <p className="text-xs text-gray-500 font-medium tracking-tight">
                                 {app.email}

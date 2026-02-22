@@ -44,7 +44,6 @@ export default function AdminDashboard() {
   const BASE_URL = import.meta.env.VITE_BACKEND_URL;
   const token = localStorage.getItem("adminToken");
 
-
   useEffect(() => {
     fetchCohorts();
     fetchApplications();
@@ -116,6 +115,17 @@ export default function AdminDashboard() {
     }
   };
 
+  const trackMetrics = applications.reduce((acc, app) => {
+    acc[app.track] = (acc[app.track] || 0) + 1;
+    return acc;
+  }, {});
+
+  const trackList = Object.entries(trackMetrics).map(([name, count]) => ({
+    name,
+    count,
+    percentage:
+      applications.length > 0 ? (count / applications.length) * 100 : 0,
+  }));
   return (
     <AdminLayout>
       <div className="space-y-8 pb-10">
@@ -316,7 +326,7 @@ export default function AdminDashboard() {
                               </DropdownMenuTrigger>
                               <DropdownMenuContent
                                 align="end"
-                                className="rounded-2xl w-48 p-2"
+                                className="rounded-2xl border-none! bg-white! w-48 p-2"
                               >
                                 <DropdownMenuItem
                                   onClick={() =>
@@ -359,6 +369,48 @@ export default function AdminDashboard() {
 
           {/* Cohorts Sidebar (Small) */}
           <div className="space-y-4">
+            {/* --- Track Momentum Sidebar Section --- */}
+            <div className="space-y-4 mb-8">
+              <h2 className="text-xl font-bold text-gray-900">
+                Track Momentum
+              </h2>
+              <Card className="border-none shadow-sm rounded-3xl overflow-hidden bg-white">
+                <CardContent className="p-6 space-y-6">
+                  {trackList
+                    .sort((a, b) => b.count - a.count)
+                    .map((track, index) => (
+                      <div key={index} className="space-y-2">
+                        <div className="flex justify-between items-end">
+                          <div>
+                            <p className="text-sm font-bold text-gray-900">
+                              {track.name}
+                            </p>
+                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
+                              {track.count} Applicants
+                            </p>
+                          </div>
+                          <span className="text-sm font-black text-indigo-600">
+                            {Math.round(track.percentage)}%
+                          </span>
+                        </div>
+                        {/* Progress Bar Container */}
+                        <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-indigo-500 rounded-full transition-all duration-1000"
+                            style={{ width: `${track.percentage}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  {trackList.length === 0 && (
+                    <p className="text-center text-gray-400 text-sm py-4">
+                      No data available
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+
             <h2 className="text-xl font-bold text-gray-900">Cohorts Summary</h2>
             <div className="space-y-3">
               {cohorts.map((cohort) => (

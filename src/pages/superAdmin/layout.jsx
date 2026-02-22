@@ -97,11 +97,6 @@ export default function SuperAdminLayout({ children }) {
       path: "/dashboard/cohorts",
     },
     {
-      name: "Applications",
-      icon: <Briefcase className="w-5 h-5" />,
-      path: "/dashboard/applications",
-    },
-    {
       name: "System Settings",
       icon: <Settings className="w-5 h-5" />,
       path: "/dashboard/settings",
