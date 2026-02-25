@@ -20,6 +20,13 @@ function Talent(props) {
             setLoading(false)
         }
     }
+
+    const handleScroll = () => {
+        const element = document.getElementById('contact-us');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+        };
     return (
         <div>
             <Header />
@@ -57,7 +64,7 @@ function Talent(props) {
                     </ul>
                 </div>
             </div>
-            <div   className="bg-[#F8F8F8] py-16 px-6 text-center">
+            {/* <div   className="bg-[#F8F8F8] py-16 px-6 text-center">
                 <h2 className="text-3xl font-bold mb-4">Meet Our Talents</h2>
                 <p className="text-gray-600 max-w-2xl mx-auto mb-10">
                     From front-end developers to product designers, our network is filled with individuals 
@@ -78,14 +85,14 @@ function Talent(props) {
                     </div>
                     ))}
                 </div>
-            </div>
+            </div> */}
             <div className="bg-gray-900 text-white py-20 text-center">
             <h2 className="text-3xl font-bold mb-4">Partner With Us</h2>
             <p className="text-gray-300 max-w-xl mx-auto mb-8">
                 Whether you’re building your first product or scaling an existing one, our talents can 
                 help you get there faster. Let’s connect and create something exceptional together.
             </p>
-            <Button className="bg-white text-gray-900 hover:bg-gray-200 font-semibold px-8 py-4 rounded-md">
+            <Button onClick={handleScroll}  className="bg-white text-gray-900 hover:bg-gray-200 font-semibold px-8 py-4 rounded-md">
                 Get in Touch
             </Button>
             </div>
@@ -108,7 +115,7 @@ function Talent(props) {
             </div>
 
             {/* Right Side - Form */}
-            <div className="lg:w-1/2 w-full bg-white shadow-md rounded-lg p-8">
+            <div id='contact-us' className="lg:w-1/2 w-full bg-white shadow-md rounded-lg p-8">
                 <form onSubmit={handleSubmit}  className="space-y-4">
                 <div>
                     <label className="block text-sm font-medium mb-2 text-gray-700">Full Name</label>
