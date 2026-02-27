@@ -461,7 +461,7 @@ export default function AdminDashboard() {
 
       {/* --- Delete Confirmation Dialog --- */}
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent className="sm:max-w-[400px] rounded-[2rem] border-none shadow-2xl p-8">
+        <DialogContent className="sm:max-w-[400px] rounded-[2rem] border-none shadow-2xl bg-white! p-8">
           <DialogHeader className="items-center text-center">
             <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-4">
               <Trash2 className="w-8 h-8 text-red-500" />

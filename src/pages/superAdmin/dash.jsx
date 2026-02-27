@@ -288,7 +288,7 @@ export default function SAdminDashboard() {
                 <input
                   type="text"
                   placeholder="Quick search..."
-                  className="pl-10 pr-4 py-2 bg-gray-50/50 border border-transparent focus:bg-white focus:border-gray-200 focus:ring-4 focus:ring-gray-50 rounded-2xl text-sm transition-all w-full md:w-64 outline-none"
+                  className="pl-10 pr-4 py-2 border bg-white border-gray-200 focus:ring-4 focus:ring-gray-50 rounded-2xl text-sm transition-all w-full md:w-64 outline-none"
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
@@ -309,6 +309,10 @@ export default function SAdminDashboard() {
                 <div className="grid grid-cols-1 gap-3">
                   {filteredApplications.map((app, i) => {
                     const isExpanded = expandedIndex === i;
+                    const shortEmail =
+                      app.email.length > 30
+                        ? app.email.slice(0, 30) + "…"
+                        : app.email;
                     return (
                       <div key={i} className="flex flex-col gap-2">
                         {/* Main Card */}
@@ -326,13 +330,14 @@ export default function SAdminDashboard() {
                             </div>
 
                             {/* Name & Email */}
-                            <div>
-                              <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                            <div className="min-w-0">
+                              <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors truncate">
                                 {app.fname}
                               </h4>
-                              <p className="text-xs text-gray-500 font-medium tracking-tight">
-                                {app.email}
-                              </p>
+
+                              <p className="text-xs text-gray-500 truncate max-w-[180px]">
+  {app.email}
+</p>
                             </div>
                           </div>
 
