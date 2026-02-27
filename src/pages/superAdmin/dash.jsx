@@ -309,10 +309,6 @@ export default function SAdminDashboard() {
                 <div className="grid grid-cols-1 gap-3">
                   {filteredApplications.map((app, i) => {
                     const isExpanded = expandedIndex === i;
-                    const shortEmail =
-                      app.email.length > 30
-                        ? app.email.slice(0, 30) + "…"
-                        : app.email;
                     return (
                       <div key={i} className="flex flex-col gap-2">
                         {/* Main Card */}
