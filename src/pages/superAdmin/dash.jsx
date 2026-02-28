@@ -332,8 +332,8 @@ export default function SAdminDashboard() {
                               </h4>
 
                               <p className="text-xs text-gray-500 truncate max-w-[180px]">
-  {app.email}
-</p>
+                                {app.email}
+                              </p>
                             </div>
                           </div>
 
