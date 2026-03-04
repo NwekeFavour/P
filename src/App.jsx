@@ -18,6 +18,7 @@ import SAdminDashboard from './pages/superAdmin/dash';
 import Cohorts from './pages/superAdmin/cohorts';
 import ProtectedRoute from './protectRoute';
 import Error from './components/error';
+import {Analytics} from '@vercel/analytics/react';
 import AdminDashboard from './pages/admin/admin';
 import { Toaster } from 'sonner';
 import CohortManagement from './pages/admin/cohorts';
@@ -59,6 +60,7 @@ function App() {
     <>
       <ScrollToTop />
       <Toaster richColors closeButton position='top-right' />
+      <Analytics />
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<Home />} />
