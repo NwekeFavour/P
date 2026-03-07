@@ -91,7 +91,7 @@ export default function ApplicationsDashboard() {
               Review and manage incoming requests.
             </p>
           </div>
-          <Button className="w-full sm:w-auto rounded-2xl bg-indigo-600 hover:bg-indigo-700 h-11 px-6 shadow-lg shadow-indigo-100 font-bold transition-all">
+          <Button className="w-full text-white sm:w-auto rounded-2xl bg-indigo-600 hover:bg-indigo-700 h-11 px-6 shadow-lg shadow-indigo-100 font-bold transition-all">
             <Download className="w-4 h-4 mr-2" />
             Export
           </Button>

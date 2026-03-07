@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Friends from "../assets/images/friends.webp";
 import Couple from "../assets/images/couple.webp";
 import Portraits from "../assets/images/portrait.webp";
@@ -11,6 +11,7 @@ import { Check } from "lucide-react";
 
 function Apply() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [universities, setUniversities] = useState([]);
   const [cohorts, setCohorts] = useState([]);
@@ -32,10 +33,20 @@ function Apply() {
     social: "",
     university: "",
     package: "Free",
+    ref: "",
   });
 
   const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
   const PREMIUM_ONLY_TRACKS = ["UI/UX Design", "Digital Marketing"];
+
+  // Capture ?ref= from URL on mount
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const ref = params.get("ref");
+    if (ref) {
+      setFormData((prev) => ({ ...prev, ref: ref.trim() }));
+    }
+  }, [location.search]);
 
   // Load universities
   useEffect(() => {
@@ -44,26 +55,6 @@ function Apply() {
       .then((data) => setUniversities(data))
       .catch((err) => console.error("Error loading universities:", err));
   }, []);
-
-  // // Load cohorts
-  // useEffect(() => {
-  //   const fetchCohorts = async () => {
-  //     try {
-  //       const res = await fetch(`${BASE_URL}/api/applications/cohorts/active`);
-  //       const data = await res.json();
-  //       // console.log(data);
-  //       setErrorActive(data.message);
-  //       if (data.success && data.data) {
-  //         setCohorts([data.data]);
-  //         setErrorActive("");
-  //       }
-  //     } catch (err) {
-  //       setError(err.message);
-  //       console.error("Error fetching cohorts:", err);
-  //     }
-  //   };
-  //   fetchCohorts();
-  // }, []);
 
   // Handle input change
   const handleChange = (e) => {
@@ -74,7 +65,7 @@ function Apply() {
         setFormData({
           ...formData,
           track: value,
-          package: "Premium", // auto-switch
+          package: "Premium",
         });
         setShowPremium(true);
       } else {
@@ -132,7 +123,7 @@ function Apply() {
           🎉 Congratulations, {formData.fname}!
         </h1>
         <p className="text-gray-700 text-lg max-w-md mb-6">
-          You’ve successfully applied for the{" "}
+          You've successfully applied for the{" "}
           <strong>KNOWNLY Internship Program</strong>!
         </p>
         <button
@@ -437,6 +428,9 @@ function Apply() {
                     </p>
                   </div>
                 </div>
+
+                {/* Hidden ref field — tracked silently */}
+                <input type="hidden" name="ref" value={formData.ref} />
 
                 <button
                   type="submit"

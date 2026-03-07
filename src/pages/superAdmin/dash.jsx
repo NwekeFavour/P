@@ -33,6 +33,7 @@ export default function SAdminDashboard() {
   const toggleDetails = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
+  const [refStats, setRefStats] = useState([]);
   const [applications, setApplications] = useState([]);
   const [selectedCohort, setSelectedCohort] = useState("all");
   const [cohorts, setCohorts] = useState([]);
@@ -42,6 +43,18 @@ export default function SAdminDashboard() {
   const [loading, setLoading] = useState(false);
   const [trends, setTrends] = useState({ reach: 0, pending: 0, rate: 0 });
 
+  const calculateRefStats = (apps) => {
+    const refMap = apps.reduce((acc, app) => {
+      const key = app.ref || "direct";
+      if (!acc[key]) acc[key] = { ref: key, total: 0, premium: 0, free: 0 };
+      acc[key].total += 1;
+      if (app.package === "Premium") acc[key].premium += 1;
+      else acc[key].free += 1;
+      return acc;
+    }, {});
+
+    setRefStats(Object.values(refMap).sort((a, b) => b.total - a.total));
+  };
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -86,6 +99,8 @@ export default function SAdminDashboard() {
         if (cohortRes.data.success) {
           setCohorts(cohortRes.data.data);
           calculateDistribution(appRes.data.data);
+          calculateTrends(appRes.data.data);
+          calculateRefStats(appRes.data.data);
         }
       } catch (error) {
         toast.error("Failed to sync dashboard data");
@@ -451,6 +466,63 @@ export default function SAdminDashboard() {
                     {cohorts.filter((c) => c.isActive).length}
                   </span>
                 </div>
+              </div>
+            </div>
+
+            <div className="p-8 rounded-[2rem] bg-white border border-gray-100 shadow-sm shadow-gray-200/50">
+              <div className="flex items-center justify-between mb-8">
+                <div className="space-y-1">
+                  <h3 className="text-sm font-black uppercase tracking-widest text-gray-900">
+                    Referral Sources
+                  </h3>
+                  <p className="text-[10px] text-gray-400 font-bold uppercase">
+                    Free vs Premium breakdown
+                  </p>
+                </div>
+                <Globe className="w-4 h-4 text-gray-400" />
+              </div>
+
+              <div className="space-y-4">
+                {refStats.length > 0 ? (
+                  refStats.map((item) => (
+                    <div key={item.ref} className="group cursor-default">
+                      <div className="flex justify-between items-center mb-1.5">
+                        <span className="text-xs font-bold text-gray-700 capitalize truncate max-w-[120px]">
+                          {item.ref}
+                        </span>
+                        <span className="text-xs font-black text-gray-900">
+                          {item.total} total
+                        </span>
+                      </div>
+                      <div className="flex gap-1 h-1.5 w-full rounded-full overflow-hidden bg-gray-100">
+                        <div
+                          className="h-full bg-indigo-500 transition-all duration-700"
+                          style={{
+                            width: `${(item.premium / item.total) * 100}%`,
+                          }}
+                        />
+                        <div
+                          className="h-full bg-gray-300 transition-all duration-700"
+                          style={{
+                            width: `${(item.free / item.total) * 100}%`,
+                          }}
+                        />
+                      </div>
+                      <div className="flex justify-between mt-1">
+                        <span className="text-[9px] text-indigo-500 font-bold">
+                          {item.premium} premium
+                        </span>
+                        <span className="text-[9px] text-gray-400 font-bold">
+                          {item.free} free
+                        </span>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="py-4 text-center text-xs text-gray-400 italic">
+                    No referral data yet...
+                  </div>
+                )}
               </div>
             </div>
 

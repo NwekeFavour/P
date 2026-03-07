@@ -195,7 +195,7 @@ export default function AdminLayout({ children }) {
             </DialogHeader>
           </div>
           <DialogFooter className="flex gap-3 mt-6 sm:justify-center">
-            <Button variant="outline" onClick={() => setIsLogoutModalOpen(false)} className="rounded-xl flex-1">
+            <Button variant="outline" onClick={() => setIsLogoutModalOpen(false)} className="rounded-xl flex-1 bg-black text-white ">
               Cancel
             </Button>
             <Button variant="destructive" onClick={handleLogout} className="rounded-xl flex-1 bg-red-500">
