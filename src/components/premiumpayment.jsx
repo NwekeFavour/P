@@ -22,7 +22,8 @@ function PremiumPaymentPage({ userData }) {
     phone: userData?.phone || "",
   });
 
-  const amountInKobo = 5000 * 100;
+  const amountInKobo = userData?.ref?.toLowerCase() === "campus9ja" ? 3000 * 100 : 5000 * 100;
+
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -129,12 +130,12 @@ function PremiumPaymentPage({ userData }) {
                 disabled={loading}
                 className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition shadow-md disabled:opacity-50"
               >
-                Pay Now ₦5,000
+                Pay Now ₦{userData?.ref?.toLowerCase() === "campus9ja" ? "3,000" : "5,000"}
               </button>
             </form>
           </div>
         </div>
-
+ 
         {/* Slider Section */}
         <div className="lg:block hidden w-1/2 pr-12 py-16">
           <div className="relative max-w-lg mx-auto">
