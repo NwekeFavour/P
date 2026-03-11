@@ -11,6 +11,8 @@ import {
   ArrowUpRight,
   Filter,
   Search,
+  ChevronRight,
+  ChevronLeft,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -40,7 +42,8 @@ export default function AdminDashboard() {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [error, setError] = useState(null);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 6;
   const BASE_URL = import.meta.env.VITE_BACKEND_URL;
   const token = localStorage.getItem("adminToken");
 
@@ -78,6 +81,12 @@ export default function AdminDashboard() {
       setLoadingApps(false);
     }
   };
+
+  const totalPages = Math.ceil(applications.length / ITEMS_PER_PAGE);
+  const paginatedApplications = applications.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
 
   const handleStatusChange = async (id, status) => {
     try {
@@ -281,7 +290,7 @@ export default function AdminDashboard() {
                         </td>
                       </tr>
                     ) : (
-                      applications.map((app) => (
+                      paginatedApplications.map((app) => (
                         <tr
                           key={app._id}
                           className="hover:bg-gray-50/50 transition-colors group"
@@ -363,6 +372,93 @@ export default function AdminDashboard() {
                     )}
                   </tbody>
                 </table>
+                                  {totalPages > 1 && (
+                    <div className="grid grid-cols-2 w-full justify-items-center gap-2 mt-4 px-1">
+                      {/* Results count */}
+                      <p className="text-xs text-gray-400">
+                        Showing{" "}
+                        <span className="font-semibold text-gray-600">
+                          {(currentPage - 1) * ITEMS_PER_PAGE + 1}–
+                          {Math.min(
+                            currentPage * ITEMS_PER_PAGE,
+                            applications.length,
+                          )}
+                        </span>{" "}
+                        of{" "}
+                        <span className="font-semibold text-gray-600">
+                          {applications.length}
+                        </span>{" "}
+                        applicants
+                      </p>
+
+                      {/* Page controls */}
+                      <div className="flex items-center gap-1">
+                        {/* Prev */}
+                        <button
+                          onClick={() => {
+                            setCurrentPage((p) => Math.max(1, p - 1));
+                            setExpandedIndex(null);
+                          }}
+                          disabled={currentPage === 1}
+                          className="p-2 rounded-full hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                        >
+                          <ChevronLeft className="w-4 h-4 text-gray-600" />
+                        </button>
+
+                        {/* Page numbers */}
+                        {Array.from({ length: totalPages }, (_, i) => i + 1)
+                          .filter(
+                            (page) =>
+                              page === 1 ||
+                              page === totalPages ||
+                              Math.abs(page - currentPage) <= 1,
+                          )
+                          .reduce((acc, page, idx, arr) => {
+                            if (idx > 0 && page - arr[idx - 1] > 1) {
+                              acc.push("...");
+                            }
+                            acc.push(page);
+                            return acc;
+                          }, [])
+                          .map((item, idx) =>
+                            item === "..." ? (
+                              <span
+                                key={`ellipsis-${idx}`}
+                                className="px-1 text-gray-400 text-sm"
+                              >
+                                …
+                              </span>
+                            ) : (
+                              <button
+                                key={item}
+                                onClick={() => {
+                                  setCurrentPage(item);
+                                  setExpandedIndex(null);
+                                }}
+                                className={`w-8 h-8 rounded-full text-sm font-medium transition-colors ${
+                                  currentPage === item
+                                    ? "bg-blue-600 text-white shadow-sm"
+                                    : "text-gray-500 hover:bg-gray-100"
+                                }`}
+                              >
+                                {item}
+                              </button>
+                            ),
+                          )}
+                        {/* Next */}
+                        <button
+                          onClick={() => {
+                            setCurrentPage((p) => Math.min(totalPages, p + 1));
+                            setExpandedIndex(null);
+                          }}
+                          disabled={currentPage === totalPages}
+                          className="p-2 rounded-full hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                        >
+                          <ChevronRight className="w-5 h-5 text-gray-600" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
               </div>
             </Card>
           </div>

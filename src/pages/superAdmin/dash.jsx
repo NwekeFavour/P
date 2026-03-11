@@ -17,6 +17,7 @@ import {
   Layers,
   Settings,
   ChevronDown,
+  ChevronLeft,
 } from "lucide-react";
 import AdminLayout from "./layout";
 import { toast } from "sonner";
@@ -39,6 +40,8 @@ export default function SAdminDashboard() {
   const [cohorts, setCohorts] = useState([]);
   const [activeCohorts, setActiveCohorts] = useState([]);
   const [distribution, setDistribution] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 6;
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [trends, setTrends] = useState({ reach: 0, pending: 0, rate: 0 });
@@ -169,6 +172,13 @@ export default function SAdminDashboard() {
     `${app.fname} ${app.lname}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase()),
+  );
+
+
+  const totalPages = Math.ceil(filteredApplications.length / ITEMS_PER_PAGE);
+  const paginatedApplications = filteredApplications.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
   );
 
   const EmptyState = () => (
@@ -320,9 +330,9 @@ export default function SAdminDashboard() {
                     />
                   ))}
                 </div>
-              ) : filteredApplications.length > 0 ? (
+              ) : paginatedApplications.length > 0 ? (
                 <div className="grid grid-cols-1 gap-3">
-                  {filteredApplications.map((app, i) => {
+                  {paginatedApplications.map((app, i) => {
                     const isExpanded = expandedIndex === i;
                     return (
                       <div key={i} className="flex flex-col gap-2">
@@ -410,9 +420,85 @@ export default function SAdminDashboard() {
                     );
                   })}
                 </div>
+
+                
               ) : (
                 <EmptyState />
               )}
+
+              {/* Pagination */}
+{totalPages > 1 && (
+  <div className="flex items-center justify-between mt-4 px-1">
+    {/* Results count */}
+    <p className="text-xs text-gray-400">
+      Showing{" "}
+      <span className="font-semibold text-gray-600">
+        {(currentPage - 1) * ITEMS_PER_PAGE + 1}–
+        {Math.min(currentPage * ITEMS_PER_PAGE, filteredApplications.length)}
+      </span>{" "}
+      of{" "}
+      <span className="font-semibold text-gray-600">
+        {filteredApplications.length}
+      </span>{" "}
+      applicants
+    </p>
+
+    {/* Page controls */}
+    <div className="flex items-center gap-1">
+      {/* Prev */}
+      <button
+        onClick={() => { setCurrentPage((p) => Math.max(1, p - 1)); setExpandedIndex(null); }}
+        disabled={currentPage === 1}
+        className="p-2 rounded-full hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+      >
+        <ChevronLeft className="w-4 h-4 text-gray-600" />
+      </button>
+
+      {/* Page numbers */}
+      {Array.from({ length: totalPages }, (_, i) => i + 1)
+        .filter((page) =>
+          page === 1 ||
+          page === totalPages ||
+          Math.abs(page - currentPage) <= 1
+        )
+        .reduce((acc, page, idx, arr) => {
+          if (idx > 0 && page - arr[idx - 1] > 1) {
+            acc.push("...");
+          }
+          acc.push(page);
+          return acc;
+        }, [])
+        .map((item, idx) =>
+          item === "..." ? (
+            <span key={`ellipsis-${idx}`} className="px-1 text-gray-400 text-sm">
+              …
+            </span>
+          ) : (
+            <button
+              key={item}
+              onClick={() => { setCurrentPage(item); setExpandedIndex(null); }}
+              className={`w-8 h-8 rounded-full text-sm font-medium transition-colors ${
+                currentPage === item
+                  ? "bg-blue-600 text-white shadow-sm"
+                  : "text-gray-500 hover:bg-gray-100"
+              }`}
+            >
+              {item}
+            </button>
+          )
+        )}
+
+      {/* Next */}
+      <button
+        onClick={() => { setCurrentPage((p) => Math.min(totalPages, p + 1)); setExpandedIndex(null); }}
+        disabled={currentPage === totalPages}
+        className="p-2 rounded-full hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+      >
+        <ChevronRight className="w-5 h-5 text-gray-600" />
+      </button>
+    </div>
+  </div>
+)}
             </div>
           </div>
 
