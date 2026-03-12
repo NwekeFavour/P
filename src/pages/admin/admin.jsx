@@ -374,7 +374,7 @@ export default function AdminDashboard() {
                 </table>
               </div>
               {totalPages > 1 && (
-                <div className="grid grid-cols-2 w-full justify-items-center gap-2 mt-4 px-1">
+                <div className="grid md:grid-cols-2 grid-cols-1 w-full justify-items-center gap-2 mt-4 px-1">
                   {/* Results count */}
                   <p className="text-xs text-gray-400">
                     Showing{" "}
