@@ -29,6 +29,7 @@ import ContactPage from './pages/contact';
 import ForgotPasswordComp from './pages/forgot';
 import ResetPasswordComp from './pages/reset';
 import UpgradePremiumPage from './pages/upgrade';
+import AmbassadorsPage from './pages/ambassadors';
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -74,6 +75,7 @@ function App() {
         <Route path="/premium" element={<Premium />} />
         <Route path="/knownly/talents" element={<Talent />} />
         <Route path="/internships/join" element={<JoinWorkspace />} />
+        <Route path='/ambassadors' element={<AmbassadorsPage/>}/>
         <Route path="/unauthorized" element={<Error />} />
         <Route path="*" element={<Error />} />
         <Route path='/payment/callback' element={<PaymentCallback/>}/>

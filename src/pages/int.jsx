@@ -355,7 +355,7 @@ export default function Int() {
       </section>
 
       {/* Premium Testimonials */}
-      <section className="py-24 px-6 bg-gray-50">
+      {/* <section className="py-24 px-6 bg-gray-50">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Why Go Premium?
@@ -385,7 +385,7 @@ export default function Int() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Urgency Banner */}
       <section className="bg-gradient-to-r from-[#F1D4FF] to-[#F1D4FF] py-30 px-6 text-center text-white">

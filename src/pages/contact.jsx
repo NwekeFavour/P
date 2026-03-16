@@ -61,7 +61,7 @@ export default function ContactPage() {
           </div>
 
           {/* RIGHT CONTACT CARD */}
-          <Card className="rounded-2xl border border-border/40 bg-card/60 backdrop-blur-xl shadow-xl">
+          <Card className="rounded-2xl bg-neutral-300 border-none backdrop-blur-xl shadow-xl">
             <CardContent className="p-10 space-y-8">
               
               <div className="flex items-start gap-5">
@@ -100,7 +100,7 @@ export default function ContactPage() {
               </div>
 
               <div className="pt-4">
-                <Button asChild className="w-full rounded-xl text-base">
+                <Button asChild className="w-full underline rounded-xl text-base">
                   <a
                     href="https://x.com/knownlyhq"
                     target="_blank"
