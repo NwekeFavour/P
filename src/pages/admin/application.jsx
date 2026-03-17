@@ -74,6 +74,7 @@ export default function ApplicationsDashboard() {
     }
   };
 
+  // --- Pagination & Filtering Logic ---
   const filteredApps = useMemo(() => {
     return applications.filter((app) => {
       const matchesSearch =
@@ -92,13 +93,16 @@ export default function ApplicationsDashboard() {
     });
   }, [applications, searchQuery, statusFilter, typeFilter]);
 
-  // Add this below filteredApps
+  // Calculate total pages based on the FILTERED results
   const totalPages = Math.ceil(filteredApps.length / ITEMS_PER_PAGE);
-  const paginatedApps = filteredApps.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE,
-  );
 
+  // Create the actual slice of data to be displayed
+  const paginatedApps = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredApps.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredApps, currentPage]);
+
+  // Reset to page 1 whenever filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, statusFilter, typeFilter]);
@@ -259,7 +263,7 @@ export default function ApplicationsDashboard() {
                     </td>
                   </tr>
                 ) : (
-                  filteredApps.map((app) => (
+                  paginatedApps.map((app) => (
                     <tr
                       key={app._id}
                       className="hover:bg-gray-50/50 transition-all group"
