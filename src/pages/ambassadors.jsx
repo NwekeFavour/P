@@ -359,7 +359,7 @@ function AmbassadorsPage() {
             <h2 className="text-[27px] md:text-[35px] lg:text-[40px] font-bold text-gray-900 mb-4 leading-tight">
               What is a Knownly Ambassador?
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="md:text-[18px] text-[15px] text-gray-600 max-w-3xl mx-auto leading-relaxed">
               You're not just a promoter, you're a changemaker. Ambassadors gain
               leadership experience, build their personal brand, and unlock
               career opportunities while bringing Knownly's mission to life in
@@ -399,7 +399,7 @@ function AmbassadorsPage() {
             <h2 className="text-[27px] md:text-[35px] lg:text-[40px] font-bold text-gray-900 mb-4">
               What You'll Do
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="md:text-[18px] text-[15px] text-gray-600 max-w-3xl mx-auto">
               Your role is flexible, impactful, and designed to fit your
               schedule. Here's what we expect from our ambassadors:
             </p>
@@ -436,7 +436,7 @@ function AmbassadorsPage() {
             <h2 className="text-[27px] md:text-[35px] lg:text-[40px] font-bold mb-4">
               What You Get
             </h2>
-            <p className="text-lg text-gray-400 max-w-3xl mx-auto">
+            <p className="md:text-[18px] text-[15px] text-gray-400 max-w-3xl mx-auto">
               Being a Knownly Ambassador isn't just about giving back, it's
               about leveling up your own career game.
             </p>
@@ -475,7 +475,7 @@ function AmbassadorsPage() {
             <h2 className="text-[27px] md:text-[35px] lg:text-[40px] font-bold text-gray-900 mb-4">
               How to Apply
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="md:text-[18px] text-[15px] text-gray-600 max-w-3xl mx-auto">
               Ready to lead? The application process is simple, but we're
               looking for people who are serious about making an impact.
             </p>

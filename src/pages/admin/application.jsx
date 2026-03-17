@@ -170,7 +170,7 @@ export default function ApplicationsDashboard() {
                 Loading...
               </div>
             ) : (
-              filteredApps.map((app) => (
+              paginatedApps.map((app) => (
                 <div key={app._id} className="p-5 space-y-4">
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-3">
