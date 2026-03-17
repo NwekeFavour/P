@@ -9,6 +9,7 @@ import {
   MessageCircle,
   X,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import Header from "../components/header";
 import Footer from "../components/footer";
 
@@ -200,6 +201,25 @@ function AmbassadorsPage() {
 
   return (
     <div>
+        <Helmet>
+            <title>Become a KnownlyHQ Ambassador</title>
+            <meta name="description" content="Join the KnownlyHQ Ambassador program. Empower your campus, build your personal brand, and unlock exclusive career perks across Africa." />
+            
+            {/* Open Graph / Facebook */}
+            <meta property="og:type" content="website" />
+            <meta property="og:title" content="Become a Knownly Ambassador" />
+            <meta property="og:description" content="Lead your community and bridge the gap between education and career excellence." />
+            <meta property="og:image" content="https://knownly.tech/knownly.jpg" />
+
+            {/* Twitter */}
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content="Become a KnownlyHQ Ambassador" />
+            <meta name="twitter:description" content="Join the Knownly Ambassador program to lead your campus, build your personal brand, and unlock exclusive career perks. Empower your community while leveling up your leadership skills." />
+
+            <meta name="facebook:card" content="summary_large_image" />
+            <meta name="facebook:title" content="Become a KnownlyHQ Ambassador" />
+            <meta property="og:description" content="Join the Knownly Ambassador program to lead your campus, build your personal brand, and unlock exclusive career perks. Empower your community while leveling up your leadership skills." />
+        </Helmet>
       <Header />
 
       {/* Hero Section */}
