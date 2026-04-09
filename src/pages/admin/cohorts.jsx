@@ -755,7 +755,7 @@ function ReviewSubmissionModal({ isOpen, onClose, submission, onUpdateSuccess })
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] rounded-[2rem] border-none shadow-2xl p-8">
+      <DialogContent className="sm:max-w-[500px] bg-white! rounded-[2rem] border-none shadow-2xl p-8">
         <DialogHeader>
           <div className="flex items-center gap-2 mb-2">
             <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-700 uppercase tracking-widest">
