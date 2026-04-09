@@ -629,7 +629,7 @@ const [isModalOpen, setIsModalOpen] = useState(false);
       <Sheet open={isDeleteSheetOpen} onOpenChange={handleSheetClose}>
         <SheetContent
           side="bottom"
-          className="sm:side-right h-[80vh] sm:h-full sm:max-w-md rounded-t-[2rem] sm:rounded-t-none"
+          className="sm:side-right h-[80vh] bg-white! sm:h-full sm:max-w-md rounded-t-[2rem] sm:rounded-t-none"
         >
           <SheetHeader className="space-y-4 text-left">
             <div className="h-12 w-12 bg-red-50 rounded-2xl flex items-center justify-center">
